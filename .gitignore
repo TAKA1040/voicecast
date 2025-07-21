@@ -1,0 +1,12 @@
+# Supabase
+.supabecs.config.json
+supabase/.env*
+
+# Node & build
+node_modules
+dist
+
+# 機密ファイル
+.pass
+
+.vercel

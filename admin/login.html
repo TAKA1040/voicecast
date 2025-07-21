@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoiceCast 管理画面 - ログイン</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .login-title {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .login-subtitle {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .login-form {
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: white;
+            transition: all 0.3s ease;
+            color: #333;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            color: #667eea;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #e5e7eb;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .checkbox.checked {
+            background: #667eea;
+            border-color: #667eea;
+        }
+
+        .checkbox.checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .forgot-password {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: #5a67d8;
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            border: 1px solid #fecaca;
+            display: none;
+        }
+
+        .success-message {
+            background: #dcfce7;
+            color: #166534;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            border: 1px solid #bbf7d0;
+            display: none;
+        }
+
+        .loading {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: #667eea;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #e5e7eb;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* タブレット対応 (768px以下) */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .login-container {
+                padding: 40px 30px;
+                border-radius: 20px;
+            }
+
+            .logo {
+                font-size: 3.5rem;
+                margin-bottom: 18px;
+            }
+
+            .login-title {
+                font-size: 2rem;
+            }
+
+            .login-subtitle {
+                margin-bottom: 35px;
+            }
+
+            .form-input {
+                padding: 14px 18px;
+            }
+
+            .social-login {
+                flex-direction: column;
+            }
+        }
+
+        /* スマートフォン対応 (480px以下) */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .login-container {
+                padding: 30px 25px;
+                border-radius: 18px;
+                max-width: 100%;
+            }
+
+            .logo {
+                font-size: 3rem;
+                margin-bottom: 15px;
+            }
+
+            .login-title {
+                font-size: 1.8rem;
+                margin-bottom: 8px;
+            }
+
+            .login-subtitle {
+                font-size: 0.95rem;
+                margin-bottom: 30px;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .form-input {
+                padding: 12px 15px;
+                font-size: 0.95rem;
+            }
+
+            .form-options {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+                margin-bottom: 25px;
+            }
+
+            .login-btn {
+                padding: 14px;
+                font-size: 1rem;
+                margin-bottom: 15px;
+            }
+        }
+
+        /* 小型スマートフォン対応 (360px以下) */
+        @media (max-width: 360px) {
+            .login-container {
+                padding: 25px 20px;
+            }
+
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            .login-title {
+                font-size: 1.6rem;
+            }
+
+            .form-input {
+                padding: 10px 12px;
+            }
+
+            .login-btn {
+                padding: 12px;
+            }
+        }
+
+        /* 極小画面対応 (320px以下) */
+        @media (max-width: 320px) {
+            .login-container {
+                padding: 20px 15px;
+            }
+
+            .logo {
+                font-size: 2.2rem;
+            }
+
+            .login-title {
+                font-size: 1.5rem;
+            }
+
+            .login-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .form-label {
+                font-size: 0.9rem;
+            }
+
+            .form-input {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+    <script type="module">
+      import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+  
+      const supabase = createClient(
+        'https://emkxinzasmmhwxfgagyh.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3hpbnphc21taHd4ZmdhZ3loIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwNzQ1MDYsImV4cCI6MjA2ODY1MDUwNn0.csLhXj1dLKRoKcvoY0RJDiijBORfXGKeQkU80er_pUw'
+      )
+  
+      window.supabase = supabase
+  
+      // === 管理者ユーザー自動登録 =================================
+      async function createAdminUserOnce() {
+        if (localStorage.getItem('adminUserCreated') === 'yes') return;
+  
+        const { error } = await supabase.auth.signUp({
+          email: 'startdash.z@gmail.com',
+          password: 'Test1234!',
+          options: { data: { role: 'admin' } }
+        });
+  
+        if (!error || error.message.includes('User already registered')) {
+          console.log('✅ 管理者ユーザー登録済み');
+          localStorage.setItem('adminUserCreated', 'yes');
+        } else {
+          console.error('❌ 管理者ユーザー登録失敗:', error.message);
+        }
+      }
+  
+      // ページ読み込み時に実行
+      document.addEventListener('DOMContentLoaded', createAdminUserOnce);
+    </script>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">🎙️</div>
+        <h1 class="login-title">VoiceCast 管理画面</h1>
+        <p class="login-subtitle">配信者アカウントでログインして<br>音声コンテンツを管理しましょう</p>
+
+        <!-- エラー・成功メッセージ -->
+        <div class="error-message" id="errorMessage">
+            ログイン情報が正しくありません。再度お試しください。
+        </div>
+        <div class="success-message" id="successMessage">
+            ログインに成功しました。管理画面に移動します...
+        </div>
+
+        <!-- ログインフォーム -->
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label class="form-label" for="email">メールアドレス</label>
+                <input 
+                    type="email" 
+                    class="form-input" 
+                    id="email" 
+                    placeholder="your@email.com"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">パスワード</label>
+                <div class="password-container">
+                    <input 
+                        type="password" 
+                        class="form-input" 
+                        id="password" 
+                        placeholder="パスワードを入力"
+                        required
+                    >
+                    <button 
+                        type="button" 
+                        class="password-toggle" 
+                        onclick="togglePassword()"
+                        id="passwordToggle"
+                    >
+                        👁️
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-options">
+                <div class="remember-me" onclick="toggleRememberMe()">
+                    <div class="checkbox" id="rememberCheckbox"></div>
+                    <span>ログイン状態を保持</span>
+                </div>
+                <a href="#" class="forgot-password" onclick="showForgotPassword()">
+                    パスワードを忘れた方
+                </a>
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                ログイン
+            </button>
+
+            <button type="button" class="login-btn" id="signUpBtn" onclick="signUp()">
+                サインアップ
+            </button>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <span>ログイン中...</span>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const signUpBtn = document.getElementById('signUpBtn');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const loading = document.getElementById('loading');
+        const rememberCheckbox = document.getElementById('rememberCheckbox');
+
+        // パスワード表示切り替え
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const toggleButton = document.getElementById('passwordToggle');
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleButton.textContent = '🙈';
+            } else {
+                passwordField.type = 'password';
+                toggleButton.textContent = '👁️';
+            }
+        }
+
+        // 「ログイン状態を保持」の切り替え
+        function toggleRememberMe() {
+            const rememberMe = document.getElementById('rememberCheckbox').checked;
+            localStorage.setItem('rememberSession', rememberMe);
+        }
+
+        // ログイン状態保持の初期化
+        if (localStorage.getItem('rememberSession') === 'true') {
+            document.getElementById('rememberCheckbox').checked = true;
+        }
+
+        // パスワードを忘れた場合の処理
+        async function showForgotPassword() {
+            const email = emailInput.value;
+            if (!email) {
+                updateUI(false, 'パスワードをリセットするには、まずメールアドレスを入力してください。');
+                return;
+            }
+
+            updateUI(true);
+            const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.href.replace(/[^\/]*$/, 'reset-password.html'), // パスワード再設定ページのURL
+            });
+
+            if (error) {
+                updateUI(false, `パスワードリセットメールの送信に失敗しました: ${error.message}`);
+            } else {
+                updateUI(false, null, 'パスワードリセット用のメールを送信しました。受信トレイを確認してください。');
+            }
+        }
+
+        // UIの状態を更新する関数
+        function updateUI(isLoading, error = null, success = null) {
+            loading.style.display = isLoading ? 'flex' : 'none';
+            loginBtn.disabled = isLoading;
+            signUpBtn.disabled = isLoading;
+
+            errorMessage.style.display = error ? 'block' : 'none';
+            errorMessage.textContent = error;
+
+            successMessage.style.display = success ? 'block' : 'none';
+            successMessage.textContent = success;
+        }
+
+        // ログイン処理
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            updateUI(true);
+
+            const email = emailInput.value;
+            const password = passwordInput.value;
+
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
+
+            if (error) {
+                updateUI(false, `ログイン失敗: ${error.message}`);
+            } else {
+                updateUI(false, null, 'ログインに成功しました。管理画面に移動します...');
+                setTimeout(() => {
+                    window.location.href = 'admin.html';
+                }, 1500);
+            }
+        });
+
+        // サインアップ処理
+        async function signUp() {
+            updateUI(true);
+            const email = emailInput.value;
+            const password = passwordInput.value;
+
+            if (!password) {
+                updateUI(false, 'サインアップにはパスワードも必要です。');
+                return;
+            }
+
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password,
+            });
+
+            if (error) {
+                updateUI(false, `サインアップ失敗: ${error.message}`);
+            } else {
+                updateUI(false, null, '確認メールを送信しました。メールを確認して登録を完了してください。');
+            }
+        }
+        
+        // グローバルスコープに関数を公開
+        window.togglePassword = togglePassword;
+        window.toggleRememberMe = toggleRememberMe;
+        window.showForgotPassword = showForgotPassword;
+        window.signUp = signUp;
+    </script>
+</body>
+</html>
