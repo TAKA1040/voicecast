@@ -1,1 +1,1 @@
-Gemini Pro single test
+fix: Revert to standard vercel.json rewrites
