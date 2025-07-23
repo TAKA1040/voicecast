@@ -42,6 +42,7 @@
             font-size: 2.2rem;
             background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
             font-weight: 700;
@@ -405,6 +406,9 @@
   
       // ページ読み込み時に実行
       document.addEventListener('DOMContentLoaded', createAdminUserOnce);
+
+      // ページ読み込み時に直接 /admin にリダイレクト（一時的なデバッグ用）
+      window.location.href = '/admin';
     </script>
 </head>
 <body>
@@ -469,10 +473,6 @@
                 ログイン
             </button>
 
-            <button type="button" class="login-btn" id="signUpBtn" onclick="signUp()">
-                サインアップ
-            </button>
-
             <div class="loading" id="loading">
                 <div class="spinner"></div>
                 <span>ログイン中...</span>
@@ -483,7 +483,6 @@
     <script>
         const loginForm = document.getElementById('loginForm');
         const loginBtn = document.getElementById('loginBtn');
-        const signUpBtn = document.getElementById('signUpBtn');
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
         const errorMessage = document.getElementById('errorMessage');
@@ -539,7 +538,6 @@
         function updateUI(isLoading, error = null, success = null) {
             loading.style.display = isLoading ? 'flex' : 'none';
             loginBtn.disabled = isLoading;
-            signUpBtn.disabled = isLoading;
 
             errorMessage.style.display = error ? 'block' : 'none';
             errorMessage.textContent = error;
@@ -562,7 +560,7 @@
             });
 
             if (error) {
-                updateUI(false, `ログイン失敗: ${error.message}`);
+                updateUI(false, 'ログインできません');
             } else {
                 updateUI(false, null, 'ログインに成功しました。管理画面に移動します...');
                 setTimeout(() => {
@@ -571,34 +569,10 @@
             }
         });
 
-        // サインアップ処理
-        async function signUp() {
-            updateUI(true);
-            const email = emailInput.value;
-            const password = passwordInput.value;
-
-            if (!password) {
-                updateUI(false, 'サインアップにはパスワードも必要です。');
-                return;
-            }
-
-            const { data, error } = await supabase.auth.signUp({
-                email,
-                password,
-            });
-
-            if (error) {
-                updateUI(false, `サインアップ失敗: ${error.message}`);
-            } else {
-                updateUI(false, null, '確認メールを送信しました。メールを確認して登録を完了してください。');
-            }
-        }
-        
         // グローバルスコープに関数を公開
         window.togglePassword = togglePassword;
         window.toggleRememberMe = toggleRememberMe;
         window.showForgotPassword = showForgotPassword;
-        window.signUp = signUp;
     </script>
 </body>
 </html>

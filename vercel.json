@@ -2,9 +2,9 @@
   "name": "voicecast",
   "outputDirectory": "public",
   "rewrites": [
-    { "source": "/user", "destination": "/user/index.html" },
-    { "source": "/admin", "destination": "/admin/admin.html" },
-    { "source": "/admin.html", "destination": "/admin/admin.html" },  
-    { "source": "/login", "destination": "/admin/login.html" }
+    { "source": "/user", "destination": "/public/user/index.html" },
+    { "source": "/admin", "destination": "/public/admin/admin.html" },
+    { "source": "/admin.html", "destination": "/public/admin/admin.html" },  
+    { "source": "/login", "destination": "/public/admin/login.html" }
   ]
 }
