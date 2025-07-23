@@ -1,5 +1,6 @@
 {
   "name": "voicecast",
+  "outputDirectory": "public",
   "rewrites": [
     { "source": "/user", "destination": "/user/index.html" },
     { "source": "/admin", "destination": "/admin/admin.html" },
