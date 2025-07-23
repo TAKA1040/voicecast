@@ -4,6 +4,7 @@
   "rewrites": [
     { "source": "/", "destination": "/user/index.html" },
     { "source": "/login", "destination": "/admin/login.html" },
-    { "source": "/admin", "destination": "/admin/admin.html" }
+    { "source": "/admin", "destination": "/admin/admin.html" },
+    { "source": "/auth-callback", "destination": "/auth-callback.html" }
   ]
 }
