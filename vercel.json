@@ -3,6 +3,7 @@
   "rewrites": [
     { "source": "/user", "destination": "/user/index.html" },
     { "source": "/admin", "destination": "/admin/admin.html" },
+    { "source": "/admin.html", "destination": "/admin/admin.html" },  
     { "source": "/login", "destination": "/admin/login.html" }
   ]
 }
