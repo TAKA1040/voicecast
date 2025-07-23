@@ -59,13 +59,13 @@ export default function AdminForm({ user }: { user: User }) {
     try {
       const filePath = `${user.id}/${Date.now()}_${file.name}`
       const { error: uploadError } = await supabase.storage
-        .from('audio')
+        .from('audios')
         .upload(filePath, file)
 
       if (uploadError) throw uploadError
 
       const { data: { publicUrl } } = supabase.storage
-        .from('audio')
+        .from('audios')
         .getPublicUrl(filePath)
 
       const { error: dbError } = await supabase.from('episodes').insert({
