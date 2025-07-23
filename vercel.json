@@ -1,8 +1,8 @@
 {
+  "name": "voicecast",
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/user/index.html"
-    }
+    { "source": "/user", "destination": "/user/index.html" },
+    { "source": "/admin", "destination": "/admin/admin.html" },
+    { "source": "/login", "destination": "/admin/login.html" }
   ]
 }
