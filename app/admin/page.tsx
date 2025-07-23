@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import AdminForm from '@/components/admin-form'
-import { redirect } from 'next/navigation'
 
 // ログアウト処理はサーバーアクションとして定義
 const handleLogout = async () => {
