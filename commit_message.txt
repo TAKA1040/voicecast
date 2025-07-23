@@ -1,1 +1,1 @@
-fix: admin.htmlのsupabase.jsへのパスを修正
+fix: middlewareの実装を最新のSupabase SSRの作法に更新
