@@ -1,16 +1,17 @@
-【現状のエラー状況】
-/login ページにアクセスしても画面がまったく表示されず、
-「500: INTERNAL_SERVER_ERROR」（MIDDLEWARE_INVOCATION_FAILED）が出るだけの状態です。
+login	404	document	Other	1.7 kB	22 ms
+local-storage.js	200	script	content-script-utils.js:18	2.3 kB	10 ms
+fte-utils.js	200	script	EmbeddedPDFTouchPointCoachMark.js:18	3.9 kB	12 ms
+express-fte.js	200	script	ShowOneChild.js:18	7.0 kB	12 ms
+web-helper.ts-90a76992.js	200	script	web-helper.ts-loader-382a00d3.js:8	7.1 kB	9 ms
+express-fte-utils.js	200	script	express-fte.js:18	1.7 kB	12 ms
+createLucideIcon-9772ab2d.js	200	script	web-helper.ts-90a76992.js:1	186 kB	8 ms
+user-provider-1963e50f.js	200	script	web-helper.ts-90a76992.js:1	36.3 kB	16 ms
+jsx-runtime-4286988b.js	200	script	web-helper.ts-90a76992.js:1	8.3 kB	17 ms
+user-agent-f37fa68b.js	200	script	web-helper.ts-90a76992.js:1	623 kB	18 ms
+browser-polyfill-45feeee0.js	200	script	web-helper.ts-90a76992.js:1	10.7 kB	38 ms
+firebase-2c184b2f.js	200	script	web-helper.ts-90a76992.js:1	408 kB	39 ms
+use-form-5e12d8f7.js	200	script	web-helper.ts-90a76992.js:1	0.3 kB	50 ms
+get-user-config-1af53bce.js	200	script	web-helper.ts-90a76992.js:1	0.2 kB	50 ms
 
-ユーザーがログイン操作を試す以前に、ページ自体が機能していません。
-
-つまり：
-
-「認証処理やログインフォーム以前に、アプリのミドルウェア層でエラーが発生し、画面表示ができていません。」
-
-根本的なミドルウェア実装の問題か、環境変数・Supabase連携・認証周りのバグが疑われます。
-
-もし誰かに状況を伝えるなら、
-「現在はログイン画面（/login）も表示されず、アクセスすると即座に500エラー（MIDDLEWARE_INVOCATION_FAILED）となります。アプリの基盤部分（認証/ミドルウェア）の問題が濃厚です」と伝えてあげると状況が正確に伝わります。
-
-このまま何度リロードしてもユーザー側では解消しないエラーなので、開発サイドによるログ調査とミドルウェアの再実装や見直しが必須です。
+index-cd77e154.js	200	script	web-helper.ts-90a76992.js:1	21.9 kB	50 ms
+　
