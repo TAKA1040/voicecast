@@ -1,1 +1,1 @@
-fix: adminページ内の重複したimportを削除
+debug: ミドルウェアのSupabase処理を一時的に無効化
