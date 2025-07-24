@@ -1,135 +1,75 @@
-# 作業開始時の必須ルール
-
-- このプロジェクト（C:\Windsurf\voiceCast）で作業を開始する際は、**必ず下記2点を最初に確認してください**。
-  1. `docs`フォルダ内の最新ルール・運用ドキュメント（例：TASKS.md、voiceCast_設計書.md など）
-  2. プロジェクトルート直下の `GEMINI.md`
-- これらのファイル・ドキュメントに運用上の注意点や最新ルールが記載されています。**確認を怠るとプロジェクト全体の運用や成果物に影響します。**
-- 内容に不明点や変更があった場合は、必ず運用チームへ速やかに共有・相談してください。
-- 迷った場合や方針が不明な場合は、まず `GEMINI.md` の最新ルールを最優先で遵守してください。
-
----
-
-## ✅ 作業前チェックリスト
-
-- [ ] `docs`フォルダ内のルール・ドキュメントを確認した
-- [ ] `GEMINI.md`を確認した
-- [ ] 内容に疑問点や不明点があれば、すぐ運用チームに連絡した
-
----
-
-## 概要
+# VoiceCast - 音声配信プラットフォーム
 
 VoiceCastは、配信者が管理画面から音声エピソードを登録し、ユーザーがWebブラウザから再生できるシンプルな音声配信プラットフォームです。
 
-## 技術スタック
+---
 
-- **フロントエンド**: HTML, CSS (各HTMLファイル内に内包), JavaScript
-- **バックエンド**: Supabase (データベース, 認証, ストレージ)
+## 🚨 **重要: プロジェクトを理解するための第一歩**
 
-## プロジェクト構成
+このプロジェクトの技術的な詳細、設計思想、運用ルールは、すべて `/docs` フォルダに集約されています。
 
-```
-voiceCast/
-├─ public/
-│  ├─ user/
-│  │  └─ index.html           # ユーザー向け再生画面
-│  │
-│  ├─ admin/
-│  │  ├─ login.html           # 配信者ログイン画面
-│  │  └─ admin.html           # 管理ダッシュボード & 音声アップロード
-│
-├─ scripts/
-│  └─ supabase.js          # Supabase 初期化 & 共通 API ラッパー
-│
-├─ assets/
-│  ├─ images/              # サムネイル・UI画像など
-│  └─ audio/               # （オフライン開発用）サンプル音声
-│
-└─ docs/
-   ├─ TASKS.md             # 開発タスクリスト
-   ├─ voiceCast_設計書.md  # プロジェクト設計書
-   └─ RLS_Policy_説明書.md # Supabase RLSポリシー設定説明書
-```
+**開発・保守・改修など、このプロジェクトに関わる全ての関係者は、作業に着手する前に、必ず以下のドキュメント群に目を通してください。**
 
-## 導入手順
+`/docs` フォルダは、本ツールの信頼性と継続性を支える最も重要な資産です。
 
-### 1. Supabaseプロジェクトのセットアップ
+### 📘 中核ドキュメントへのクイックリンク
 
-1. Supabaseのウェブサイトにアクセスし、新しいプロジェクトを作成します。
-2. **Region** は「Tokyo」を推奨します。
-3. **RLS (Row Level Security)** はデフォルトで有効（ON）になっていることを確認してください。
+- **[プロジェクト概要・設計思想 (`OVERVIEW.md`)](./docs/OVERVIEW.md)**: まず最初にここを読んでください。
+- **[認証フローと設定 (`AUTH_SETUP.md`)](./docs/AUTH_SETUP.md)**: Google OAuthを含む認証の仕組みについて。
+- **[デプロイと環境管理 (`DEPLOY_FLOW.md`)](./docs/DEPLOY_FLOW.md)**: Vercelへのデプロイ手順と環境変数について。
+- **[デバッグガイド (`DEBUG_GUIDE.md`)](./docs/DEBUG_GUIDE.md)**: エラー発生時の対処法。
+- **[運用ルール (`OPERATION_RULES.md`)](./docs/OPERATION_RULES.md)**: 全関係者が遵守すべきルール。
 
-### 2. データベーステーブルの作成
+---
 
-SupabaseプロジェクトのSQLエディタで、以下のSQLを実行して `episodes` テーブルを作成します。
+## ✨ 技術スタック
 
-```sql
-create table episodes (
-  id          uuid primary key default gen_random_uuid(),
-  title       text not null,
-  description text,
-  genre       text,
-  audio_url   text not null,
-  created_at  timestamp with time zone default now()
-);
-```
+このプロジェクトは、堅牢性と開発者体験を重視し、以下のモダンな技術スタックで構築されています。
 
-### 3. ストレージバケットの作成
+- **フレームワーク**: Next.js (App Router)
+- **言語**: TypeScript
+- **認証・バックエンド**: Supabase (Auth, Database, Storage)
+- **認証ライブラリ**: `@supabase/ssr`
+- **スタイリング**: Tailwind CSS
+- **ホスティング**: Vercel
 
-SupabaseプロジェクトのStorageセクションで、新しいバケットを作成します。バケット名は `audio` としてください。
+---
 
-### 4. Supabase接続情報の更新
+## 🚀 ローカル開発環境のセットアップ
 
-`scripts/supabase.js` ファイルを開き、以下の箇所をあなたのSupabaseプロジェクトの情報に置き換えます。
+1.  **リポジトリをクローン:**
+    ```bash
+    git clone https://github.com/TAKA1040/voiceCast.git
+    cd voiceCast
+    ```
 
-```javascript
-// Supabase 初期化
-const supabase = supabase.createClient(
-  'https://<PROJECT>.supabase.co',
-  '<PUBLIC_ANON_KEY>'
-);
-```
+2.  **依存関係をインストール:**
+    ```bash
+    npm install
+    ```
 
-- `https://<PROJECT>.supabase.co`: あなたのSupabaseプロジェクトのURLに置き換えます。Supabaseダッシュボードの「Settings」→「API」ページで確認できます。
-- `<PUBLIC_ANON_KEY>`: あなたのSupabaseプロジェクトのPublic Anon Keyに置き換えます。同APIページで確認できます。
+3.  **環境変数を設定:**
+    - プロジェクトルートに `.env.local` という名前のファイルを作成します。
+    - VercelまたはSupabaseのダッシュボードから取得した環境変数をコピーします。
+    ```
+    NEXT_PUBLIC_SUPABASE_URL=https://xxxxxxxx.supabase.co
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=ey...
+    ```
 
-### 5. ローカルでの実行
+4.  **開発サーバーを起動:**
+    ```bash
+    npm run dev
+    ```
 
-1. プロジェクトファイルをローカル環境に配置します。
-2. 各HTMLファイル（`public/user/index.html`, `public/admin/login.html`, `public/admin/admin.html`）をWebブラウザで開きます。
-   - `public/admin/login.html` から配信者としてログインし、エピソードのアップロード・管理が可能です。
-   - `public/user/index.html` で公開されているエピソードを閲覧・再生できます。
+5.  **ブラウザで確認:**
+    - `http://localhost:3000` にアクセスすると、トップページが表示されます。
+    - `http://localhost:3000/login` にアクセスすると、ログインページが表示されます。
 
-## 操作マニュアル
+---
 
-### 配信者向け操作
+## 🌐 主要なルート
 
-1. **ログイン**: `public/admin/login.html` にアクセスし、登録済みのメールアドレスとパスワードでログインします。
-2. **エピソードアップロード**: ログイン後、`public/admin/admin.html` に遷移します。音声ファイルをドラッグ＆ドロップまたはファイル選択でアップロードし、タイトル、説明、ジャンルを入力して「公開する」ボタンをクリックします。
-
-### ユーザー向け操作
-
-1. **エピソード閲覧**: `user/index.html` にアクセスすると、公開されているエピソードの一覧が表示されます。
-2. **エピソード再生**: 各エピソードカードの再生ボタンをクリックすると、音声が再生されます。
-
-## セキュリティに関する注意
-
-- `PUBLIC_ANON_KEY` などの機密情報は、公開リポジトリに直接コミットしないでください。開発時はローカルの `.env` ファイルを使用し、本番環境ではVercelなどの環境変数機能を利用することを推奨します。
-- RLSポリシーが正しく設定されていることを確認し、認証されていないアクセスからデータを保護してください。
-
-## 困ったときは
-
-- **ログインできない**: メールアドレスまたはパスワードが間違っている可能性があります。Supabaseの認証設定を確認してください。
-- **エピソードがアップロードできない**: Supabase Storageのバケット設定（特にパーミッション）を確認してください。また、RLSポリシーにより認証されていないユーザーはアップロードできません。
-- **エピソードが表示されない**: `scripts/supabase.js` のSupabase接続情報が正しいか確認してください。また、`episodes` テーブルにデータが登録されているか、RLSポリシーが読み取りを許可しているかを確認してください。
-
-### 【運用経緯の追記】
-
-#### `/public` ディレクトリを含む rewrite 設定の理由
-
-- Vercel公式では `"outputDirectory": "public"` の場合、rewrite destination に `/public` は不要とされています。
-- しかし実際のデプロイ環境では、destinationに `/public` を明記しないと404エラー等の問題が頻発しました。
-- 多数回の検証の結果、「/public」付きのrewrite設定のみ現実に動作したため、例外運用として採用しています。
-- 将来的な構成変更時もこの経緯を参考にしてください。
-
-### 【運用経緯の追記】
+- `/`: ユーザー向けのトップページ（将来的にエピソード一覧が表示される）
+- `/login`: 管理者向けのログインページ
+- `/admin`: 【要認証】音声のアップロードと管理を行うダッシュボード
+- `/api/auth/callback`: Google OAuth認証後にリダイレクトされるAPIルート
