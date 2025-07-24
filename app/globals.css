@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Podcast UI */
+.episode-card:hover {
+  @apply shadow-lg transition-transform scale-[1.02];
+}
+.genre-badge-active {
+  @apply bg-primary text-white;
+}
