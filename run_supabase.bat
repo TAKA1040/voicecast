@@ -1,0 +1,4 @@
+@echo off
+set SUPABASE_ACCESS_TOKEN=sbp_e60217a75421a051334b3c1f2255a2b3531c1038
+set SUPABASE_DB_PASSWORD=**************
+supabase %*
