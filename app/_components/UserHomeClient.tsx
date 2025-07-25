@@ -8,10 +8,10 @@ import EpisodePlayer from "./EpisodePlayer";
 import GenreFilter from "./GenreFilter";
 
 interface Props {
-  episodes: Episode[];
+  initialEpisodes: Episode[];
 }
 
-export default function UserHomeClient({ episodes }: Props) {
+export default function UserHomeClient({ initialEpisodes }: Props) {
   const [current, setCurrent] = useState<Episode | null>(null);
   // TODO: genre filter state when implemented
 
@@ -20,7 +20,7 @@ export default function UserHomeClient({ episodes }: Props) {
       <h1 className="text-2xl font-bold mb-4">Podcast Episodes</h1>
       <GenreFilter genres={[]} selected={null} onSelect={() => {}} />
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {episodes.map((ep) => (
+        {initialEpisodes.map((ep) => (
           <EpisodeCard key={ep.id} episode={ep} onSelect={setCurrent} />
         ))}
       </section>
