@@ -7,8 +7,13 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#e11d48", // 例：rose-600（お好みで変更可）
+      },
+    },
   },
   plugins: [],
 };
+
 export default config;
