@@ -2,7 +2,8 @@
 
 // Client-side home wrapper to manage UI state.
 // TODO: Replace mockEpisodes with server-provided data via props.
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
 import EpisodeCard, { Episode } from "./EpisodeCard";
 import EpisodePlayer from "./EpisodePlayer";
 import GenreFilter from "./GenreFilter";
@@ -13,14 +14,42 @@ interface Props {
 
 export default function UserHomeClient({ initialEpisodes }: Props) {
   const [current, setCurrent] = useState<Episode | null>(null);
-  // TODO: genre filter state when implemented
+  const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
+  const [episodes, setEpisodes] = useState<Episode[]>(initialEpisodes);
+
+  // fetch when genre changes
+  useEffect(() => {
+    if (!selectedGenre) {
+      setEpisodes(initialEpisodes);
+      return;
+    }
+    const supabase = createClient();
+    supabase
+      .from("episodes")
+      .select(
+        `id, title, description, thumbnail, duration, published_at as "publishedAt", audio_url as "audioUrl", genre`
+      )
+      .eq("genre", selectedGenre)
+      .order("published_at", { ascending: false })
+      .then(({ data, error }) => {
+        if (error) {
+          console.error("Genre fetch error", error);
+        } else if (data) {
+          setEpisodes(data as Episode[]);
+        }
+      });
+  }, [selectedGenre, initialEpisodes]);
 
   return (
     <main className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Podcast Episodes</h1>
-      <GenreFilter genres={[]} selected={null} onSelect={() => {}} />
+      <GenreFilter
+          genres={[...new Set(initialEpisodes.map((e) => e.genre).filter(Boolean))]}
+          selected={selectedGenre}
+          onSelect={(g) => setSelectedGenre(g)}
+        />
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {initialEpisodes.map((ep) => (
+        {episodes.map((ep) => (
           <EpisodeCard key={ep.id} episode={ep} onSelect={setCurrent} />
         ))}
       </section>
