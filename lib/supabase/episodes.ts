@@ -1,22 +1,14 @@
 import { createClient } from '@/lib/supabase/server';
-import { Episode } from '@/app/_components/EpisodeCard';
+import { Episode } from '@/lib/types'; // 参照先を修正
 
-export async function getEpisodes() {
+// すべてのエピソードを取得
+export async function getEpisodes(): Promise<Episode[]> {
   const supabase = createClient();
   
-  // Fetch public episodes without authentication
   const { data, error } = await supabase
     .from('episodes')
-    .select(`
-      id,
-      title,
-      description,
-      thumbnail,
-      duration,
-      published_at as "publishedAt",
-      audio_url as "audioUrl"
-    `)
-    .order('published_at', { ascending: false });
+    .select('*') // Referenceに合わせて全カラムを取得
+    .order('created_at', { ascending: false });
 
   if (error) {
     console.error('Error fetching episodes:', error);
@@ -26,22 +18,16 @@ export async function getEpisodes() {
   return data as Episode[];
 }
 
-// Fetch episodes filtered by genre. If genre is 'All' or empty, returns all episodes.
-export async function getEpisodesByGenre(genre: string) {
+// ジャンルでエピソードをフィルタリング
+export async function getEpisodesByGenre(genre: string): Promise<Episode[]> {
   const supabase = createClient();
 
-  let query = supabase.from('episodes').select(`
-    id,
-    title,
-    description,
-    thumbnail,
-    duration,
-    published_at as "publishedAt",
-    audio_url as "audioUrl",
-    genre
-  `).order('published_at', { ascending: false });
+  let query = supabase
+    .from('episodes')
+    .select('*') // Referenceに合わせて全カラムを取得
+    .order('created_at', { ascending: false });
 
-  if (genre && genre !== 'All') {
+  if (genre && genre.toLowerCase() !== 'all') {
     query = query.eq('genre', genre);
   }
 
