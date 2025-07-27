@@ -1,1 +1,1 @@
-Fix: Disable TypeScript incremental build in tsconfig
+Fix: Defer environment variable check to request time
