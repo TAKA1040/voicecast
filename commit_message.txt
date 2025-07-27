@@ -1,1 +1,1 @@
-Fix: R2 presigned URL and update gitignore
+Chore: Configure ESLint with strict rules
