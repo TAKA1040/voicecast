@@ -1,1 +1,1 @@
-Chore: Configure ESLint with strict rules
+Fix: Disable TypeScript incremental build in tsconfig
