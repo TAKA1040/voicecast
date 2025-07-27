@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "20.11.1"
+    "node": "20"
   },
   "scripts": {
     "dev": "next dev",
@@ -12,6 +12,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.850.0",
+    "@aws-sdk/s3-request-presigner": "^3.850.0",
     "firebase": "^10.12.2",
     "firebase-admin": "^12.1.1",
     "next": "14.2.4",
