@@ -1,27 +1,14 @@
-I’m working on a Firebase + Next.js project and encountering a login error.
-
-When accessing the login screen (`/login`), I see the following error:
-
-❌ Firebase Authentication Error:
-auth/configuration-not-found  
-Firebase: Error (auth/configuration-not-found)
-
-And the browser console shows:
-400 (Bad Request)  
-https://identitytoolkit.googleapis.com/v1/projects?key=[my_api_key]
-
-Here’s what I’ve confirmed:
-- The Firebase project ID is `voicecast-firebase`
-- The Google Sign-In provider is enabled in Firebase Authentication
-- The `NEXT_PUBLIC_FIREBASE_API_KEY` is correctly set in `.env.local`
-- All other Firebase credentials (project ID, app ID, auth domain, etc.) are set
-- Hosting URL is `https://voicecast-firebase.web.app`
-
-Despite that, the error persists.
-
-Please:
-1. Tell me **exactly what kind of misconfiguration would cause auth/configuration-not-found**
-2. What additional settings or APIs I must enable (e.g., Identity Toolkit, OAuth consent screen, etc.)
-3. Point out what part of the `.env.local` might be incorrect or mismatched
-
-Respond as a professional Firebase engineer who knows where this misconfiguration usually happens.
+page-bdfb119fa8622b12.js:1  PUT https://e8b97107a31878d9a11057c1f03192d5.r2.cloudflarestorage.com/voicecast-storage/1753633100633_cat32.mp3?undefined net::ERR_SSL_VERSION_OR_CIPHER_MISMATCH
+j @ page-bdfb119fa8622b12.js:1
+await in j
+a_ @ fd9d1056-4e1a26e2d413ba3c.js:1
+aR @ fd9d1056-4e1a26e2d413ba3c.js:1
+（匿名） @ fd9d1056-4e1a26e2d413ba3c.js:1
+sF @ fd9d1056-4e1a26e2d413ba3c.js:1
+sM @ fd9d1056-4e1a26e2d413ba3c.js:1
+（匿名） @ fd9d1056-4e1a26e2d413ba3c.js:1
+o4 @ fd9d1056-4e1a26e2d413ba3c.js:1
+iV @ fd9d1056-4e1a26e2d413ba3c.js:1
+sU @ fd9d1056-4e1a26e2d413ba3c.js:1
+uR @ fd9d1056-4e1a26e2d413ba3c.js:1
+uM @ fd9d1056-4e1a26e2d413ba3c.js:1

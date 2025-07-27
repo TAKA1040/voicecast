@@ -9,11 +9,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "git push origin dev-firebase-migration && vercel --prod --yes"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.850.0",
     "@aws-sdk/s3-request-presigner": "^3.850.0",
+    "@types/aws4": "^1.11.6",
+    "aws4": "^1.13.2",
     "firebase": "^10.12.2",
     "firebase-admin": "^12.1.1",
     "next": "14.2.4",
