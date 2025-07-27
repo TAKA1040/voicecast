@@ -1,8 +1,7 @@
 "use client";
 
 // EpisodePlayer Component (modal)
-// TODO: Integrate real audio source once backend ready.
-import { Episode } from "./EpisodeCard";
+import { Episode } from "@/lib/types";
 import { useEffect } from "react";
 
 interface Props {
@@ -34,8 +33,8 @@ export default function EpisodePlayer({ episode, onClose }: Props) {
         </button>
         <h2 className="text-xl font-bold mb-4">{episode.title}</h2>
         {/* Audio element placeholder */}
-        <audio controls className="w-full">
-          <source src={episode.audio_url} type="audio/mpeg" />
+        <audio controls className="w-full" src={episode.audio_url}>
+          Your browser does not support the audio element.
         </audio>
         <p className="mt-4 text-sm text-gray-600">{episode.description}</p>
       </div>

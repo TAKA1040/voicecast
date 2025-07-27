@@ -1,14 +1,27 @@
-以下の方針に基づき、Firebase Authentication の構成と認証制御の実装方針を更新・統一してください。
+I’m working on a Firebase + Next.js project and encountering a login error.
 
-【運用方針】
-今回のアプリでは「Googleログインのみ」を許可し、「メールアドレス＋パスワード認証」は使用しない方針とする。
+When accessing the login screen (`/login`), I see the following error:
 
-【理由】
-- パスワードを保持・管理する運用はセキュリティリスクがあるため避けたい。
-- 管理者もユーザーもGoogleアカウントのみでログインできる仕様とし、簡潔かつ安全な構成とする。
-- Firebase Authentication 設定画面では「Google」を有効化し、「Email/Password」は無効化する。
-- 管理者判定は、ログイン後の `user.email` が特定のアドレス（例: dash201206@gmail.com）であるかどうかで行う。
+❌ Firebase Authentication Error:
+auth/configuration-not-found  
+Firebase: Error (auth/configuration-not-found)
 
-【指示】
-- 現時点で `create-admin` スクリプトや Email/Password アカウント作成に関連する処理は削除または無効化してください。
-- 必要に応じて、Googleアカウントのみで管理者制御を行うロジックをコード内に実装・明示してください。
+And the browser console shows:
+400 (Bad Request)  
+https://identitytoolkit.googleapis.com/v1/projects?key=[my_api_key]
+
+Here’s what I’ve confirmed:
+- The Firebase project ID is `voicecast-firebase`
+- The Google Sign-In provider is enabled in Firebase Authentication
+- The `NEXT_PUBLIC_FIREBASE_API_KEY` is correctly set in `.env.local`
+- All other Firebase credentials (project ID, app ID, auth domain, etc.) are set
+- Hosting URL is `https://voicecast-firebase.web.app`
+
+Despite that, the error persists.
+
+Please:
+1. Tell me **exactly what kind of misconfiguration would cause auth/configuration-not-found**
+2. What additional settings or APIs I must enable (e.g., Identity Toolkit, OAuth consent screen, etc.)
+3. Point out what part of the `.env.local` might be incorrect or mismatched
+
+Respond as a professional Firebase engineer who knows where this misconfiguration usually happens.

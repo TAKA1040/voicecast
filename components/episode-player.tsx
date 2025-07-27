@@ -69,7 +69,7 @@ export default function EpisodePlayer({ episode }: EpisodePlayerProps) {
     }
     return genreMap[genre]
   }
-  const genreInfo = getGenreInfo(episode.genre);
+  const genreInfo = getGenreInfo(episode.genre ?? null);
 
   const togglePlayPause = () => {
     if (audioRef.current) {

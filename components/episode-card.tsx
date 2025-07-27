@@ -40,7 +40,7 @@ export default function EpisodeCard({ episode, onPlay }: EpisodeCardProps) {
     return genreMap[genre]
   }
 
-  const genreInfo = getGenreInfo(episode.genre)
+  const genreInfo = getGenreInfo(episode.genre ?? null)
 
   const handlePlayClick = (e: React.MouseEvent) => {
     e.stopPropagation()
