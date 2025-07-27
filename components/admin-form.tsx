@@ -1,7 +1,9 @@
 'use client'
 
-import { createClient } from '@/lib/supabase/client'
-import { type User } from '@supabase/supabase-js'
+import { db, storage } from '@/lib/firebase/client'
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { collection, addDoc } from 'firebase/firestore'
+import { type User } from 'firebase/auth'
 import { useState } from 'react'
 
 // アラートメッセージの型定義
@@ -17,8 +19,6 @@ export default function AdminForm({ user }: { user: User }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isDragOver, setIsDragOver] = useState(false)
   const [alert, setAlert] = useState<AlertMessage | null>(null)
-
-  const supabase = createClient()
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -57,25 +57,17 @@ export default function AdminForm({ user }: { user: User }) {
     setAlert({ type: 'success', text: 'アップロード処理を開始します...' })
 
     try {
-      const filePath = `${user.id}/${Date.now()}_${file.name}`
-      const { error: uploadError } = await supabase.storage
-        .from('audios')
-        .upload(filePath, file)
+      const storageRef = ref(storage, `audios/${user.uid}/${Date.now()}_${file.name}`)
+      await uploadBytes(storageRef, file)
+      const downloadURL = await getDownloadURL(storageRef)
 
-      if (uploadError) throw uploadError
-
-      const { data: { publicUrl } } = supabase.storage
-        .from('audios')
-        .getPublicUrl(filePath)
-
-      const { error: dbError } = await supabase.from('episodes').insert({
+      await addDoc(collection(db, 'episodes'), {
         title,
         description,
-        audio_url: publicUrl,
-        user_id: user.id,
+        audio_url: downloadURL,
+        user_id: user.uid,
+        createdAt: new Date(),
       })
-
-      if (dbError) throw dbError
 
       setAlert({ type: 'success', text: 'エピソードの公開に成功しました！' })
       // フォームをリセット

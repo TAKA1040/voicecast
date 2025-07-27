@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { db } from '@/lib/firebase/client'
+import { collection, getDocs, query, orderBy } from 'firebase/firestore'
 import { Episode } from '@/lib/types'
 import EpisodePlayer from '@/components/episode-player'
 import EpisodeCard from '@/components/episode-card'
@@ -16,24 +17,25 @@ export default function HomePage() {
 
   useEffect(() => {
     const fetchEpisodes = async () => {
-      const supabase = createClient()
-      const { data, error } = await supabase
-        .from('episodes')
-        .select('*')
-        .order('created_at', { ascending: false })
+      try {
+        const q = query(collection(db, 'episodes'), orderBy('createdAt', 'desc'))
+        const querySnapshot = await getDocs(q)
+        const episodesData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as Episode[]
 
-      if (error) {
-        console.error('Error fetching episodes:', error)
-        setError('エピソードの読み込みに失敗しました。')
-      } else {
-        const episodes = data as Episode[]
-        setAllEpisodes(episodes)
-        setFilteredEpisodes(episodes)
-        if (episodes.length > 0) {
-          setSelectedEpisode(episodes[0])
+        setAllEpisodes(episodesData)
+        setFilteredEpisodes(episodesData)
+        if (episodesData.length > 0) {
+          setSelectedEpisode(episodesData[0])
         }
+      } catch (err) {
+        console.error('Error fetching episodes:', err)
+        setError('エピソードの読み込みに失敗しました。')
+      } finally {
+        setLoading(false)
       }
-      setLoading(false)
     }
 
     fetchEpisodes()

@@ -1,10 +1,11 @@
+import { Timestamp } from 'firebase/firestore';
+
 export interface Episode {
-  id: number;
+  id: string; // Firestore document ID
   title: string;
   description: string | null;
   genre: string | null;
   audio_url: string;
-  created_at: string;
-  updated_at: string;
+  createdAt: Timestamp; // Firestore Timestamp
   user_id: string | null;
 }

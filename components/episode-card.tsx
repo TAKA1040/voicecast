@@ -1,14 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import { Episode } from '@/lib/types' // 共通の型定義をインポート
+import { Episode } from '@/lib/types'
+import { Timestamp } from 'firebase/firestore'
 
 interface EpisodeCardProps {
   episode: Episode
-  onPlay: (episode: Episode) => void // 再生ボタンクリック時の処理を親に委ねる
+  onPlay: (episode: Episode) => void
 }
 
-// ジャンル情報を日本語と絵文字にマッピング
 const genreMap: Record<string, { name: string; emoji: string }> = {
   tech: { name: 'テクノロジー', emoji: '💻' },
   business: { name: 'ビジネス', emoji: '💼' },
@@ -20,9 +20,8 @@ const genreMap: Record<string, { name: string; emoji: string }> = {
 }
 
 export default function EpisodeCard({ episode, onPlay }: EpisodeCardProps) {
-  // 日付を「X日前」などの相対的な形式にフォーマット
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
+  const formatDate = (timestamp: Timestamp) => {
+    const date = timestamp.toDate()
     const now = new Date()
     const diffTime = Math.abs(now.getTime() - date.getTime())
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
@@ -34,7 +33,6 @@ export default function EpisodeCard({ episode, onPlay }: EpisodeCardProps) {
     return `${Math.floor(diffDays / 30)}ヶ月前`
   }
 
-  // ジャンル情報を取得（存在しない場合はデフォルト値を返す）
   const getGenreInfo = (genre: string | null) => {
     if (!genre || !genreMap[genre]) {
       return { name: 'その他', emoji: '🎧' }
@@ -44,16 +42,15 @@ export default function EpisodeCard({ episode, onPlay }: EpisodeCardProps) {
 
   const genreInfo = getGenreInfo(episode.genre)
 
-  // 再生ボタンがクリックされたときの処理
   const handlePlayClick = (e: React.MouseEvent) => {
-    e.stopPropagation() // 親要素へのクリックイベントの伝播を防ぐ
+    e.stopPropagation()
     onPlay(episode)
   }
 
   return (
     <article 
       className="bg-white rounded-2xl p-4 md:p-6 shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border-2 border-transparent hover:border-pink-200"
-      onClick={() => onPlay(episode)} // カード自体がクリックされても再生
+      onClick={() => onPlay(episode)}
     >
       <div className="flex items-center gap-3 md:gap-4 mb-4">
         <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-pink-400 via-purple-400 to-blue-400 flex items-center justify-center text-lg md:text-2xl text-white flex-shrink-0">
@@ -65,14 +62,14 @@ export default function EpisodeCard({ episode, onPlay }: EpisodeCardProps) {
             {episode.title}
           </h3>
           <p className="text-gray-500 text-xs md:text-sm">
-            配信者: {episode.user_id || '不明'} {/* TODO: user_idからユーザー名を取得する処理 */}
+            配信者: {episode.user_id || '不明'}
           </p>
         </div>
       </div>
 
       <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-4 text-xs md:text-sm">
         <span className="text-gray-500">
-          {formatDate(episode.created_at)}
+          {formatDate(episode.createdAt)}
         </span>
         <span className="text-pink-500 font-medium">
           ⏱️ 音声ファイル
@@ -100,11 +97,11 @@ export default function EpisodeCard({ episode, onPlay }: EpisodeCardProps) {
         <div className="flex gap-3 md:gap-4 text-xs text-gray-500">
           <div className="flex items-center gap-1">
             <span>👥</span>
-            <span>--</span> {/* TODO: 再生数を実装 */}
+            <span>--</span>
           </div>
           <div className="flex items-center gap-1">
             <span>❤️</span>
-            <span>--</span> {/* TODO: いいね数を実装 */}
+            <span>--</span>
           </div>
         </div>
       </div>
