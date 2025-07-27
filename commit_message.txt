@@ -1,1 +1,1 @@
-Fix: Defer environment variable check to request time
+Refactor: Move Firebase initialization to client-side hook

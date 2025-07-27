@@ -3,18 +3,21 @@
 import { useAuth } from '@/app/hooks/useAuth'
 import { useRouter } from 'next/navigation'
 import AdminForm from '@/components/admin-form'
-import { auth } from '@/lib/firebase/client'
+import { useFirebase } from '@/app/hooks/useFirebase'
 
 export default function AdminPage() {
   const { user, loading } = useAuth()
   const router = useRouter()
+  const firebase = useFirebase()
 
   const handleLogout = async () => {
-    await auth.signOut()
-    router.push('/login')
+    if (firebase) {
+      await firebase.auth.signOut()
+      router.push('/login')
+    }
   }
 
-  if (loading) {
+  if (loading || !firebase) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <p>Loading...</p>

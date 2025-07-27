@@ -3,11 +3,11 @@
 // Client-side home wrapper to manage UI state.
 import { useState, useEffect } from "react";
 import EpisodeCard from "./EpisodeCard";
-import { Episode } from "@/lib/types"; // 修正
+import { Episode } from "@/lib/types";
 import EpisodePlayer from "./EpisodePlayer";
 import GenreFilter from "./GenreFilter";
-import { db } from "@/lib/firebase/client"; // 追加
-import { collection, getDocs, query, where, orderBy } from "firebase/firestore"; // 追加
+import { useFirebase } from "@/app/hooks/useFirebase";
+import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 
 interface Props {
   initialEpisodes: Episode[];
@@ -18,10 +18,12 @@ export default function UserHomeClient({ initialEpisodes }: Props) {
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [episodes, setEpisodes] = useState<Episode[]>(initialEpisodes);
   const [loading, setLoading] = useState(false);
+  const firebase = useFirebase();
 
   // fetch when genre changes
   useEffect(() => {
     const fetchEpisodesByGenre = async () => {
+      if (!firebase) return;
       if (!selectedGenre) {
         setEpisodes(initialEpisodes);
         return;
@@ -29,7 +31,7 @@ export default function UserHomeClient({ initialEpisodes }: Props) {
       setLoading(true);
       try {
         const q = query(
-          collection(db, "episodes"),
+          collection(firebase.db, "episodes"),
           where("genre", "==", selectedGenre),
           orderBy("createdAt", "desc")
         );
@@ -47,7 +49,7 @@ export default function UserHomeClient({ initialEpisodes }: Props) {
     };
 
     fetchEpisodesByGenre();
-  }, [selectedGenre, initialEpisodes]);
+  }, [selectedGenre, initialEpisodes, firebase]);
 
   return (
     <main className="container mx-auto p-4">

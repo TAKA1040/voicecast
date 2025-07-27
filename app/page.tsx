@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { db } from '@/lib/firebase/client'
+import { useFirebase } from '@/app/hooks/useFirebase'
 import { collection, getDocs, query, orderBy } from 'firebase/firestore'
 import { Episode } from '@/lib/types'
 import EpisodePlayer from '@/components/episode-player'
@@ -14,11 +14,14 @@ export default function HomePage() {
   const [selectedEpisode, setSelectedEpisode] = useState<Episode | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const firebase = useFirebase()
 
   useEffect(() => {
+    if (!firebase) return;
+
     const fetchEpisodes = async () => {
       try {
-        const q = query(collection(db, 'episodes'), orderBy('createdAt', 'desc'))
+        const q = query(collection(firebase.db, 'episodes'), orderBy('createdAt', 'desc'))
         const querySnapshot = await getDocs(q)
         const episodesData = querySnapshot.docs.map(doc => ({
           id: doc.id,
@@ -39,7 +42,7 @@ export default function HomePage() {
     }
 
     fetchEpisodes()
-  }, [])
+  }, [firebase])
 
   const handleGenreChange = (genreId: string) => {
     if (genreId.toLowerCase() === 'all') {

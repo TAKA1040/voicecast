@@ -1,6 +1,6 @@
 'use client'
 
-import { db } from '@/lib/firebase/client'
+import { useFirebase } from '@/app/hooks/useFirebase'
 import { collection, addDoc } from 'firebase/firestore'
 import { type User } from 'firebase/auth'
 import { useState } from 'react'
@@ -29,6 +29,7 @@ export default function AdminForm({ user }: { user: User }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isDragOver, setIsDragOver] = useState(false)
   const [alert, setAlert] = useState<AlertMessage | null>(null)
+  const firebase = useFirebase()
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -62,6 +63,10 @@ export default function AdminForm({ user }: { user: User }) {
       setAlert({ type: 'error', text: 'タイトルとファイルは必須です。' })
       return
     }
+    if (!firebase) {
+      setAlert({ type: 'error', text: 'Firebaseの初期化に失敗しました。' })
+      return
+    }
 
     setIsSubmitting(true)
     setAlert({ type: 'success', text: 'アップロードURLを取得しています...' })
@@ -91,7 +96,7 @@ export default function AdminForm({ user }: { user: User }) {
 
       const r2PublicUrl = `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${key}`;
       
-      await addDoc(collection(db, 'episodes'), {
+      await addDoc(collection(firebase.db, 'episodes'), {
         title,
         description,
         genre,
