@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+**/node_modules
 /.pnp
 .pnp.js
 .yarn/install-state.gz
@@ -40,13 +40,3 @@ next-env.d.ts
 netlify.toml
 .netlify/
 .windsurf/deploy.log
-
-# Ignore all json files
-*.json
-
-# But do not ignore these specific json files
-!package.json
-!package-lock.json
-!tsconfig.json
-!firebase.json
-!firestore.indexes.json

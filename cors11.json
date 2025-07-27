@@ -1,0 +1,22 @@
+{
+  "rules": [
+    {
+      "AllowedOrigins": [
+        "http://localhost:3000",
+        "https://voicecast-firebase.web.app"
+      ],
+      "AllowedMethods": [
+        "GET",
+        "PUT",
+        "POST"
+      ],
+      "AllowedHeaders": [
+        "*"
+      ],
+      "ExposeHeaders": [
+        "ETag"
+      ],
+      "MaxAgeSeconds": 3600
+    }
+  ]
+}

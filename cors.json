@@ -1,0 +1,8 @@
+[
+  {
+    "origin": ["https://voicecast-firebase.web.app"],
+    "method": ["GET", "HEAD", "POST", "PUT"],
+    "responseHeader": ["Content-Type"],
+    "maxAgeSeconds": 3600
+  }
+]
