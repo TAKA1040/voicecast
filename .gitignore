@@ -42,3 +42,4 @@ netlify.toml
 .windsurf/deploy.log
 
 .vercel
+keys/voicecast-service-account.json
