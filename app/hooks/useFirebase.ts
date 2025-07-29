@@ -4,6 +4,18 @@ import { getAuth, Auth } from 'firebase/auth';
 import { getFirestore, Firestore } from 'firebase/firestore';
 import { getStorage, FirebaseStorage } from 'firebase/storage';
 
+// 環境変数が有効かどうかの検証関数
+const areFirebaseVarsPresent = () => {
+  return (
+    process.env.NEXT_PUBLIC_FIREBASE_API_KEY &&
+    process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN &&
+    process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID &&
+    process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET &&
+    process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID &&
+    process.env.NEXT_PUBLIC_FIREBASE_APP_ID
+  );
+};
+
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -20,24 +32,26 @@ interface FirebaseServices {
   storage: FirebaseStorage;
 }
 
-// シングルトンインスタンスを保持する変数
 let firebaseServices: FirebaseServices | null = null;
 
-// Firebaseを初期化し、各サービスを取得する関数
-function initializeFirebase(): FirebaseServices {
+function initializeFirebase(): FirebaseServices | null {
   if (firebaseServices) {
     return firebaseServices;
   }
 
+  // 環境変数がすべて揃っているか最終チェック
+  if (!areFirebaseVarsPresent()) {
+    console.error("Firebase config environment variables are not fully set.");
+    return null;
+  }
+
   if (getApps().length === 0) {
-    // アプリがまだ初期化されていない場合のみ初期化
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
     const storage = getStorage(app);
     firebaseServices = { app, auth, db, storage };
   } else {
-    // 既に初期化されている場合は既存のアプリインスタンスを取得
     const app = getApps()[0];
     const auth = getAuth(app);
     const db = getFirestore(app);
@@ -48,27 +62,23 @@ function initializeFirebase(): FirebaseServices {
   return firebaseServices;
 }
 
-
 export function useFirebase() {
-  // 初期化されたサービスをステートとして保持
   const [services, setServices] = useState<FirebaseServices | null>(null);
 
   useEffect(() => {
-    // このフックはクライアントサイドでのみ実行されるため、
-    // ここで初期化を呼び出すのが安全
     if (typeof window !== 'undefined') {
-      setServices(initializeFirebase());
+      const initializedServices = initializeFirebase();
+      if (initializedServices) {
+        setServices(initializedServices);
+      }
     }
   }, []);
 
   return services;
 }
 
-// 必要に応じてシングルトンインスタンスを直接エクスポートすることも可能
-// ただし、使用はクライアントサイドに限定する必要がある
 export const getFirebaseServices = () => {
   if (typeof window === 'undefined') {
-    // サーバーサイドではnullを返すか、エラーを投げる
     return null;
   }
   return initializeFirebase();
