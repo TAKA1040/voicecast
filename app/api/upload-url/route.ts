@@ -26,7 +26,7 @@ export async function POST(request: Request) {
 
     const s3Client = new S3Client({
       region: 'auto',
-      endpoint: `https://${process.env.R2_CUSTOM_DOMAIN}`,
+      endpoint: `https://${process.env.CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com`,
       credentials: {
         accessKeyId: R2_ACCESS_KEY_ID,
         secretAccessKey: R2_SECRET_ACCESS_KEY,
