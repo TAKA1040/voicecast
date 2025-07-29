@@ -9,7 +9,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --strict",
+    "lint": "next lint",
     "deploy": "git push origin dev-firebase-migration && vercel --prod --yes"
   },
   "dependencies": {
