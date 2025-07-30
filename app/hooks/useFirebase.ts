@@ -1,10 +1,8 @@
-import { useEffect, useState } from 'react';
-import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
-import { getAuth, Auth } from 'firebase/auth';
-import { getFirestore, Firestore } from 'firebase/firestore';
-import { getStorage, FirebaseStorage } from 'firebase/storage';
+import { initializeApp, getApps, getApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
-// 環境変数が有効かどうかの最終防衛チェック
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -14,64 +12,11 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-const areFirebaseVarsPresent = () => {
-  return Object.values(firebaseConfig).every(value => !!value);
-};
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+const auth = getAuth(app);
+const firestore = getFirestore(app);
+const storage = getStorage(app);
 
-interface FirebaseServices {
-  app: FirebaseApp;
-  auth: Auth;
-  db: Firestore;
-  storage: FirebaseStorage;
-}
-
-let firebaseServices: FirebaseServices | null = null;
-
-function initializeFirebase(): FirebaseServices | null {
-  if (firebaseServices) {
-    return firebaseServices;
-  }
-
-  if (!areFirebaseVarsPresent()) {
-    console.error("Firebase config environment variables are not fully set.");
-    return null;
-  }
-
-  if (getApps().length === 0) {
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
-    firebaseServices = { app, auth, db, storage };
-  } else {
-    const app = getApps()[0];
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
-    firebaseServices = { app, auth, db, storage };
-  }
-  
-  return firebaseServices;
-}
-
-export function useFirebase() {
-  const [services, setServices] = useState<FirebaseServices | null>(null);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const initializedServices = initializeFirebase();
-      if (initializedServices) {
-        setServices(initializedServices);
-      }
-    }
-  }, []);
-
-  return services;
-}
-
-export const getFirebaseServices = () => {
-  if (typeof window === 'undefined') {
-    return null;
-  }
-  return initializeFirebase();
+export const useFirebase = () => {
+  return { app, auth, firestore, storage, firebaseConfig };
 };
