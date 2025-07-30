@@ -27,9 +27,7 @@ export default function UserHomeClient({ initialEpisodes }: Props) {
     supabase
       .from("episodes")
       .select(
-        .select(
         `id, title, description, thumbnail, published_at, audio_url, genre`
-      )
       )
       .eq("genre", selectedGenre)
       .order("published_at", { ascending: false })
