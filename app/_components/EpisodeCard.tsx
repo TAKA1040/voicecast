@@ -3,7 +3,7 @@
 // EpisodeCard Component
 // TODO: Replace mock structure with actual design once API is integrated.
 import Image from "next/image";
-import { Episode } from "./types";
+import { Episode } from "@/lib/types";
 
 interface Props {
   episode: Episode;
