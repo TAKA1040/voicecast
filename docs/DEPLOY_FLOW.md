@@ -6,57 +6,50 @@
 
 1.  **開発**: ローカル環境でコードの変更を行います。
 2.  **プッシュ**: 変更内容をGitHubリポジトリの `master` ブランチにプッシュします。
-3.  **自動デプロイ**: GitHubへのプッシュをトリガーとして、**Firebase Hostingが自動的にビルドとデプロイを開始します。**
-4.  **公開**: ビルドが成功すると、変更内容が本番環境 (`https://voicecast.web.app` またはカスタムドメイン) に公開されます。
+3.  **自動デプロイ**: GitHubへのプッシュをトリガーとして、Vercelが自動的にビルドとデプロイを開始します。
+4.  **公開**: ビルドが成功すると、変更内容が本番環境 (`https://voicecast.vercel.app`) に公開されます。
 
-## 2. Firebase Hosting プロジェクト設定
+## 2. Vercel プロジェクト設定
 
-Firebase Hostingの設定は、プロジェクトルートの `firebase.json` によって管理されています。
+Vercel側の設定は、プロジェクトルートの `vercel.json` によって明示的に管理されています。
 
 ```json
-// firebase.json
+// vercel.json
 {
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
-  },
-  "hosting": {
-    "source": ".",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "frameworksBackend": {
-      "region": "asia-northeast1"
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
     }
-  }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
 }
 ```
 
-この `frameworksBackend` 設定により、Firebase CLIは自動でNext.jsアプリケーションを認識し、ビルド、最適化、デプロイ（SSR部分はCloud Runへ、静的アセットはHosting CDNへ）をすべて行ってくれます。
+この設定により、VercelのUI上の古い設定（静的サイト時代のもの）が上書きされ、このプロジェクトがNext.jsアプリケーションとして正しく認識・ビルドされることが保証されます。
 
 ## 3. 環境変数管理
 
-Firebaseの接続情報などの機密情報は、環境変数として管理します。
+Supabaseの接続情報などの機密情報は、環境変数として管理します。
 
 - **ローカル開発**: プロジェクトルートの `.env.local` ファイルに記述します。このファイルは `.gitignore` によってGitの管理対象外となっています。
-- **本番環境 (Cloud Run)**: Next.jsのサーバーサイドで必要な環境変数は、Cloud Runの環境変数として設定する必要があります。Firebase Hostingのフレームワーク統合機能では、デプロイ時に特定の `.env` ファイルを読み込ませることも可能です。
+- **本番環境 (Vercel)**: Vercelのプロジェクト設定画面 (`Settings` -> `Environment Variables`) で設定します。
 
-**必須の環境変数 (.env.local):**
-- `NEXT_PUBLIC_FIREBASE_API_KEY`
-- `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`
-- `NEXT_PUBLIC_FIREBASE_PROJECT_ID`
-- `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`
-- `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
-- `NEXT_PUBLIC_FIREBASE_APP_ID`
+**必須の環境変数:**
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-これらの値は、Firebaseコンソールのプロジェクト設定画面から取得できます。
+これらの値が設定されていない場合、Vercelでのビルドは失敗します。
 
-## 4. 手動デプロイ
+## 4. Supabase スキーマ変更
 
-ローカル環境から手動でデプロイを実行する場合は、以下のコマンドを使用します。
+データベースのテーブル定義やRLSポリシーの変更は、`supabase/migrations/` 以下のSQLファイルで管理します。
 
-```bash
-firebase deploy --only hosting
-```
+変更を本番環境に適用する際は、Supabase CLIの `db push` コマンドを使用します。
+**注意:** 直接本番DBを操作する危険なコマンドのため、実行前に十分なレビューが必要です。

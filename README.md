@@ -15,8 +15,8 @@ VoiceCastは、配信者が管理画面から音声エピソードを登録し�
 ### 📘 中核ドキュメントへのクイックリンク
 
 - **[プロジェクト概要・設計思想 (`OVERVIEW.md`)](./docs/OVERVIEW.md)**: まず最初にここを読んでください。
-- **[認証フローと設定 (`AUTH_SETUP.md`)](./docs/AUTH_SETUP.md)**: Firebase Authenticationによる認証の仕組みについて。
-- **[デプロイと環境管理 (`DEPLOY_FLOW.md`)](./docs/DEPLOY_FLOW.md)**: Firebase Hostingへのデプロイ手順と環境変数について。
+- **[認証フローと設定 (`AUTH_SETUP.md`)](./docs/AUTH_SETUP.md)**: Google OAuthを含む認証の仕組みについて。
+- **[デプロイと環境管理 (`DEPLOY_FLOW.md`)](./docs/DEPLOY_FLOW.md)**: Vercelへのデプロイ手順と環境変数について。
 - **[デバッグガイド (`DEBUG_GUIDE.md`)](./docs/DEBUG_GUIDE.md)**: エラー発生時の対処法。
 - **[運用ルール (`OPERATION_RULES.md`)](./docs/OPERATION_RULES.md)**: 全関係者が遵守すべきルール。
 
@@ -28,10 +28,10 @@ VoiceCastは、配信者が管理画面から音声エピソードを登録し�
 
 - **フレームワーク**: Next.js (App Router)
 - **言語**: TypeScript
-- **バックエンド & データベース**: Firebase (Firestore, Firebase Authentication, Cloud Storage)
-- **認証ライブラリ**: `firebase`
+- **認証・バックエンド**: Supabase (Auth, Database, Storage)
+- **認証ライブラリ**: `@supabase/ssr`
 - **スタイリング**: Tailwind CSS
-- **ホスティング**: Firebase Hosting
+- **ホスティング**: Vercel
 
 ---
 
@@ -48,30 +48,20 @@ VoiceCastは、配信者が管理画面から音声エピソードを登録し�
     npm install
     ```
 
-3.  **Firebase CLIをセットアップ:**
-    ```bash
-    npm install -g firebase-tools
-    firebase login
-    ```
-
-4.  **環境変数を設定:**
+3.  **環境変数を設定:**
     - プロジェクトルートに `.env.local` という名前のファイルを作成します。
-    - Firebaseコンソールのプロジェクト設定から取得したWebアプリの構成情報をコピーします。
+    - VercelまたはSupabaseのダッシュボードから取得した環境変数をコピーします。
     ```
-    NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
-    NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_auth_domain
-    NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
-    NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_storage_bucket
-    NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
-    NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+    NEXT_PUBLIC_SUPABASE_URL=https://xxxxxxxx.supabase.co
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=ey...
     ```
 
-5.  **開発サーバーを起動:**
+4.  **開発サーバーを起動:**
     ```bash
     npm run dev
     ```
 
-6.  **ブラウザで確認:**
+5.  **ブラウザで確認:**
     - `http://localhost:3000` にアクセスすると、トップページが表示されます。
     - `http://localhost:3000/login` にアクセスすると、ログインページが表示されます。
 
@@ -79,6 +69,7 @@ VoiceCastは、配信者が管理画面から音声エピソードを登録し�
 
 ## 🌐 主要なルート
 
-- `/`: ユーザー向けのトップページ（エピソード一覧が表示される）
+- `/`: ユーザー向けのトップページ（将来的にエピソード一覧が表示される）
 - `/login`: 管理者向けのログインページ
 - `/admin`: 【要認証】音声のアップロードと管理を行うダッシュボード
+- `/api/auth/callback`: Google OAuth認証後にリダイレクトされるAPIルート

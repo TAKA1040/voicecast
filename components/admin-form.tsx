@@ -1,35 +1,24 @@
 'use client'
 
-import { useFirebase } from '@/app/hooks/useFirebase'
-import { collection, addDoc } from 'firebase/firestore'
-import { type User } from 'firebase/auth'
+import { createClient } from '@/lib/supabase/client'
+import { type User } from '@supabase/supabase-js'
 import { useState } from 'react'
 
+// アラートメッセージの型定義
 type AlertMessage = {
   type: 'success' | 'error'
   text: string
 }
 
-const genres = [
-  { id: 'tech', name: 'テクノロジー' },
-  { id: 'business', name: 'ビジネス' },
-  { id: 'lifestyle', name: 'ライフスタイル' },
-  { id: 'entertainment', name: 'エンタメ' },
-  { id: 'education', name: '教育' },
-  { id: 'news', name: 'ニュース' },
-  { id: 'health', name: '健康' },
-  { id: 'other', name: 'その他' },
-]
-
 export default function AdminForm({ user }: { user: User }) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [genre, setGenre] = useState('other')
   const [file, setFile] = useState<File | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isDragOver, setIsDragOver] = useState(false)
   const [alert, setAlert] = useState<AlertMessage | null>(null)
-  const firebase = useFirebase()
+
+  const supabase = createClient()
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -63,52 +52,35 @@ export default function AdminForm({ user }: { user: User }) {
       setAlert({ type: 'error', text: 'タイトルとファイルは必須です。' })
       return
     }
-    if (!firebase) {
-      setAlert({ type: 'error', text: 'Firebaseの初期化に失敗しました。' })
-      return
-    }
 
     setIsSubmitting(true)
-    setAlert({ type: 'success', text: 'アップロードURLを取得しています...' })
+    setAlert({ type: 'success', text: 'アップロード処理を開始します...' })
 
     try {
-      const res = await fetch('/api/upload-url', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          filename: file.name,
-          contentType: file.type,
-        }),
-      });
+      const filePath = `${user.id}/${Date.now()}_${file.name}`
+      const { error: uploadError } = await supabase.storage
+        .from('audios')
+        .upload(filePath, file)
 
-      if (!res.ok) throw new Error(`署名付きURLの取得に失敗しました: ${await res.text()}`);
-      const { url, key } = await res.json();
-      
-      setAlert({ type: 'success', text: 'ファイルをアップロードしています...' });
+      if (uploadError) throw uploadError
 
-      const uploadRes = await fetch(url, {
-        method: 'PUT',
-        body: file,
-        headers: { 'Content-Type': file.type },
-      });
+      const { data: { publicUrl } } = supabase.storage
+        .from('audios')
+        .getPublicUrl(filePath)
 
-      if (!uploadRes.ok) throw new Error('ファイルアップロードに失敗しました。');
-
-      const r2PublicUrl = `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${key}`;
-      
-      await addDoc(collection(firebase.db, 'episodes'), {
+      const { error: dbError } = await supabase.from('episodes').insert({
         title,
         description,
-        genre,
-        audio_url: r2PublicUrl,
-        user_id: user.uid,
-        createdAt: new Date(),
+        audio_url: publicUrl,
+        user_id: user.id,
       })
 
+      if (dbError) throw dbError
+
       setAlert({ type: 'success', text: 'エピソードの公開に成功しました！' })
+      // フォームをリセット
       setTitle('')
       setDescription('')
-      setGenre('other')
       setFile(null)
       const fileInput = document.getElementById('file-input') as HTMLInputElement
       if (fileInput) fileInput.value = ''
@@ -126,6 +98,7 @@ export default function AdminForm({ user }: { user: User }) {
       <p className="text-gray-500 mb-8">ようこそ, {user.email}</p>
 
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* File Upload Area */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             音声ファイル
@@ -161,6 +134,7 @@ export default function AdminForm({ user }: { user: User }) {
           )}
         </div>
 
+        {/* Title */}
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-gray-700">
             タイトル
@@ -175,24 +149,7 @@ export default function AdminForm({ user }: { user: User }) {
           />
         </div>
 
-        <div>
-          <label htmlFor="genre" className="block text-sm font-medium text-gray-700">
-            ジャンル
-          </label>
-          <select
-            id="genre"
-            value={genre}
-            onChange={(e) => setGenre(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          >
-            {genres.map((g) => (
-              <option key={g.id} value={g.id}>
-                {g.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
+        {/* Description */}
         <div>
           <label htmlFor="description" className="block text-sm font-medium text-gray-700">
             説明
@@ -206,12 +163,14 @@ export default function AdminForm({ user }: { user: User }) {
           />
         </div>
 
+        {/* Alert Message */}
         {alert && (
           <div className={`p-4 rounded-md ${alert.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
             <p>{alert.text}</p>
           </div>
         )}
 
+        {/* Submit Button */}
         <div className="flex justify-end">
           <button
             type="submit"

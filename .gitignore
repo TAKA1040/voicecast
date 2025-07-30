@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-**/node_modules
+/node_modules
 /.pnp
 .pnp.js
 .yarn/install-state.gz
@@ -32,6 +32,9 @@ pnpm-debug.log*
 .env.test.local
 .env.production.local
 
+# vercel
+.vercel
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
@@ -40,6 +43,3 @@ next-env.d.ts
 netlify.toml
 .netlify/
 .windsurf/deploy.log
-
-.vercel
-keys/voicecast-service-account.json

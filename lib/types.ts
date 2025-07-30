@@ -1,14 +1,10 @@
-import { Timestamp } from 'firebase/firestore';
-
 export interface Episode {
-  id: string;
+  id: number;
   title: string;
   description: string | null;
+  genre: string | null;
   audio_url: string;
+  created_at: string;
+  updated_at: string;
   user_id: string | null;
-  createdAt: Timestamp;
-  // UserHomeClientで使われるプロパティ
-  thumbnail?: string;
-  duration?: number;
-  genre?: string;
 }

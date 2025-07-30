@@ -1,8 +1,9 @@
 "use client";
 
 // EpisodeCard Component
+// TODO: Replace mock structure with actual design once API is integrated.
 import Image from "next/image";
-import { Episode } from "@/lib/types";
+import { Episode } from "./types";
 
 interface Props {
   episode: Episode;
@@ -33,8 +34,12 @@ export default function EpisodeCard({ episode, onSelect }: Props) {
         {episode.description}
       </p>
       <span className="block mt-2 text-xs text-gray-400">
-        {new Date(episode.createdAt.toDate()).toLocaleDateString()}
+        {new Date(episode.published_at).toLocaleDateString()}
       </span>
     </button>
   );
 }
+
+// NOTE: A simple Episode type is co-located for now until Supabase types are ready.
+// This will be moved to a shared types file in a later refactor.
+export type { Episode };
