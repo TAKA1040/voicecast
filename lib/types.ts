@@ -2,6 +2,7 @@ export interface Episode {
   id: number;
   title: string;
   description: string | null;
+  thumbnail: string | null;
   genre: string | null;
   audio_url: string;
   created_at: string;
