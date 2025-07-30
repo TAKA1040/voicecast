@@ -27,7 +27,9 @@ export default function UserHomeClient({ initialEpisodes }: Props) {
     supabase
       .from("episodes")
       .select(
-        `id, title, description, thumbnail, duration, published_at as "publishedAt", audio_url as "audioUrl", genre`
+        .select(
+        `id, title, description, thumbnail, published_at, audio_url, genre`
+      )
       )
       .eq("genre", selectedGenre)
       .order("published_at", { ascending: false })
@@ -35,7 +37,9 @@ export default function UserHomeClient({ initialEpisodes }: Props) {
         if (error) {
           console.error("Genre fetch error", error);
         } else if (data) {
-          setEpisodes(data as Episode[]);
+          if (data) {
+            setEpisodes(data);
+          }
         }
       });
   }, [selectedGenre, initialEpisodes]);
