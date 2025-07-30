@@ -44,7 +44,7 @@ export default function UserHomeClient({ initialEpisodes }: Props) {
     <main className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Podcast Episodes</h1>
       <GenreFilter
-          genres={[...new Set(initialEpisodes.map((e) => e.genre).filter(Boolean))]}
+          genres={[...new Set(initialEpisodes.map((e) => e.genre).filter((g): g is string => !!g))]}
           selected={selectedGenre}
           onSelect={(g) => setSelectedGenre(g)}
         />
