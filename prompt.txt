@@ -1,57 +1,22 @@
-  GET https://voicecast-1souv91d5-takas-projects-ebc9ff02.vercel.app/?code=c3ed87a7-4eba-4a64-849d-ab17e3807ae0 404 (Not Found)
-_.Wy.redirect @ express-fte-utils.js:906
-rA @ express-fte-utils.js:1024
-_.sA @ express-fte-utils.js:1022
-_.iB @ express-fte-utils.js:1064
-（匿名） @ express-fte-utils.js:1062
-mva @ express-fte-utils.js:601
-lva @ express-fte-utils.js:598
-_.Kf.tb @ express-fte-utils.js:597
-mva @ express-fte-utils.js:601
-lva @ express-fte-utils.js:598
-_.Kf.callback @ express-fte-utils.js:598
-mva @ express-fte-utils.js:601
-lva @ express-fte-utils.js:598
-_.Kf.callback @ express-fte-utils.js:598
-（匿名） @ express-fte-utils.js:670
-ffa @ express-fte-utils.js:184
-Jwa.b.eD @ express-fte-utils.js:670
-gwa @ express-fte-utils.js:640
-_.g.Vz @ express-fte-utils.js:657
-hv.eU @ express-fte-utils.js:673
-_.g.cU @ express-fte-utils.js:625
-Gt @ express-fte-utils.js:552
-_.g.dispatchEvent @ express-fte-utils.js:550
-Qva @ express-fte-utils.js:619
-_.zu.OL @ express-fte-utils.js:618
-c @ express-fte-utils.js:719
-_.zu.UV @ express-fte-utils.js:618
-XMLHttpRequest.send
-_.g.send @ express-fte-utils.js:617
-_.g.transfer @ express-fte-utils.js:624
-wwa @ express-fte-utils.js:651
-rwa @ express-fte-utils.js:650
-jg.send @ express-fte-utils.js:646
-_.g.send @ express-fte-utils.js:639
-（匿名） @ express-fte-utils.js:671
-mva @ express-fte-utils.js:601
-lva @ express-fte-utils.js:598
-_.Kf.callback @ express-fte-utils.js:598
-（匿名） @ express-fte-utils.js:671
-ffa @ express-fte-utils.js:184
-Nwa @ express-fte-utils.js:671
-iv.sendRequest @ express-fte-utils.js:676
-_.hz.sendRequest @ express-fte-utils.js:920
-_.hB.start @ express-fte-utils.js:1062
-_.XWc @ ssl.gstatic.com/acco…4q,wyZ4Vd,C4utjd:52
-_.QM.identifier @ ssl.gstatic.com/acco…4q,wyZ4Vd,C4utjd:68
-a @ express-fte-utils.js:3744
-（匿名） @ express-fte.js:2
-requestIdleCallback.timeout @ express-fte.js:2
-favicon.ico:1  GET https://voicecast-1souv91d5-takas-projects-ebc9ff02.vercel.app/favicon.ico 404 (Not Found)
+Supabaseの認証設定は以下のとおりです：
+
+Site URL には
+https://voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app/auth/callback/
+が設定済みです（画面上は先頭のみ表示されていますが、実際にこのURLを登録しています）。
+
+Redirect URLs には、以下のURLが登録されています（合計7件）：
+
+bash
+コピーする
+編集する
+https://127.0.0.1:3000
+https://voicecast-lsouv91d5-takas-projects-ebc9ff02.vercel.app/login
+https://voicecast-lsouv91d5-takas-projects-ebc9ff02.vercel.app/user
+https://voicecast-lsouv91d5-takas-projects-ebc9ff02.vercel.app/admin
+https://voicecast-lsouv91d5-takas-projects-ebc9ff02.vercel.app
+https://voicecast.vercel.app/auth/callback/
+https://voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app/auth/callback/
 
 
-アドレスとパスワードではログイン確認
-
-Googleログインでは、ログイン画面までは行けたが、エラーが出た。
-今までのように、Googleアカウントも選べない状態ではなく、Googleアカウントを選択することはできた。
+エラー
+/login/?error=true:1 [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) <input id=​"password" required class=​"w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:​ring-indigo-500 focus:​border-indigo-500" placeholder=​"••••••••" type=​"password" value>​

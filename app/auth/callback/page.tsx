@@ -16,14 +16,29 @@ export default function AuthCallback() {
       const refreshToken = params.get('refresh_token')
 
       if (accessToken && refreshToken) {
-        await supabase.auth.setSession({
+        const { error: setSessionError } = await supabase.auth.setSession({
           access_token: accessToken,
           refresh_token: refreshToken,
         })
-        // Redirect to a protected route, e.g., /admin
-        router.push('/admin')
+
+        if (setSessionError) {
+          console.error('Error setting session:', setSessionError)
+          router.push('/login?error=true')
+          return
+        }
+
+        // セッション設定後、ユーザー情報を取得して認証状態を確認
+        const { data: { user }, error: getUserError } = await supabase.auth.getUser()
+
+        if (getUserError || !user) {
+          console.error('Error getting user after session set:', getUserError)
+          router.push('/login?error=true')
+        } else {
+          // 認証成功、/admin にリダイレクト
+          router.push('/admin')
+        }
       } else {
-        // Handle the case where tokens are not present, maybe redirect to an error page
+        // トークンがない場合、エラーページまたはログインページにリダイレクト
         router.push('/login?error=true')
       }
     }
