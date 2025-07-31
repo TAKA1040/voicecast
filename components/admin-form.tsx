@@ -117,15 +117,7 @@ export default function AdminForm({ user }: { user: User }) {
       const fileInput = document.getElementById('file-input') as HTMLInputElement
       if (fileInput) fileInput.value = ''
 
-      // エピソード一覧を更新 (useEffect内の fetchEpisodes を呼び出す)
-      // ここでは直接 fetchEpisodes を呼び出すのではなく、useEffect が再実行されるようにトリガーする
-      // ただし、今回は useEffect 内に fetchEpisodes を移動したので、
-      // フォーム送信後にエピソード一覧を更新するには、別途 fetchEpisodes を呼び出すか、
-      // setEpisodes を直接更新するロジックが必要になる。
-      // 簡単のため、ここではページをリロードするなどの対応はせず、
-      // ユーザーが手動で更新するか、別の方法でエピソード一覧を更新することを想定する。
-      // もしくは、handleSubmit 内で fetchEpisodes を呼び出すように変更する。
-      // 今回は、handleSubmit 内で fetchEpisodes を呼び出すように変更します。
+      // エピソード一覧を更新
       const { data: updatedEpisodes, error: fetchError } = await supabase
         .from('episodes')
         .select('*')
@@ -160,10 +152,10 @@ export default function AdminForm({ user }: { user: User }) {
       if (dbError) throw dbError
 
       // ストレージから音声ファイルを削除
-      // audio_urlからファイルパスを抽出する必要がある
-      const fileName = audioUrl.split('/').pop();
-      if (fileName) {
-        const filePath = `${user.id}/${fileName}`;
+      const decodedUrl = decodeURIComponent(audioUrl);
+      const filePath = decodedUrl.substring(decodedUrl.indexOf('/audios/') + '/audios/'.length);
+
+      if (filePath) {
         const { error: storageError } = await supabase.storage
           .from('audios')
           .remove([filePath])
