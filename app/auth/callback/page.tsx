@@ -10,18 +10,25 @@ export default function AuthCallback() {
   useEffect(() => {
     const handleAuthCallback = async () => {
       const supabase = createClient()
-      const { data: { session }, error: getSessionError } = await supabase.auth.getSession()
+      const url = new URL(window.location.href)
+      const code = url.searchParams.get('code')
 
       console.log('AuthCallback: Starting...')
-      console.log('AuthCallback: session =', session ? 'present' : 'not present', session)
-      console.log('AuthCallback: getSessionError =', getSessionError)
+      console.log('AuthCallback: code =', code ? 'present' : 'not present', code)
 
-      if (session) {
-        console.log('AuthCallback: Session obtained successfully. Redirecting to /admin.')
-        router.replace('/admin') // push の代わりに replace を使用
+      if (code) {
+        const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
+
+        if (exchangeError) {
+          console.error('AuthCallback: Error exchanging code for session:', exchangeError)
+          router.replace('/login?error=true')
+          return
+        }
+        console.log('AuthCallback: Code exchanged for session successfully. Redirecting to /admin.')
+        router.replace('/admin')
       } else {
-        console.error('AuthCallback: Session not present or error getting session:', getSessionError)
-        router.replace('/login?error=true') // push の代わりに replace を使用
+        console.error('AuthCallback: Code not present in URL.')
+        router.replace('/login?error=true')
       }
     }
 
