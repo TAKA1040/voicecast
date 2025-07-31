@@ -1,22 +1,57 @@
-CtrlF
-Running build in Washington, D.C., USA (East) – iad1
-Build machine configuration: 2 cores, 8 GB
-Cloning github.com/TAKA1040/voicecast (Branch: master, Commit: e2425dd)
-Skipping build cache, deployment was triggered without cache.
-Cloning completed: 1.435s
-Running "vercel build"
-Vercel CLI 44.6.4
-WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings
-Installing dependencies...
-npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
-npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
-npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
-npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
-npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
-npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
-added 584 packages in 15s
-154 packages are looking for funding
-  run `npm fund` for details
-Detected Next.js version: 14.2.4
-Running "npm run build"
-> voicecast@0.1.0 build
+  GET https://voicecast-1souv91d5-takas-projects-ebc9ff02.vercel.app/?code=c3ed87a7-4eba-4a64-849d-ab17e3807ae0 404 (Not Found)
+_.Wy.redirect @ express-fte-utils.js:906
+rA @ express-fte-utils.js:1024
+_.sA @ express-fte-utils.js:1022
+_.iB @ express-fte-utils.js:1064
+（匿名） @ express-fte-utils.js:1062
+mva @ express-fte-utils.js:601
+lva @ express-fte-utils.js:598
+_.Kf.tb @ express-fte-utils.js:597
+mva @ express-fte-utils.js:601
+lva @ express-fte-utils.js:598
+_.Kf.callback @ express-fte-utils.js:598
+mva @ express-fte-utils.js:601
+lva @ express-fte-utils.js:598
+_.Kf.callback @ express-fte-utils.js:598
+（匿名） @ express-fte-utils.js:670
+ffa @ express-fte-utils.js:184
+Jwa.b.eD @ express-fte-utils.js:670
+gwa @ express-fte-utils.js:640
+_.g.Vz @ express-fte-utils.js:657
+hv.eU @ express-fte-utils.js:673
+_.g.cU @ express-fte-utils.js:625
+Gt @ express-fte-utils.js:552
+_.g.dispatchEvent @ express-fte-utils.js:550
+Qva @ express-fte-utils.js:619
+_.zu.OL @ express-fte-utils.js:618
+c @ express-fte-utils.js:719
+_.zu.UV @ express-fte-utils.js:618
+XMLHttpRequest.send
+_.g.send @ express-fte-utils.js:617
+_.g.transfer @ express-fte-utils.js:624
+wwa @ express-fte-utils.js:651
+rwa @ express-fte-utils.js:650
+jg.send @ express-fte-utils.js:646
+_.g.send @ express-fte-utils.js:639
+（匿名） @ express-fte-utils.js:671
+mva @ express-fte-utils.js:601
+lva @ express-fte-utils.js:598
+_.Kf.callback @ express-fte-utils.js:598
+（匿名） @ express-fte-utils.js:671
+ffa @ express-fte-utils.js:184
+Nwa @ express-fte-utils.js:671
+iv.sendRequest @ express-fte-utils.js:676
+_.hz.sendRequest @ express-fte-utils.js:920
+_.hB.start @ express-fte-utils.js:1062
+_.XWc @ ssl.gstatic.com/acco…4q,wyZ4Vd,C4utjd:52
+_.QM.identifier @ ssl.gstatic.com/acco…4q,wyZ4Vd,C4utjd:68
+a @ express-fte-utils.js:3744
+（匿名） @ express-fte.js:2
+requestIdleCallback.timeout @ express-fte.js:2
+favicon.ico:1  GET https://voicecast-1souv91d5-takas-projects-ebc9ff02.vercel.app/favicon.ico 404 (Not Found)
+
+
+アドレスとパスワードではログイン確認
+
+Googleログインでは、ログイン画面までは行けたが、エラーが出た。
+今までのように、Googleアカウントも選べない状態ではなく、Googleアカウントを選択することはできた。
