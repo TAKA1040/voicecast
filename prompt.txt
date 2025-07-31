@@ -1,22 +1,8 @@
-Supabaseの認証設定は以下のとおりです：
-
-Site URL には
-https://voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app/auth/callback/
-が設定済みです（画面上は先頭のみ表示されていますが、実際にこのURLを登録しています）。
-
-Redirect URLs には、以下のURLが登録されています（合計7件）：
-
-bash
-コピーする
-編集する
-https://127.0.0.1:3000
-https://voicecast-lsouv91d5-takas-projects-ebc9ff02.vercel.app/login
-https://voicecast-lsouv91d5-takas-projects-ebc9ff02.vercel.app/user
-https://voicecast-lsouv91d5-takas-projects-ebc9ff02.vercel.app/admin
-https://voicecast-lsouv91d5-takas-projects-ebc9ff02.vercel.app
-https://voicecast.vercel.app/auth/callback/
-https://voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app/auth/callback/
-
-
-エラー
 /login/?error=true:1 [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) <input id=​"password" required class=​"w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:​ring-indigo-500 focus:​border-indigo-500" placeholder=​"••••••••" type=​"password" value>​
+
+
+sb-emkxinzasmmhwxfgagyh-auth-token.0	%7B%22access_token%22%3A%22eyJhbGciOiJIUzI1NiIsImtpZCI6ImwwNHdFbW01MUJ6L3VqVEYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2Vta3hpbnphc21taHd4ZmdhZ3loLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJmZGI1NzJmYi1iNjVmLTQ4MTgtODYyNi02MTZkNjZlYmM5NzQiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzUzOTM0MTI0LCJpYXQiOjE3NTM5MzA1MjQsImVtYWlsIjoiZGFzaDIwMTIwNkBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6Imdvb2dsZSIsInByb3ZpZGVycyI6WyJnb29nbGUiXX0sInVzZXJfbWV0YWRhdGEiOnsiYXZhdGFyX3VybCI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0xKQ3R5TEtjU0l3X0ZiWlVFdEo1SkRSbjlYc2FfazBob0JuaU9OVHp0V3RZQzVvQT1zOTYtYyIsImVtYWlsIjoiZGFzaDIwMTIwNkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZnVsbF9uYW1lIjoi5ZCI5ZCM5Lya56S-REFTSCIsImlzcyI6Imh0dHBzOi8vYWNjb3VudHMuZ29vZ2xlLmNvbSIsIm5hbWUiOiLlkIjlkIzkvJrnpL5EQVNIIiwicGhvbmVfdmVyaWZpZWQiOmZhbHNlLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTEpDdHlMS2NTSXdfRmJaVUV0SjVKRFJuOVhzYV9rMGhvQm5pT05UenRXdFlDNW9BPXM5Ni1jIiwicHJvdmlkZXJfaWQiOiIxMTUyNjY5NjgyMjk2MzM0NDE4NDciLCJzdWIiOiIxMTUyNjY5NjgyMjk2MzM0NDE4NDcifSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJvYXV0aCIsInRpbWVzdGFtcCI6MTc1MzkzMDUyNH1dLCJzZXNzaW9uX2lkIjoiYzQ5N2M1YzQtOWJhMC00MDY5LTliZmYtMDEyNzQ1NTUxNzdiIiwiaXNfYW5vbnltb3VzIjpmYWxzZX0.yVR9SfdrLdTw0AJgWPHPG730QW0F5p0VYI1HJOedx_g%22%2C%22token_type%22%3A%22bearer%22%2C%22expires_in%22%3A3600%2C%22expires_at%22%3A1753934124%2C%22refresh_token%22%3A%227mg2quufdpsl%22%2C%22user%22%3A%7B%22id%22%3A%22fdb572fb-b65f-4818-8626-616d66ebc974%22%2C%22aud%22%3A%22authenticated%22%2C%22role%22%3A%22authenticated%22%2C%22email%22%3A%22dash201206%40gmail.com%22%2C%22email_confirmed_at%22%3A%222025-07-23T14%3A08%3A08.172409Z%22%2C%22phone%22%3A%22%22%2C%22confirmed_at%22%3A%222025-07-23T14%3A08%3A08.172409Z%22%2C%22last_sign_in_at%22%3A%222025-07-31T02%3A55%3A24.792054838Z%22%2C%22app_metadata%22%3A%7B%22provider%22%3A%22google%22%2C%22providers%22%3A%5B%22google%22%5D%7D%2C%22user_metadata%22%3A%7B%22avatar_url%22%3A%22https%3A%2F%2Flh3.googleusercontent.com%2Fa%2FACg8ocLJCtyLKcSIw_FbZUEtJ5JDRn9Xsa_k0hoBniONTztWtYC5oA%3Ds96-c%22%2C%22email%22%3A%22dash201206%40gmail.com%22%2C%22email_verified%22%3Atrue%2C%22full_name%22%3A%22%E5%90%88%E5%90%8C%E4%BC%9A%E7%A4%BEDASH%22%2C%22iss%22%3A%22https%3A%2F%2Faccounts.google.com%22%2C%22name%22%3A%22%E5%90%88%E5%90%8C%E4%BC%9A%E7%A4%BEDASH%22%2C%22phone_verified%22%3Afalse%2C%22picture%22%3A%22https%3A%2F%2Flh3.googleusercontent.com%2Fa%2FACg8ocLJCtyLKcSIw_FbZUEtJ5JDRn9Xsa_k0hoBniONTztWtYC5oA%3Ds96-c%22%2C%22provider_id%22%3A%22115266968229633441847%22%2C%22sub%22%3A%22115266968229633441847%22%7D%2C%22identities%22%3A%5B%7B%22identity_id%22%3A%22de20dcad-b07e-4790-aabc-dc3fcc7b6b77%22%2C%22id%22%3A%22115266968229633441847%22%2C%22user_id%22%3A%22fdb572fb-b65f-4818-8626-616d66ebc974%22%2C%22identity_data%22%3A%7B%22avatar_url%22%3A%22https%3A%2F%2Flh3.googleusercontent.com%2Fa%2FACg8ocLJCtyLKcSIw_FbZUEtJ5JDRn9Xsa_k0hoBniONTztWtYC5oA%3Ds96-c%22%2C%22email%22%3A%22dash201206%40gmail.com%22%2C%22email_verified%22%3Atrue%2C%22full_name%22%3A%22%E5%90%88%E5%90%8C%E4%BC%9A%E7%A4%BEDASH%22%2C%22iss%22%3A%22https%3A%2F	voicecast.vercel.app	/	2026-09-04T02:55:24.871Z	3215			Lax			Medium
+sb-emkxinzasmmhwxfgagyh-auth-token.1	%2Faccounts.google.com%22%2C%22name%22%3A%22%E5%90%88%E5%90%8C%E4%BC%9A%E7%A4%BEDASH%22%2C%22phone_verified%22%3Afalse%2C%22picture%22%3A%22https%3A%2F%2Flh3.googleusercontent.com%2Fa%2FACg8ocLJCtyLKcSIw_FbZUEtJ5JDRn9Xsa_k0hoBniONTztWtYC5oA%3Ds96-c%22%2C%22provider_id%22%3A%22115266968229633441847%22%2C%22sub%22%3A%22115266968229633441847%22%7D%2C%22provider%22%3A%22google%22%2C%22last_sign_in_at%22%3A%222025-07-23T14%3A08%3A08.167613Z%22%2C%22created_at%22%3A%222025-07-23T14%3A08%3A08.167666Z%22%2C%22updated_at%22%3A%222025-07-31T02%3A55%3A24.303405Z%22%2C%22email%22%3A%22dash201206%40gmail.com%22%7D%5D%2C%22created_at%22%3A%222025-07-23T14%3A08%3A08.163135Z%22%2C%22updated_at%22%3A%222025-07-31T02%3A55%3A24.794497Z%22%2C%22is_anonymous%22%3Afalse%7D%2C%22provider_token%22%3A%22ya29.a0AS3H6Nxed7-lNs3mppjkj0F6iZHEW0PufYBko4qyF4WKLiIFu15nP19JzZmeML4RkjtgFCXoR-6y1rrE58_FludN7BgnXK41bqDPV3IHHmH3kxVv1_0Iag8gNgPud9OQY_E62JnLs3JyhJcTdaQ4zeMGJkXyfXeFcichhS5_RwaCgYKAd4SARMSFQHGX2Mi1rsSAdan5sUHUpzwuuqLuw0177%22%7D	voicecast.vercel.app	/	2026-09-04T02:55:24.871Z	1056			Lax			Mediu
+
+
+アカウントを選択後に再びログイン画面に戻る状態は変わりません。

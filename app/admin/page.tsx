@@ -35,8 +35,10 @@ export default function AdminPage() {
     return <div>Loading...</div>
   }
 
+  // ユーザーが認証されていない場合はログインページへリダイレクト
   if (!user) {
-    return null // or a redirect component
+    router.push('/login')
+    return null // リダイレクト中に何も表示しない
   }
 
   return (
@@ -47,11 +49,11 @@ export default function AdminPage() {
             onClick={handleLogout}
             className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
           >
-            ログアウト
-          </button>
+              ログアウト
+            </button>
+          </div>
+          <AdminForm user={user} />
         </div>
-        <AdminForm user={user} />
       </div>
-    </div>
-  )
-}
+    )
+  }
