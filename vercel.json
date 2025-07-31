@@ -1,2 +1,49 @@
 {
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/admin",
+      "destination": "/admin/index.html"
+    },
+    {
+      "source": "/admin/",
+      "destination": "/admin/index.html"
+    },
+    {
+      "source": "/auth/callback",
+      "destination": "/auth/callback/index.html"
+    },
+    {
+      "source": "/auth/callback/",
+      "destination": "/auth/callback/index.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/login/index.html"
+    },
+    {
+      "source": "/login/",
+      "destination": "/login/index.html"
+    },
+    {
+      "source": "/health",
+      "destination": "/health/index.html"
+    },
+    {
+      "source": "/health/",
+      "destination": "/health/index.html"
+    },
+    {
+      "source": "/_not-found",
+      "destination": "/_not-found/index.html"
+    },
+    {
+      "source": "/_not-found/",
+      "destination": "/_not-found/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/$1"
+    }
+  ]
 }
