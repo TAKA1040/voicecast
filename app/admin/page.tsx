@@ -14,41 +14,31 @@ export default function AdminPage() {
   useEffect(() => {
     const supabase = createClient()
 
-    // onAuthStateChange を使用して認証状態の変化をリッスン
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       console.log('AdminPage: onAuthStateChange event:', event, 'session:', session ? 'present' : 'not present', session);
       if (session) {
         setUser(session.user)
-        setLoading(false) // ユーザーが認証されたらローディングを終了
       } else {
         setUser(null)
-        // セッションがない場合、ログインページへリダイレクト
-        // ただし、初回ロード時にセッションがまだ確立されていない可能性があるので、
-        // loadingがfalseになってからリダイレクトする
-        if (!loading) { // loadingがfalseになった後のみリダイレクト
-          console.log('AdminPage: Redirecting to /login due to no session and not loading.');
-          router.push('/login')
-        }
       }
+      setLoading(false) // Loading is done once the auth state is determined by onAuthStateChange
     })
-
-    // コンポーネントがマウントされた時点で現在の認証状態を一度だけ確認
-    // onAuthStateChange がすぐに発火しない場合のフォールバック
-    supabase.auth.getSession().then(({ data: { session }, error }) => {
-      console.log('AdminPage: Initial getSession check. session:', session ? 'present' : 'not present', session, 'error:', error);
-      if (session) {
-        setUser(session.user);
-      } else if (error) {
-        console.error('AdminPage: Error during initial getSession:', error);
-      }
-      setLoading(false); // 初期セッションチェックが完了したらローディングを終了
-    });
-
 
     return () => {
       subscription.unsubscribe()
     }
-  }, [router, loading]) // loading を依存配列に追加して、loading の変化を監視
+  }, []) // Empty dependency array to run once on mount
+
+  // Redirect logic based on user and loading state
+  useEffect(() => {
+    if (!loading && !user) {
+      console.log('AdminPage: Redirecting to /login because not loading and user is null.');
+      // Add a small delay to allow state updates to propagate
+      setTimeout(() => {
+        router.push('/login');
+      }, 50); // 50ms delay
+    }
+  }, [loading, user, router]); // Depend on loading, user, and router
 
   const handleLogout = async () => {
     const supabase = createClient()
@@ -61,11 +51,9 @@ export default function AdminPage() {
     return <div>Loading...</div>
   }
 
-  // ユーザーが認証されていない場合はログインページへリダイレクト
-  // onAuthStateChange でリダイレクトされるため、ここでは何も表示しない
   if (!user) {
-    console.log('AdminPage: User not present, returning null.');
-    return null;
+    console.log('AdminPage: User is null after loading, returning null (should be redirected by useEffect). ');
+    return null; // Should be caught by the redirect useEffect
   }
 
   return (
