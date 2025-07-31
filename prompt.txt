@@ -1,9 +1,14 @@
-_vercel_jwt	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJUR0p5aGQ5VzVYd1gxQnFmeGVMSWZSc2wiLCJpYXQiOjE3NTM5MzA3NjYsIm93bmVySWQiOiJ0ZWFtX1ViQXZRbk11NE13cjZFRjgzZHRHazV6biIsImF1ZCI6InZvaWNlY2FzdC1xOW5pbnBseG0tdGFrYXMtcHJvamVjdHMtZWJjOWZmMDIudmVyY2VsLmFwcCIsInVzZXJuYW1lIjoidGFrYTEwNDAiLCJzdWIiOiJzc28tcHJvdGVjdGlvbiJ9.WPANVx6_9ARNRgtNFSiW-1A55kioGLgh2zEVTswAK3I	voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app	/	2025-10-29T02:59:26.141Z	364	✓	✓	Lax			Medium
+https://voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app/auth/callback/
+登録されているsiteURL
+
+承認済みの JavaScript 生成元（JavaScript origins）
+https://voicecast-firebase.web.app
+https://voicecast-firebase.firebaseapp.com
+
+✅ 承認済みのリダイレクト URI（Redirect URIs）
+
+https://voicecast-firebase.firebaseapp.com/__/auth/handler
+https://voicecast-firebase.web.app/__/auth/handler
+https://emkxinzasmmhwxfgayh.supabase.co/auth/v1/callback  ⇐今追加した
 
 
-/favicon.ico:1  Failed to load resource: the server responded with a status of 404 ()
-login/:1 [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) <input id=​"password" required class=​"w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:​ring-indigo-500 focus:​border-indigo-500" placeholder=​"••••••••" type=​"password" value>​
-
-
-戻ったアドレス
-https://voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app/login/?error=true

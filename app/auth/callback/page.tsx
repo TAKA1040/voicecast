@@ -17,8 +17,8 @@ export default function AuthCallback() {
 
       console.log('AuthCallback: Starting...')
       console.log('AuthCallback: hash =', hash)
-      console.log('AuthCallback: accessToken =', accessToken ? 'present' : 'not present')
-      console.log('AuthCallback: refreshToken =', refreshToken ? 'present' : 'not present')
+      console.log('AuthCallback: accessToken =', accessToken ? 'present' : 'not present', accessToken) // accessTokenの値をログに出力
+      console.log('AuthCallback: refreshToken =', refreshToken ? 'present' : 'not present', refreshToken) // refreshTokenの値をログに出力
 
       if (accessToken && refreshToken) {
         const { error: setSessionError } = await supabase.auth.setSession({
