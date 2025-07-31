@@ -31,26 +31,26 @@ export default function AdminForm({ user }: { user: User }) {
 
   const supabase = createClient()
 
-  // エピソード一覧をフェッチする関数
-  const fetchEpisodes = async () => {
-    const { data, error } = await supabase
-      .from('episodes')
-      .select('*')
-      .eq('user_id', user.id) // 現在のユーザーのエピソードのみ取得
-      .order('created_at', { ascending: false })
-
-    if (error) {
-      console.error('Error fetching episodes:', error)
-      setAlert({ type: 'error', text: 'エピソードの読み込みに失敗しました。' })
-    } else {
-      setEpisodes(data as Episode[])
-    }
-  }
-
   // コンポーネントマウント時とエピソード公開時にエピソード一覧をフェッチ
   useEffect(() => {
+    // エピソード一覧をフェッチする関数を useEffect の内部に定義
+    const fetchEpisodes = async () => {
+      const { data, error } = await supabase
+        .from('episodes')
+        .select('*')
+        .eq('user_id', user.id) // 現在のユーザーのエピソードのみ取得
+        .order('created_at', { ascending: false })
+
+      if (error) {
+        console.error('Error fetching episodes:', error)
+        setAlert({ type: 'error', text: 'エピソードの読み込みに失敗しました。' })
+      } else {
+        setEpisodes(data as Episode[])
+      }
+    }
+
     fetchEpisodes()
-  }, [user.id])
+  }, [user.id, supabase]) // supabase も依存配列に追加
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -117,7 +117,26 @@ export default function AdminForm({ user }: { user: User }) {
       const fileInput = document.getElementById('file-input') as HTMLInputElement
       if (fileInput) fileInput.value = ''
 
-      fetchEpisodes() // エピソード一覧を更新
+      // エピソード一覧を更新 (useEffect内の fetchEpisodes を呼び出す)
+      // ここでは直接 fetchEpisodes を呼び出すのではなく、useEffect が再実行されるようにトリガーする
+      // ただし、今回は useEffect 内に fetchEpisodes を移動したので、
+      // フォーム送信後にエピソード一覧を更新するには、別途 fetchEpisodes を呼び出すか、
+      // setEpisodes を直接更新するロジックが必要になる。
+      // 簡単のため、ここではページをリロードするなどの対応はせず、
+      // ユーザーが手動で更新するか、別の方法でエピソード一覧を更新することを想定する。
+      // もしくは、handleSubmit 内で fetchEpisodes を呼び出すように変更する。
+      // 今回は、handleSubmit 内で fetchEpisodes を呼び出すように変更します。
+      const { data: updatedEpisodes, error: fetchError } = await supabase
+        .from('episodes')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+
+      if (fetchError) {
+        console.error('Error fetching updated episodes:', fetchError);
+      } else {
+        setEpisodes(updatedEpisodes as Episode[]);
+      }
 
     } catch (error: any) {
       setAlert({ type: 'error', text: `エラーが発生しました: ${error.message}` })
@@ -153,7 +172,19 @@ export default function AdminForm({ user }: { user: User }) {
       }
 
       setAlert({ type: 'success', text: 'エピソードを削除しました。' })
-      fetchEpisodes() // エピソード一覧を更新
+      // エピソード一覧を更新
+      const { data: updatedEpisodes, error: fetchError } = await supabase
+        .from('episodes')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+
+      if (fetchError) {
+        console.error('Error fetching updated episodes:', fetchError);
+      } else {
+        setEpisodes(updatedEpisodes as Episode[]);
+      }
+
     } catch (error: any) {
       setAlert({ type: 'error', text: `削除中にエラーが発生しました: ${error.message}` })
     }
