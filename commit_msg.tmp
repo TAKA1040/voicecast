@@ -1,1 +1,1 @@
-Fix .gitignore and remove node_modules from index
+fix: Add firebase package to dependencies
