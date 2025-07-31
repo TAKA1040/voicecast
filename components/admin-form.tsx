@@ -38,7 +38,6 @@ export default function AdminForm({ user }: { user: User }) {
       const { data, error } = await supabase
         .from('episodes')
         .select('*')
-        .eq('user_id', user.id) // 現在のユーザーのエピソードのみ取得
         .order('created_at', { ascending: false })
 
       if (error) {
