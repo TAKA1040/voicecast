@@ -1,12 +1,37 @@
-Supabaseの設定をみると
+https://voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app/login/?error=true
 
-Callback URL (for OAuth)
-https://emkxinzasmmhwxfgagyh.supabase.co/auth/v1/callback
-
-こうなってる
-何か関係ある？
-
-エラーはいつも通り⇓
-/favicon.ico:1  GET https://voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app/favicon.ico 404 (Not Found)
 /login/?error=true:1 [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) <input id=​"password" required class=​"w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:​ring-indigo-500 focus:​border-indigo-500" placeholder=​"••••••••" type=​"password" value>​
 favicon.ico:1  GET https://voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app/favicon.ico 404 (Not Found)
+
+
+_vercel_jwt	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJUR0p5aGQ5VzVYd1gxQnFmeGVMSWZSc2wiLCJpYXQiOjE3NTM5MzA3NjYsIm93bmVySWQiOiJ0ZWFtX1ViQXZRbk11NE13cjZFRjgzZHRHazV6biIsImF1ZCI6InZvaWNlY2FzdC1xOW5pbnBseG0tdGFrYXMtcHJvamVjdHMtZWJjOWZmMDIudmVyY2VsLmFwcCIsInVzZXJuYW1lIjoidGFrYTEwNDAiLCJzdWIiOiJzc28tcHJvdGVjdGlvbiJ9.WPANVx6_9ARNRgtNFSiW-1A55kioGLgh2zEVTswAK3I	voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app	/	2025-10-29T02:59:26.141Z	364	✓	✓	Lax			Medium
+sb-emkxinzasmmhwxfgagyh-auth-token.0	%7B%22access_token%22%3A%22eyJhbGciOiJIUzI1NiIsImtpZCI6ImwwNHdFbW01MUJ6L3VqVEYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2Vta3hpbnphc21taHd4ZmdhZ3loLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJmZGI1NzJmYi1iNjVmLTQ4MTgtODYyNi02MTZkNjZlYmM5NzQiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzUzOTM1ODU3LCJpYXQiOjE3NTM5MzIyNTcsImVtYWlsIjoiZGFzaDIwMTIwNkBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6Imdvb2dsZSIsInByb3ZpZGVycyI6WyJnb29nbGUiXX0sInVzZXJfbWV0YWRhdGEiOnsiYXZhdGFyX3VybCI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0xKQ3R5TEtjU0l3X0ZiWlVFdEo1SkRSbjlYc2FfazBob0JuaU9OVHp0V3RZQzVvQT1zOTYtYyIsImVtYWlsIjoiZGFzaDIwMTIwNkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZnVsbF9uYW1lIjoi5ZCI5ZCM5Lya56S-REFTSCIsImlzcyI6Imh0dHBzOi8vYWNjb3VudHMuZ29vZ2xlLmNvbSIsIm5hbWUiOiLlkIjlkIzkvJrnpL5EQVNIIiwicGhvbmVfdmVyaWZpZWQiOmZhbHNlLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTEpDdHlMS2NTSXdfRmJaVUV0SjVKRFJuOVhzYV9rMGhvQm5pT05UenRXdFlDNW9BPXM5Ni1jIiwicHJvdmlkZXJfaWQiOiIxMTUyNjY5NjgyMjk2MzM0NDE4NDciLCJzdWIiOiIxMTUyNjY5NjgyMjk2MzM0NDE4NDcifSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJvYXV0aCIsInRpbWVzdGFtcCI6MTc1MzkzMjI1N31dLCJzZXNzaW9uX2lkIjoiMmZhMjk4MDgtYzAzZi00MDBkLWEyMmMtYmRiMGQ5YmUxYWRhIiwiaXNfYW5vbnltb3VzIjpmYWxzZX0.01XpinakUJgGK4RIshVhs7PikDe4zMJp5ar15himh_g%22%2C%22token_type%22%3A%22bearer%22%2C%22expires_in%22%3A3600%2C%22expires_at%22%3A1753935857%2C%22refresh_token%22%3A%22bd6jwztidvaf%22%2C%22user%22%3A%7B%22id%22%3A%22fdb572fb-b65f-4818-8626-616d66ebc974%22%2C%22aud%22%3A%22authenticated%22%2C%22role%22%3A%22authenticated%22%2C%22email%22%3A%22dash201206%40gmail.com%22%2C%22email_confirmed_at%22%3A%222025-07-23T14%3A08%3A08.172409Z%22%2C%22phone%22%3A%22%22%2C%22confirmed_at%22%3A%222025-07-23T14%3A08%3A08.172409Z%22%2C%22last_sign_in_at%22%3A%222025-07-31T03%3A24%3A17.354259775Z%22%2C%22app_metadata%22%3A%7B%22provider%22%3A%22google%22%2C%22providers%22%3A%5B%22google%22%5D%7D%2C%22user_metadata%22%3A%7B%22avatar_url%22%3A%22https%3A%2F%2Flh3.googleusercontent.com%2Fa%2FACg8ocLJCtyLKcSIw_FbZUEtJ5JDRn9Xsa_k0hoBniONTztWtYC5oA%3Ds96-c%22%2C%22email%22%3A%22dash201206%40gmail.com%22%2C%22email_verified%22%3Atrue%2C%22full_name%22%3A%22%E5%90%88%E5%90%8C%E4%BC%9A%E7%A4%BEDASH%22%2C%22iss%22%3A%22https%3A%2F%2Faccounts.google.com%22%2C%22name%22%3A%22%E5%90%88%E5%90%8C%E4%BC%9A%E7%A4%BEDASH%22%2C%22phone_verified%22%3Afalse%2C%22picture%22%3A%22https%3A%2F%2Flh3.googleusercontent.com%2Fa%2FACg8ocLJCtyLKcSIw_FbZUEtJ5JDRn9Xsa_k0hoBniONTztWtYC5oA%3Ds96-c%22%2C%22provider_id%22%3A%22115266968229633441847%22%2C%22sub%22%3A%22115266968229633441847%22%7D%2C%22identities%22%3A%5B%7B%22identity_id%22%3A%22de20dcad-b07e-4790-aabc-dc3fcc7b6b77%22%2C%22id%22%3A%22115266968229633441847%22%2C%22user_id%22%3A%22fdb572fb-b65f-4818-8626-616d66ebc974%22%2C%22identity_data%22%3A%7B%22avatar_url%22%3A%22https%3A%2F%2Flh3.googleusercontent.com%2Fa%2FACg8ocLJCtyLKcSIw_FbZUEtJ5JDRn9Xsa_k0hoBniONTztWtYC5oA%3Ds96-c%22%2C%22email%22%3A%22dash201206%40gmail.com%22%2C%22email_verified%22%3Atrue%2C%22full_name%22%3A%22%E5%90%88%E5%90%8C%E4%BC%9A%E7%A4%BEDASH%22%2C%22iss%22%3A%22https%3A%2F	voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app	/	2026-09-04T03:24:17.437Z	3215			Lax			Medium
+sb-emkxinzasmmhwxfgagyh-auth-token.1	%2Faccounts.google.com%22%2C%22name%22%3A%22%E5%90%88%E5%90%8C%E4%BC%9A%E7%A4%BEDASH%22%2C%22phone_verified%22%3Afalse%2C%22picture%22%3A%22https%3A%2F%2Flh3.googleusercontent.com%2Fa%2FACg8ocLJCtyLKcSIw_FbZUEtJ5JDRn9Xsa_k0hoBniONTztWtYC5oA%3Ds96-c%22%2C%22provider_id%22%3A%22115266968229633441847%22%2C%22sub%22%3A%22115266968229633441847%22%7D%2C%22provider%22%3A%22google%22%2C%22last_sign_in_at%22%3A%222025-07-23T14%3A08%3A08.167613Z%22%2C%22created_at%22%3A%222025-07-23T14%3A08%3A08.167666Z%22%2C%22updated_at%22%3A%222025-07-31T03%3A24%3A16.753327Z%22%2C%22email%22%3A%22dash201206%40gmail.com%22%7D%5D%2C%22created_at%22%3A%222025-07-23T14%3A08%3A08.163135Z%22%2C%22updated_at%22%3A%222025-07-31T03%3A24%3A17.357896Z%22%2C%22is_anonymous%22%3Afalse%7D%2C%22provider_token%22%3A%22ya29.a0AS3H6NwOqZzViSWCxicDJhgySeiCEZhYS31m7QIotpJtTGEWkExFwgnDUc3zV32JqAMFHVqjCbwDOt0-mD0rj-ipMDYRyR4ymiq5acMSDk0ee6AZOgfdZMQq3EkH6-30atC6rHMDTEwixY0csfCwNPyKWW0y172x9nXUZU9E-QaCgYKAfcSARMSFQHGX2MioJGqLZ4Ct4KroA-cLhxjEg0177%22%7D	voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app	/	2026-09-04T03:24:17.438Z	1056			Lax			Medium
+
+違うプラウザでやった結果
+10bb5bc5d2028eca.js?dpl=dpl_AY9nPZvpttieprwA5GjpLkXQ7J2L:3 Check out our code here: https://vercel.com/oss
+10bb5bc5d2028eca.js?dpl=dpl_AY9nPZvpttieprwA5GjpLkXQ7J2L:3 Have a great day! 📣🐢
+e3767afc87666e31.js?dpl=dpl_AY9nPZvpttieprwA5GjpLkXQ7J2L:20 Deprecated API for given entry type.
+(anonymous) @ e3767afc87666e31.js?dpl=dpl_AY9nPZvpttieprwA5GjpLkXQ7J2L:20
+/api/jwt:1  Failed to load resource: the server responded with a status of 403 ()
+login:1 The request has been aborted.
+ca5dc25a404b4305.js?dpl=dpl_AY9nPZvpttieprwA5GjpLkXQ7J2L:3 [GSI_LOGGER]: FedCM get() rejects with AbortError: signal is aborted without reason
+console.error @ ca5dc25a404b4305.js?dpl=dpl_AY9nPZvpttieprwA5GjpLkXQ7J2L:3
+946efa50293aa0d9.js?dpl=dpl_AY9nPZvpttieprwA5GjpLkXQ7J2L:3 Cross-Origin-Opener-Policy policy would block the window.closed call.
+(anonymous) @ 946efa50293aa0d9.js?dpl=dpl_AY9nPZvpttieprwA5GjpLkXQ7J2L:3
+946efa50293aa0d9.js?dpl=dpl_AY9nPZvpttieprwA5GjpLkXQ7J2L:3 Cross-Origin-Opener-Policy policy would block the window.closed call.
+(anonymous) @ 946efa50293aa0d9.js?dpl=dpl_AY9nPZvpttieprwA5GjpLkXQ7J2L:3
+946efa50293aa0d9.js?dpl=dpl_AY9nPZvpttieprwA5GjpLkXQ7J2L:3 Cross-Origin-Opener-Policy policy would block the window.closed call.
+(anonymous) @ 946efa50293aa0d9.js?dpl=dpl_AY9nPZvpttieprwA5GjpLkXQ7J2L:3
+946efa50293aa0d9.js?dpl=dpl_AY9nPZvpttieprwA5GjpLkXQ7J2L:3 Cross-Origin-Opener-Policy policy would block the window.closed call.
+(anonymous) @ 946efa50293aa0d9.js?dpl=dpl_AY9nPZvpttieprwA5GjpLkXQ7J2L:3
+00b9e8c17248fc61.js?dpl=dpl_AY9nPZvpttieprwA5GjpLkXQ7J2L:202 Cross-Origin-Opener-Policy policy would block the window.location call.
+(anonymous) @ 00b9e8c17248fc61.js?dpl=dpl_AY9nPZvpttieprwA5GjpLkXQ7J2L:202
+00b9e8c17248fc61.js?dpl=dpl_AY9nPZvpttieprwA5GjpLkXQ7J2L:202 Cross-Origin-Opener-Policy policy would block the window.location call.
+(anonymous) @ 00b9e8c17248fc61.js?dpl=dpl_AY9nPZvpttieprwA5GjpLkXQ7J2L:202
+
+戻ったアドレス
+https://vercel.com/login?next=%2Fsso-api%3Furl%3Dhttps%253A%252F%252Fvoicecast-1p4u8dja2-takas-projects-ebc9ff02.vercel.app%252Flogin%26nonce%3D8dae3f46e6790d751b7fda5b68c1efbfc0dc8e2850fdc9c754e492957277cb68
+
+あと、プラウザを変えると、ログイン画面時代も違った。
+

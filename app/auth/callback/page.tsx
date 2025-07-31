@@ -10,34 +10,18 @@ export default function AuthCallback() {
   useEffect(() => {
     const handleAuthCallback = async () => {
       const supabase = createClient()
-      const hash = window.location.hash
-      const params = new URLSearchParams(hash.substring(1)) // Remove the leading '#'
-      const accessToken = params.get('access_token')
-      const refreshToken = params.get('refresh_token')
+      const { data: { session }, error: getSessionError } = await supabase.auth.getSession()
 
       console.log('AuthCallback: Starting...')
-      console.log('AuthCallback: hash =', hash)
-      console.log('AuthCallback: accessToken =', accessToken ? 'present' : 'not present', accessToken)
-      console.log('AuthCallback: refreshToken =', refreshToken ? 'present' : 'not present', refreshToken)
+      console.log('AuthCallback: session =', session ? 'present' : 'not present', session)
+      console.log('AuthCallback: getSessionError =', getSessionError)
 
-      if (accessToken && refreshToken) {
-        const { error: setSessionError } = await supabase.auth.setSession({
-          access_token: accessToken,
-          refresh_token: refreshToken,
-        })
-
-        if (setSessionError) {
-          console.error('AuthCallback: Error setting session:', setSessionError)
-          router.push('/login?error=true')
-          return
-        }
-        console.log('AuthCallback: Session set successfully. Redirecting to /admin.')
-        // セッション設定後、直接 /admin にリダイレクト
-        router.push('/admin')
+      if (session) {
+        console.log('AuthCallback: Session obtained successfully. Redirecting to /admin.')
+        router.replace('/admin') // push の代わりに replace を使用
       } else {
-        console.error('AuthCallback: Access token or refresh token not present.')
-        // トークンがない場合、エラーページまたはログインページにリダイレクト
-        router.push('/login?error=true')
+        console.error('AuthCallback: Session not present or error getting session:', getSessionError)
+        router.replace('/login?error=true') // push の代わりに replace を使用
       }
     }
 
