@@ -13,30 +13,38 @@ export default function AdminPage() {
 
   useEffect(() => {
     const supabase = createClient()
+
+    // onAuthStateChange を使用して認証状態の変化をリッスン
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('AdminPage: onAuthStateChange event:', event, 'session:', session ? 'present' : 'not present');
       if (session) {
         setUser(session.user)
+        setLoading(false) // ユーザーが認証されたらローディングを終了
       } else {
         setUser(null)
-        router.push('/login') // 認証されていない場合はログインページへリダイレクト
+        // セッションがない場合、ログインページへリダイレクト
+        // ただし、初回ロード時にセッションがまだ確立されていない可能性があるので、
+        // loadingがfalseになってからリダイレクトする
+        if (!loading) { // loadingがfalseになった後のみリダイレクト
+          router.push('/login')
+        }
       }
-      setLoading(false)
     })
 
-    // 初期ロード時の認証状態を確認
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) {
-        setUser(user)
-      } else {
-        router.push('/login')
+    // コンポーネントがマウントされた時点で現在の認証状態を一度だけ確認
+    // onAuthStateChange がすぐに発火しない場合のフォールバック
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        setUser(session.user);
       }
-      setLoading(false)
-    })
+      setLoading(false); // 初期セッションチェックが完了したらローディングを終了
+    });
+
 
     return () => {
       subscription.unsubscribe()
     }
-  }, [router])
+  }, [router, loading]) // loading を依存配列に追加して、loading の変化を監視
 
   const handleLogout = async () => {
     const supabase = createClient()
@@ -48,9 +56,10 @@ export default function AdminPage() {
     return <div>Loading...</div>
   }
 
-  // ユーザーが認証されていない場合はログインページへリダイレクト (onAuthStateChangeで処理されるため、ここでは不要だが念のため残す)
+  // ユーザーが認証されていない場合はログインページへリダイレクト
+  // onAuthStateChange でリダイレクトされるため、ここでは何も表示しない
   if (!user) {
-    return null // onAuthStateChangeでリダイレクトされるため、ここでは何も表示しない
+    return null;
   }
 
   return (
