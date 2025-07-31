@@ -15,6 +15,11 @@ export default function AuthCallback() {
       const accessToken = params.get('access_token')
       const refreshToken = params.get('refresh_token')
 
+      console.log('AuthCallback: Starting...')
+      console.log('AuthCallback: hash =', hash)
+      console.log('AuthCallback: accessToken =', accessToken ? 'present' : 'not present')
+      console.log('AuthCallback: refreshToken =', refreshToken ? 'present' : 'not present')
+
       if (accessToken && refreshToken) {
         const { error: setSessionError } = await supabase.auth.setSession({
           access_token: accessToken,
@@ -22,22 +27,25 @@ export default function AuthCallback() {
         })
 
         if (setSessionError) {
-          console.error('Error setting session:', setSessionError)
+          console.error('AuthCallback: Error setting session:', setSessionError)
           router.push('/login?error=true')
           return
         }
+        console.log('AuthCallback: Session set successfully.')
 
         // セッション設定後、ユーザー情報を取得して認証状態を確認
         const { data: { user }, error: getUserError } = await supabase.auth.getUser()
 
         if (getUserError || !user) {
-          console.error('Error getting user after session set:', getUserError)
+          console.error('AuthCallback: Error getting user after session set:', getUserError)
           router.push('/login?error=true')
         } else {
+          console.log('AuthCallback: User obtained successfully:', user.email)
           // 認証成功、/admin にリダイレクト
           router.push('/admin')
         }
       } else {
+        console.error('AuthCallback: Access token or refresh token not present.')
         // トークンがない場合、エラーページまたはログインページにリダイレクト
         router.push('/login?error=true')
       }
