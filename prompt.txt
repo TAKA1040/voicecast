@@ -1,4 +1,8 @@
-favicon.ico:1  GET https://voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app/favicon.ico 404 (Not Found)
+https://voicecast-kakdw3f0e-takas-projects-ebc9ff02.vercel.app
 
+まずはユーザーページを変更しよう。
+ジャンルから探す：ここをプルダウンに変更。
+現在、多数のジャンルが最初から表示されているが、実際にアップロードされているジャンルのみをプルダウンで選択できるように変更。
+プルダウンはすべてと各ジャンルを選択できるような形です。
 
-何も変化しない
+まずはこの形に修正して。

@@ -13,6 +13,7 @@ export default function HomePage() {
   const [selectedEpisode, setSelectedEpisode] = useState<Episode | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [genres, setGenres] = useState<string[]>([])
 
   useEffect(() => {
     const fetchEpisodes = async () => {
@@ -32,6 +33,9 @@ export default function HomePage() {
         if (episodes.length > 0) {
           setSelectedEpisode(episodes[0])
         }
+        // ジャンルリストを抽出
+        const uniqueGenres = [...new Set(episodes.map(ep => ep.genre).filter(g => g))]
+        setGenres(uniqueGenres as string[])
       }
       setLoading(false)
     }
@@ -39,11 +43,11 @@ export default function HomePage() {
     fetchEpisodes()
   }, [])
 
-  const handleGenreChange = (genreId: string) => {
-    if (genreId.toLowerCase() === 'all') {
+  const handleGenreChange = (genre: string) => {
+    if (genre.toLowerCase() === 'all') {
       setFilteredEpisodes(allEpisodes)
     } else {
-      const filtered = allEpisodes.filter(ep => ep.genre === genreId)
+      const filtered = allEpisodes.filter(ep => ep.genre === genre)
       setFilteredEpisodes(filtered)
     }
   }
@@ -80,7 +84,7 @@ export default function HomePage() {
           </p>
         </header>
 
-        <GenreFilter onGenreChange={handleGenreChange} />
+        <GenreFilter genres={genres} onGenreChange={handleGenreChange} />
 
         <EpisodePlayer episode={selectedEpisode} />
 
