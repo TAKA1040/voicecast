@@ -1,5 +1,4 @@
-全く変化がないので、他のブラウザでテストしてみた結果。
+favicon.ico:1  GET https://voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app/favicon.ico 404 (Not Found)
 
-https://voicecast-krddfb3lk-takas-projects-ebc9ff02.vercel.app
 
-このユーザー画面にログインしようとしたら、バーセルのデフォルトのログイン画面が出てきてログインできなかった。これはバーセルをログインしている人しか見れないような設定になっているのかな？
+何も変化しない
