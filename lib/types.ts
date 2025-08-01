@@ -1,5 +1,5 @@
 export interface Episode {
-  id: number;
+  id: string;
   title: string;
   description: string | null;
   thumbnail: string | null;

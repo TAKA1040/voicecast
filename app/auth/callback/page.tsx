@@ -38,50 +38,25 @@ function AuthCallbackContent() {
 
         console.log('AuthCallback: Found authorization code, waiting for session...')
 
-        // セッション状態の監視
-        let timeoutId: NodeJS.Timeout
-        let isResolved = false
-
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-          console.log('AuthCallback: Auth state change:', event, session?.user?.email || 'no user')
-          
-          if (isResolved) return
-
-          if (event === 'SIGNED_IN' && session?.user) {
-            isResolved = true
-            clearTimeout(timeoutId)
-            subscription.unsubscribe()
-            console.log('AuthCallback: Successfully signed in as:', session.user.email)
-            console.log('AuthCallback: Forcing redirect to /admin')
+        // より簡単なアプローチ: 3秒待ってからセッションをチェック
+        setTimeout(async () => {
+          try {
+            const { data: { session } } = await supabase.auth.getSession()
+            if (session?.user) {
+              console.log('AuthCallback: Session found, redirecting to /admin')
+              setProcessing(false)
+              router.replace('/admin')
+            } else {
+              console.log('AuthCallback: No session found, redirecting to login')
+              setProcessing(false)
+              router.replace('/login?error=timeout')
+            }
+          } catch (err) {
+            console.error('AuthCallback: Error checking session:', err)
             setProcessing(false)
-            // 強制的に管理画面にリダイレクト
-            window.location.href = '/admin'
+            router.replace('/login?error=unexpected')
           }
-        })
-
-        // 8秒後にタイムアウト
-        timeoutId = setTimeout(() => {
-          if (!isResolved) {
-            isResolved = true
-            subscription.unsubscribe()
-            console.log('AuthCallback: Timeout - redirecting to login')
-            setProcessing(false)
-            router.replace('/login?error=timeout')
-          }
-        }, 8000)
-
-        // 初期セッションチェック
-        const { data: { session: initialSession } } = await supabase.auth.getSession()
-        if (initialSession?.user && !isResolved) {
-          isResolved = true
-          clearTimeout(timeoutId)
-          subscription.unsubscribe()
-          console.log('AuthCallback: Initial session found:', initialSession.user.email)
-          console.log('AuthCallback: Forcing redirect to /admin via initial session')
-          setProcessing(false)
-          // 強制的に管理画面にリダイレクト
-          window.location.href = '/admin'
-        }
+        }, 3000)
 
       } catch (err) {
         console.error('AuthCallback: Unexpected error:', err)

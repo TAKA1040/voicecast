@@ -43,3 +43,11 @@ next-env.d.ts
 netlify.toml
 .netlify/
 .windsurf/deploy.log
+
+# Firebase and service account keys
+firebase-admin-key.json
+keys/
+*.json
+!package*.json
+!tsconfig*.json
+!vercel.json
