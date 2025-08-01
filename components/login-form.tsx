@@ -45,7 +45,9 @@ export default function LoginForm() {
       setMessage('エラー: ' + error.message)
       return
     }
-    router.push('/admin')
+    console.log('Login: Password login successful, redirecting to /admin')
+    // 強制的に管理画面にリダイレクト
+    window.location.href = '/admin'
   }
 
   const handleGoogleLogin = async () => {
@@ -57,7 +59,7 @@ export default function LoginForm() {
         return `${window.location.origin}/auth/callback`
       }
       // フォールバック（サーバーサイド）
-      return 'https://voicecast-a1frzgue1-takas-projects-ebc9ff02.vercel.app/auth/callback'
+      return 'https://voicecast-1takbdiol-takas-projects-ebc9ff02.vercel.app/auth/callback'
     }
 
     const redirectUrl = getRedirectUrl()

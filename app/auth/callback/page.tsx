@@ -52,8 +52,10 @@ function AuthCallbackContent() {
             clearTimeout(timeoutId)
             subscription.unsubscribe()
             console.log('AuthCallback: Successfully signed in as:', session.user.email)
+            console.log('AuthCallback: Forcing redirect to /admin')
             setProcessing(false)
-            router.replace('/admin')
+            // 強制的に管理画面にリダイレクト
+            window.location.href = '/admin'
           }
         })
 
@@ -75,8 +77,10 @@ function AuthCallbackContent() {
           clearTimeout(timeoutId)
           subscription.unsubscribe()
           console.log('AuthCallback: Initial session found:', initialSession.user.email)
+          console.log('AuthCallback: Forcing redirect to /admin via initial session')
           setProcessing(false)
-          router.replace('/admin')
+          // 強制的に管理画面にリダイレクト
+          window.location.href = '/admin'
         }
 
       } catch (err) {
