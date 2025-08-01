@@ -92,7 +92,7 @@ export default function AdminForm({ user }: { user: User }) {
     if (user?.id) {
       fetchEpisodes()
     }
-  }, [user.id, supabase]) // supabase も依存配列に追加
+  }, [user.id, user.email, user.role, supabase]) // 全ての依存を追加
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
