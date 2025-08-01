@@ -26,7 +26,8 @@ export default function EpisodePlayer({ episode }: EpisodePlayerProps) {
   useEffect(() => {
     if (episode && audioRef.current) {
       audioRef.current.src = episode.audio_url;
-      audioRef.current.play().then(() => setIsPlaying(true)).catch(e => console.error("Audio play failed", e));
+      // Don't autoplay - wait for user interaction
+      setIsPlaying(false);
     }
   }, [episode]);
 

@@ -36,27 +36,28 @@ function AuthCallbackContent() {
           return
         }
 
-        console.log('AuthCallback: Found authorization code, waiting for session...')
+        console.log('AuthCallback: Found authorization code, exchanging for session...')
 
-        // より簡単なアプローチ: 3秒待ってからセッションをチェック
-        setTimeout(async () => {
-          try {
-            const { data: { session } } = await supabase.auth.getSession()
-            if (session?.user) {
-              console.log('AuthCallback: Session found, redirecting to /admin')
-              setProcessing(false)
-              router.replace('/admin')
-            } else {
-              console.log('AuthCallback: No session found, redirecting to login')
-              setProcessing(false)
-              router.replace('/login?error=timeout')
-            }
-          } catch (err) {
-            console.error('AuthCallback: Error checking session:', err)
-            setProcessing(false)
-            router.replace('/login?error=unexpected')
-          }
-        }, 3000)
+        // 認証コードをセッションに交換
+        const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
+        
+        if (exchangeError) {
+          console.error('AuthCallback: Code exchange failed:', exchangeError)
+          setProcessing(false)
+          router.replace('/login?error=exchange_failed')
+          return
+        }
+
+        if (data.session?.user) {
+          console.log('AuthCallback: Session established, redirecting to /admin')
+          setProcessing(false)
+          // 強制的に管理画面にリダイレクト
+          window.location.href = '/admin'
+        } else {
+          console.log('AuthCallback: No session after exchange')
+          setProcessing(false)
+          router.replace('/login?error=no_session')
+        }
 
       } catch (err) {
         console.error('AuthCallback: Unexpected error:', err)

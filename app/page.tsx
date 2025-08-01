@@ -21,6 +21,17 @@ export default function HomePage() {
   useEffect(() => {
     const supabase = createClient()
 
+    // Check if there's an auth code in the URL (OAuth redirect)
+    const urlParams = new URLSearchParams(window.location.search)
+    const code = urlParams.get('code')
+    
+    if (code) {
+      console.log('Found auth code on homepage, redirecting to callback...')
+      // Redirect to the callback page with the code
+      window.location.href = `/auth/callback?code=${code}`
+      return
+    }
+
     // 認証状態を確認
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser()
