@@ -37,6 +37,8 @@ function AuthCallbackContent() {
         }
 
         console.log('AuthCallback: Found authorization code, exchanging for session...')
+        console.log('AuthCallback: Code length:', code.length)
+        console.log('AuthCallback: Current domain:', window.location.host)
 
         try {
           // 認証コードをセッションに交換
@@ -44,23 +46,35 @@ function AuthCallbackContent() {
           
           if (exchangeError) {
             console.error('AuthCallback: Code exchange failed:', exchangeError)
+            console.error('AuthCallback: Error details:', exchangeError.message)
             setProcessing(false)
-            router.replace('/login?error=exchange_failed')
+            router.replace(`/login?error=exchange_failed&details=${encodeURIComponent(exchangeError.message)}`)
             return
           }
 
           if (data.session?.user) {
-            console.log('AuthCallback: Session established, redirecting to /admin')
-            console.log('AuthCallback: User:', data.session.user.email)
+            console.log('AuthCallback: Session established successfully')
+            console.log('AuthCallback: User ID:', data.session.user.id)
+            console.log('AuthCallback: User email:', data.session.user.email)
+            console.log('AuthCallback: Session expires:', data.session.expires_at)
+            console.log('AuthCallback: Access token present:', !!data.session.access_token)
+            
             setProcessing(false)
             
-            // 小さな遅延を入れてセッションが確実に保存されるのを待つ
-            setTimeout(() => {
-              console.log('AuthCallback: Performing redirect to /admin')
-              window.location.href = '/admin'
-            }, 500)
+            // セッション確認のため再取得
+            const { data: verifyData, error: verifyError } = await supabase.auth.getSession()
+            if (verifyError) {
+              console.error('AuthCallback: Session verification failed:', verifyError)
+            } else {
+              console.log('AuthCallback: Session verified:', !!verifyData.session)
+            }
+            
+            console.log('AuthCallback: Performing redirect to /admin')
+            // 即座にリダイレクト
+            window.location.href = '/admin'
           } else {
             console.log('AuthCallback: No session after exchange')
+            console.log('AuthCallback: Exchange data:', data)
             setProcessing(false)
             router.replace('/login?error=no_session')
           }

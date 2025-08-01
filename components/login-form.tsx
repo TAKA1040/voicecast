@@ -43,8 +43,14 @@ export default function LoginForm() {
         if (typeof window !== 'undefined') {
           return `${window.location.origin}/auth/callback`
         }
-        // フォールバック（サーバーサイド）
-        return 'https://voicecast-j8k09fiqv-takas-projects-ebc9ff02.vercel.app/auth/callback'
+        // 環境変数ベースの動的フォールバック
+        const baseUrl = process.env.VERCEL_URL 
+          ? `https://${process.env.VERCEL_URL}` 
+          : process.env.NEXT_PUBLIC_SITE_URL 
+          ? process.env.NEXT_PUBLIC_SITE_URL 
+          : 'https://voicecast-l4udklb4f-takas-projects-ebc9ff02.vercel.app'
+        
+        return `${baseUrl}/auth/callback`
       }
 
       const redirectUrl = getRedirectUrl()

@@ -22,31 +22,58 @@ export async function middleware(req: NextRequest) {
             return req.cookies.get(name)?.value
           },
           set(name: string, value: string, options: any) {
+            // Enhanced cookie options for cross-domain compatibility
             res.cookies.set({
               name,
               value,
-              ...options
+              ...options,
+              sameSite: 'lax',
+              secure: process.env.NODE_ENV === 'production',
+              path: '/',
+              // Allow cross-subdomain cookies in production
+              domain: process.env.NODE_ENV === 'production' && req.nextUrl.hostname.includes('vercel.app')
+                ? '.vercel.app' 
+                : undefined
             })
           },
           remove(name: string, options: any) {
             res.cookies.set({
               name,
               value: '',
-              ...options
+              ...options,
+              expires: new Date(0),
+              path: '/',
+              domain: process.env.NODE_ENV === 'production' && req.nextUrl.hostname.includes('vercel.app')
+                ? '.vercel.app' 
+                : undefined
             })
           }
         }
       }
     )
 
-    // Only protect admin routes
+    // Enhanced admin route protection
     if (req.nextUrl.pathname.startsWith('/admin')) {
-      const { data: { session } } = await supabase.auth.getSession()
+      console.log('Middleware: Protecting admin route:', req.nextUrl.pathname)
+      console.log('Middleware: Request domain:', req.nextUrl.hostname)
+      
+      const { data: { session }, error } = await supabase.auth.getSession()
+      
+      if (error) {
+        console.error('Middleware: Auth error:', error)
+      }
+      
+      console.log('Middleware: Session present:', !!session)
+      console.log('Middleware: User present:', !!session?.user)
       
       if (!session) {
+        console.log('Middleware: No session, redirecting to login')
         const redirectUrl = new URL('/login', req.url)
         redirectUrl.searchParams.set('redirect', req.nextUrl.pathname)
+        redirectUrl.searchParams.set('reason', 'auth_required')
         return NextResponse.redirect(redirectUrl)
+      } else {
+        console.log('Middleware: Session valid, allowing access to admin')
       }
     }
 

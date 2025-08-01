@@ -39,16 +39,34 @@ export default function HomePage() {
     }
 
     // 認証状態を確認
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      setUser(user)
-      
-      // すでにログイン済みのユーザーを管理画面にリダイレクト
-      if (user) {
-        console.log('User already logged in, redirecting to admin...')
-        setTimeout(() => {
+    const checkAuthState = async () => {
+      try {
+        console.log('HomePage: Checking auth state...')
+        const { data: { session }, error } = await supabase.auth.getSession()
+        
+        if (error) {
+          console.error('HomePage: Auth state check error:', error)
+          setUser(null)
+          return
+        }
+
+        if (session?.user) {
+          console.log('HomePage: User authenticated:', session.user.email)
+          console.log('HomePage: Session expires:', session.expires_at)
+          console.log('HomePage: Access token present:', !!session.access_token)
+          
+          setUser(session.user)
+          
+          // 即座にリダイレクト（遅延なし）
+          console.log('HomePage: Redirecting to admin immediately...')
           window.location.href = '/admin'
-        }, 2000) // 2秒後にリダイレクト
+        } else {
+          console.log('HomePage: No authenticated user found')
+          setUser(null)
+        }
+      } catch (err) {
+        console.error('HomePage: Unexpected auth error:', err)
+        setUser(null)
       }
     }
 
@@ -75,12 +93,22 @@ export default function HomePage() {
       setLoading(false)
     }
 
-    getUser()
+    checkAuthState()
     fetchEpisodes()
 
     // 認証状態の変更を監視
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user ?? null)
+      console.log('HomePage: Auth state changed:', event, session ? 'session present' : 'no session')
+      
+      if (event === 'SIGNED_IN' && session?.user) {
+        setUser(session.user)
+        console.log('HomePage: User signed in, redirecting to admin...')
+        window.location.href = '/admin'
+      } else if (event === 'SIGNED_OUT') {
+        setUser(null)
+      } else {
+        setUser(session?.user ?? null)
+      }
     })
 
     return () => {
@@ -137,7 +165,7 @@ export default function HomePage() {
                 <div className="flex flex-col md:flex-row gap-3 items-center">
                   <div className="text-center md:text-right">
                     <span className="text-sm text-gray-600 block">こんにちは、{user.email}</span>
-                    <span className="text-xs text-green-600 block">✓ ログイン済み - 2秒後に管理画面に移動します</span>
+                    <span className="text-xs text-green-600 block">✓ ログイン済み - 管理画面に移動中...</span>
                   </div>
                   <Link 
                     href="/admin"
