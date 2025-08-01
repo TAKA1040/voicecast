@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import AdminForm from '@/components/admin-form'
 import { useEffect, useState } from 'react'
 import type { User } from '@supabase/supabase-js'
+import Link from 'next/link'
 
 export default function AdminPage() {
   const router = useRouter()
@@ -59,7 +60,13 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center py-10">
       <div className="w-full max-w-3xl">
-        <div className="flex justify-end mb-4">
+        <div className="flex justify-between items-center mb-4">
+          <Link 
+            href="/"
+            className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            🏠 ホームに戻る
+          </Link>
           <button
             onClick={handleLogout}
             className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"

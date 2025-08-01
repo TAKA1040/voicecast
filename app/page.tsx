@@ -6,6 +6,8 @@ import { Episode } from '@/lib/types'
 import EpisodePlayer from '@/components/episode-player'
 import EpisodeCard from '@/components/episode-card'
 import GenreFilter from '@/components/genre-filter'
+import Link from 'next/link'
+import { User } from '@supabase/supabase-js'
 
 export default function HomePage() {
   const [allEpisodes, setAllEpisodes] = useState<Episode[]>([])
@@ -14,10 +16,18 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [genres, setGenres] = useState<string[]>([])
+  const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
+    const supabase = createClient()
+
+    // 認証状態を確認
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      setUser(user)
+    }
+
     const fetchEpisodes = async () => {
-      const supabase = createClient()
       const { data, error } = await supabase
         .from('episodes')
         .select('*')
@@ -40,7 +50,17 @@ export default function HomePage() {
       setLoading(false)
     }
 
+    getUser()
     fetchEpisodes()
+
+    // 認証状態の変更を監視
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null)
+    })
+
+    return () => {
+      subscription.unsubscribe()
+    }
   }, [])
 
   const handleGenreChange = (genre: string) => {
@@ -75,13 +95,39 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-400 via-purple-400 to-blue-400">
       <div className="max-w-7xl mx-auto px-4 py-5">
-        <header className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 mb-8 shadow-2xl text-center">
-          <h1 className="text-3xl md:text-5xl font-black mb-3 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
-            🎙️ VoiceCast
-          </h1>
-          <p className="text-gray-600 text-lg md:text-xl">
-            誰でも聴ける音声配信プラットフォーム
-          </p>
+        <header className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 mb-8 shadow-2xl">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="text-center md:text-left mb-4 md:mb-0">
+              <h1 className="text-3xl md:text-5xl font-black mb-3 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+                🎙️ VoiceCast
+              </h1>
+              <p className="text-gray-600 text-lg md:text-xl">
+                誰でも聴ける音声配信プラットフォーム
+              </p>
+            </div>
+            
+            {/* ナビゲーションメニュー */}
+            <div className="flex gap-4 items-center">
+              {user ? (
+                <div className="flex gap-3 items-center">
+                  <span className="text-sm text-gray-600">こんにちは、{user.email}</span>
+                  <Link 
+                    href="/admin"
+                    className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium rounded-lg shadow-md hover:from-purple-600 hover:to-blue-600 transition-all duration-200 transform hover:scale-105"
+                  >
+                    📊 管理画面
+                  </Link>
+                </div>
+              ) : (
+                <Link 
+                  href="/login"
+                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white font-medium rounded-lg shadow-md hover:from-pink-600 hover:to-purple-600 transition-all duration-200 transform hover:scale-105"
+                >
+                  🔐 ログイン
+                </Link>
+              )}
+            </div>
+          </div>
         </header>
 
         <GenreFilter genres={genres} onGenreChange={handleGenreChange} />
