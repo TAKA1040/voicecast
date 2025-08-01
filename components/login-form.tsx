@@ -44,7 +44,7 @@ export default function LoginForm() {
           return `${window.location.origin}/auth/callback`
         }
         // フォールバック（サーバーサイド）
-        return 'https://voicecast-3thkhccoq-takas-projects-ebc9ff02.vercel.app/auth/callback'
+        return 'https://voicecast-j8k09fiqv-takas-projects-ebc9ff02.vercel.app/auth/callback'
       }
 
       const redirectUrl = getRedirectUrl()
