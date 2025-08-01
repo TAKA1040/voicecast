@@ -28,27 +28,70 @@ export default function AdminForm({ user }: { user: User }) {
   const [isDragOver, setIsDragOver] = useState(false)
   const [alert, setAlert] = useState<AlertMessage | null>(null)
   const [episodes, setEpisodes] = useState<Episode[]>([]) // エピソード一覧のステート
+  const [isRefreshing, setIsRefreshing] = useState(false)
 
   const supabase = createClient()
+
+  // 手動更新ボタン用の関数
+  const handleRefreshEpisodes = async () => {
+    setIsRefreshing(true)
+    try {
+      console.log('Manual refresh - Fetching episodes for user:', user.id)
+      
+      const { data, error } = await supabase
+        .from('episodes')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+
+      if (error) {
+        console.error('Error refreshing episodes:', error)
+        setAlert({ type: 'error', text: `エピソード更新に失敗しました: ${error.message}` })
+      } else {
+        console.log(`Manual refresh - Fetched ${data?.length || 0} episodes:`, data)
+        setEpisodes(data as Episode[])
+        setAlert({ type: 'success', text: `エピソード一覧を更新しました (${data?.length || 0}件)` })
+      }
+    } catch (err) {
+      console.error('Unexpected error during refresh:', err)
+      setAlert({ type: 'error', text: '予期しないエラーが発生しました' })
+    } finally {
+      setIsRefreshing(false)
+    }
+  }
 
   // コンポーネントマウント時とエピソード公開時にエピソード一覧をフェッチ
   useEffect(() => {
     // エピソード一覧をフェッチする関数を useEffect の内部に定義
     const fetchEpisodes = async () => {
+      console.log('Fetching episodes for user:', user.id)
+      console.log('User info:', { id: user.id, email: user.email, role: user.role })
+      
+      // 認証状態も確認
+      const { data: { user: currentUser }, error: userError } = await supabase.auth.getUser()
+      console.log('Current authenticated user:', currentUser?.id, userError)
+      
       const { data, error } = await supabase
         .from('episodes')
         .select('*')
+        .eq('user_id', user.id) // ユーザーIDでフィルタリング
         .order('created_at', { ascending: false })
 
       if (error) {
         console.error('Error fetching episodes:', error)
-        setAlert({ type: 'error', text: 'エピソードの読み込みに失敗しました。' })
+        setAlert({ type: 'error', text: `エピソードの読み込みに失敗しました: ${error.message}` })
       } else {
+        console.log(`Fetched ${data?.length || 0} episodes:`, data)
         setEpisodes(data as Episode[])
+        if (data && data.length === 0) {
+          console.log('No episodes found for user:', user.id)
+        }
       }
     }
 
-    fetchEpisodes()
+    if (user?.id) {
+      fetchEpisodes()
+    }
   }, [user.id, supabase]) // supabase も依存配列に追加
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -283,7 +326,22 @@ export default function AdminForm({ user }: { user: User }) {
 
       {/* 公開済みエピソード一覧 */}
       <section>
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">公開済みエピソード</h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold text-gray-800">公開済みエピソード</h2>
+          <button
+            onClick={handleRefreshEpisodes}
+            disabled={isRefreshing}
+            className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+          >
+            {isRefreshing && (
+              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            )}
+            {isRefreshing ? '更新中...' : '一覧を更新'}
+          </button>
+        </div>
         {episodes.length === 0 ? (
           <p className="text-gray-500">まだエピソードがありません。</p>
         ) : (
