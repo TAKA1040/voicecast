@@ -1,57 +1,12 @@
-下記を読んで、今後は修正後はプッシュ＆デプロイまで済ませて。
+https://voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app/login/?error=true
+/favicon.ico:1  GET https://voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app/favicon.ico 404 (Not Found)
 
-プッシュ＆デプロイ手順
+_vercel_jwt	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJUR0p5aGQ5VzVYd1gxQnFmeGVMSWZSc2wiLCJpYXQiOjE3NTM5MzA3NjYsIm93bmVySWQiOiJ0ZWFtX1ViQXZRbk11NE13cjZFRjgzZHRHazV6biIsImF1ZCI6InZvaWNlY2FzdC1xOW5pbnBseG0tdGFrYXMtcHJvamVjdHMtZWJjOWZmMDIudmVyY2VsLmFwcCIsInVzZXJuYW1lIjoidGFrYTEwNDAiLCJzdWIiOiJzc28tcHJvdGVjdGlvbiJ9.WPANVx6_9ARNRgtNFSiW-1A55kioGLgh2zEVTswAK3I	voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app	/	2025-10-29T02:59:26.141Z	364	✓	✓	Lax			Medium
+sb-emkxinzasmmhwxfgagyh-auth-token.0	%7B%22access_token%22%3A%22eyJhbGciOiJIUzI1NiIsImtpZCI6ImwwNHdFbW01MUJ6L3VqVEYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2Vta3hpbnphc21taHd4ZmdhZ3loLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJmZGI1NzJmYi1iNjVmLTQ4MTgtODYyNi02MTZkNjZlYmM5NzQiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzU0MDQ3MTk2LCJpYXQiOjE3NTQwNDM1OTYsImVtYWlsIjoiZGFzaDIwMTIwNkBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6Imdvb2dsZSIsInByb3ZpZGVycyI6WyJnb29nbGUiXX0sInVzZXJfbWV0YWRhdGEiOnsiYXZhdGFyX3VybCI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0xKQ3R5TEtjU0l3X0ZiWlVFdEo1SkRSbjlYc2FfazBob0JuaU9OVHp0V3RZQzVvQT1zOTYtYyIsImVtYWlsIjoiZGFzaDIwMTIwNkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZnVsbF9uYW1lIjoi5ZCI5ZCM5Lya56S-REFTSCIsImlzcyI6Imh0dHBzOi8vYWNjb3VudHMuZ29vZ2xlLmNvbSIsIm5hbWUiOiLlkIjlkIzkvJrnpL5EQVNIIiwicGhvbmVfdmVyaWZpZWQiOmZhbHNlLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTEpDdHlMS2NTSXdfRmJaVUV0SjVKRFJuOVhzYV9rMGhvQm5pT05UenRXdFlDNW9BPXM5Ni1jIiwicHJvdmlkZXJfaWQiOiIxMTUyNjY5NjgyMjk2MzM0NDE4NDciLCJzdWIiOiIxMTUyNjY5NjgyMjk2MzM0NDE4NDcifSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJvYXV0aCIsInRpbWVzdGFtcCI6MTc1NDA0MzU5Nn1dLCJzZXNzaW9uX2lkIjoiNjA3MGJjMmItYTg5NC00ZTZhLTk3OTAtNGZhOTcyMjQwYTM1IiwiaXNfYW5vbnltb3VzIjpmYWxzZX0.5A0AN9bpUuJNh96O6u3axjeYFqu53tidW0er4K5hcoM%22%2C%22token_type%22%3A%22bearer%22%2C%22expires_in%22%3A3600%2C%22expires_at%22%3A1754047196%2C%22refresh_token%22%3A%22hb5mx7pb7v4g%22%2C%22user%22%3A%7B%22id%22%3A%22fdb572fb-b65f-4818-8626-616d66ebc974%22%2C%22aud%22%3A%22authenticated%22%2C%22role%22%3A%22authenticated%22%2C%22email%22%3A%22dash201206%40gmail.com%22%2C%22email_confirmed_at%22%3A%222025-07-23T14%3A08%3A08.172409Z%22%2C%22phone%22%3A%22%22%2C%22confirmed_at%22%3A%222025-07-23T14%3A08%3A08.172409Z%22%2C%22last_sign_in_at%22%3A%222025-08-01T10%3A19%3A56.12670519Z%22%2C%22app_metadata%22%3A%7B%22provider%22%3A%22google%22%2C%22providers%22%3A%5B%22google%22%5D%7D%2C%22user_metadata%22%3A%7B%22avatar_url%22%3A%22https%3A%2F%2Flh3.googleusercontent.com%2Fa%2FACg8ocLJCtyLKcSIw_FbZUEtJ5JDRn9Xsa_k0hoBniONTztWtYC5oA%3Ds96-c%22%2C%22email%22%3A%22dash201206%40gmail.com%22%2C%22email_verified%22%3Atrue%2C%22full_name%22%3A%22%E5%90%88%E5%90%8C%E4%BC%9A%E7%A4%BEDASH%22%2C%22iss%22%3A%22https%3A%2F%2Faccounts.google.com%22%2C%22name%22%3A%22%E5%90%88%E5%90%8C%E4%BC%9A%E7%A4%BEDASH%22%2C%22phone_verified%22%3Afalse%2C%22picture%22%3A%22https%3A%2F%2Flh3.googleusercontent.com%2Fa%2FACg8ocLJCtyLKcSIw_FbZUEtJ5JDRn9Xsa_k0hoBniONTztWtYC5oA%3Ds96-c%22%2C%22provider_id%22%3A%22115266968229633441847%22%2C%22sub%22%3A%22115266968229633441847%22%7D%2C%22identities%22%3A%5B%7B%22identity_id%22%3A%22de20dcad-b07e-4790-aabc-dc3fcc7b6b77%22%2C%22id%22%3A%22115266968229633441847%22%2C%22user_id%22%3A%22fdb572fb-b65f-4818-8626-616d66ebc974%22%2C%22identity_data%22%3A%7B%22avatar_url%22%3A%22https%3A%2F%2Flh3.googleusercontent.com%2Fa%2FACg8ocLJCtyLKcSIw_FbZUEtJ5JDRn9Xsa_k0hoBniONTztWtYC5oA%3Ds96-c%22%2C%22email%22%3A%22dash201206%40gmail.com%22%2C%22email_verified%22%3Atrue%2C%22full_name%22%3A%22%E5%90%88%E5%90%8C%E4%BC%9A%E7%A4%BEDASH%22%2C%22iss%22%3A%22https%3A%2F	voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app	/	2026-09-05T10:19:56.030Z	3214			Lax			Medium
+sb-emkxinzasmmhwxfgagyh-auth-token.1	%2Faccounts.google.com%22%2C%22name%22%3A%22%E5%90%88%E5%90%8C%E4%BC%9A%E7%A4%BEDASH%22%2C%22phone_verified%22%3Afalse%2C%22picture%22%3A%22https%3A%2F%2Flh3.googleusercontent.com%2Fa%2FACg8ocLJCtyLKcSIw_FbZUEtJ5JDRn9Xsa_k0hoBniONTztWtYC5oA%3Ds96-c%22%2C%22provider_id%22%3A%22115266968229633441847%22%2C%22sub%22%3A%22115266968229633441847%22%7D%2C%22provider%22%3A%22google%22%2C%22last_sign_in_at%22%3A%222025-07-23T14%3A08%3A08.167613Z%22%2C%22created_at%22%3A%222025-07-23T14%3A08%3A08.167666Z%22%2C%22updated_at%22%3A%222025-08-01T10%3A19%3A55.103997Z%22%2C%22email%22%3A%22dash201206%40gmail.com%22%7D%5D%2C%22created_at%22%3A%222025-07-23T14%3A08%3A08.163135Z%22%2C%22updated_at%22%3A%222025-08-01T10%3A19%3A56.129415Z%22%2C%22is_anonymous%22%3Afalse%7D%2C%22provider_token%22%3A%22ya29.a0AS3H6NyKSI-HOGZw9u3rlfpXpXp1-0l2ETeY9hygm_8gCHraZ0vTNSJyHzdiOvq9GVDBCvoiihpcp5uYbyvyOCxWaW5VfqoYwWFXM6jZopDZxAC-7OP2Ejmn91MVkDERgoW-Bghz_PpTRDQdAMklJFgVs6AtXMO73fmudHGHsAaCgYKAW4SARMSFQHGX2MiLI_SAiR44g819cor00WZfQ0177%22%7D	voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app	/	2026-09-05T10:19:56.031Z	1056			Lax			Medium
 
-  現在のワークフローは、「GitHubへのプッシュ」と「Vercelへのデプロイ」の2つの主要なステップで構成されています。
 
-  ステップ1: 変更をGitでコミットし、GitHubへプッシュする
 
-  このステップでは、ローカルでのコード変更をGitHubリポジトリに反映させます。
-
-   1. 変更をステージングする:
-      全ての変更（新規作成、修正したファイル）をコミットの対象に加えます。
-   1     git add .
-
-   2. 変更をコミットする:
-      変更内容を記録します。コミットメッセージは日本語で記述するのが現在のルールです。
-
-   1     git commit -m "ここに日本語でコミットメッセージを記述"
-      （例: git commit -m "ログインフォームのUIを修正")
-
-   3. GitHubにプッシュする:
-      ローカルのコミットをGitHubのリモートリポジトリに送信します。
-
-   1     git push
-
-  ステップ2: Vercelにデプロイする
-
-  このステップでは、GitHubにプッシュした最新のコードをVercelのプラットフォームに反映させ、本番環境を更新します。
-
-   4. Vercelへデプロイ:
-      Vercel CLIを使って、本番環境（Production）へのデプロイを実行します。
-   1     vercel --prod --yes
-       * --prod: 本番環境へのデプロイを指定するフラグです。これを付けないと、プレビュー用のURLが生成されます。
-       * --yes: デプロイ設定に関する確認プロンプトをすべて自動で「はい」と回答し、スムーズに処理を進めるためのフラグです。
-
-  ---
-
-  まとめ（コマンド一覧）
-
-  以下が、一連の流れを実行するためのコマンドです。
-
-    1 # 1. ディレクトリを移動
-    2 cd C:\Windsurf\voiceCast
-    3 
-    4 # 2. 変更をステージング
-    5 git add .
-    6 
-    7 # 3. 変更をコミット（メッセージは日本語で）
-    8 git commit -m "あなたのコミットメッセージ"
-    9 
-   10 # 4. GitHubへプッシュ
-   11 git push
-   12 
-   13 # 5. Vercelへ本番デプロイ
-   14 vercel --prod --yes
-
-  この手順を守ることで、一貫した方法でアプリケーションの更新とデプロイが可能です。
+強制リロードでは画面が変わらなかったので、キャッシュをクリアしてみると、今度はログインできずにログイン画面に戻ってしまった。
+しっかりと確認してから改善して
+改善後はプッシュアンドデプロイもお願いします。

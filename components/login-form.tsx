@@ -50,13 +50,27 @@ export default function LoginForm() {
 
   const handleGoogleLogin = async () => {
     setMessage('')
+    
+    // リダイレクトURLを動的に取得
+    const getRedirectUrl = () => {
+      if (typeof window !== 'undefined') {
+        return `${window.location.origin}/auth/callback`
+      }
+      // フォールバック（サーバーサイド）
+      return 'https://voicecast-a1frzgue1-takas-projects-ebc9ff02.vercel.app/auth/callback'
+    }
+
+    const redirectUrl = getRedirectUrl()
+    console.log('Google OAuth redirect URL:', redirectUrl)
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: redirectUrl,
       },
     })
     if (error) {
+      console.error('Google OAuth error:', error)
       setMessage('エラー: ' + error.message)
     }
   }

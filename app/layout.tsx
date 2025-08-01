@@ -4,6 +4,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "VoiceCast",
   description: "The best way to share your voice.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
