@@ -1,39 +1,105 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
 export default function AuthCallback() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const [processing, setProcessing] = useState(true)
 
   useEffect(() => {
     const handleAuthCallback = async () => {
       const supabase = createClient()
-      const url = new URL(window.location.href)
-      const code = url.searchParams.get('code')
 
       console.log('AuthCallback: Starting...')
-      console.log('AuthCallback: code =', code ? 'present' : 'not present', code)
+      console.log('AuthCallback: Current URL:', window.location.href)
 
-      if (code) {
-        const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
+      try {
+        // URLパラメータを確認
+        const code = searchParams.get('code')
+        const error = searchParams.get('error')
+        const errorDescription = searchParams.get('error_description')
 
-        if (exchangeError) {
-          console.error('AuthCallback: Error exchanging code for session:', exchangeError)
-          router.replace('/login?error=true')
+        if (error) {
+          console.error('AuthCallback: OAuth error:', error, errorDescription)
+          setProcessing(false)
+          router.replace('/login?error=oauth_error')
           return
         }
-        console.log('AuthCallback: Code exchanged for session successfully. Redirecting to /admin.')
-        router.replace('/admin')
-      } else {
-        console.error('AuthCallback: Code not present in URL.')
-        router.replace('/login?error=true')
+
+        if (!code) {
+          console.error('AuthCallback: No authorization code found')
+          setProcessing(false)
+          router.replace('/login?error=no_code')
+          return
+        }
+
+        console.log('AuthCallback: Found authorization code, waiting for session...')
+
+        // セッション状態の監視
+        let timeoutId: NodeJS.Timeout
+        let isResolved = false
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+          console.log('AuthCallback: Auth state change:', event, session?.user?.email || 'no user')
+          
+          if (isResolved) return
+
+          if (event === 'SIGNED_IN' && session?.user) {
+            isResolved = true
+            clearTimeout(timeoutId)
+            subscription.unsubscribe()
+            console.log('AuthCallback: Successfully signed in as:', session.user.email)
+            setProcessing(false)
+            router.replace('/admin')
+          }
+        })
+
+        // 8秒後にタイムアウト
+        timeoutId = setTimeout(() => {
+          if (!isResolved) {
+            isResolved = true
+            subscription.unsubscribe()
+            console.log('AuthCallback: Timeout - redirecting to login')
+            setProcessing(false)
+            router.replace('/login?error=timeout')
+          }
+        }, 8000)
+
+        // 初期セッションチェック
+        const { data: { session: initialSession } } = await supabase.auth.getSession()
+        if (initialSession?.user && !isResolved) {
+          isResolved = true
+          clearTimeout(timeoutId)
+          subscription.unsubscribe()
+          console.log('AuthCallback: Initial session found:', initialSession.user.email)
+          setProcessing(false)
+          router.replace('/admin')
+        }
+
+      } catch (err) {
+        console.error('AuthCallback: Unexpected error:', err)
+        setProcessing(false)
+        router.replace('/login?error=unexpected')
       }
     }
 
     handleAuthCallback()
-  }, [router])
+  }, [router, searchParams])
 
-  return <div>Processing login...</div>
+  if (!processing) {
+    return null // ページ遷移中
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+        <p className="text-gray-600">ログイン処理中...</p>
+        <p className="text-sm text-gray-500 mt-2">しばらくお待ちください</p>
+      </div>
+    </div>
+  )
 }

@@ -1,10 +1,13 @@
-現在の課題は、管理用のダッシュボードの画面が変更されないことです。
-コード上変更されたとは連絡を受けていますが、実際には画面は変更されていませんどこにエラーがあるのかがすでにわからない状態です。
-コード全体を見直して、何にどこにエラーがあるのかをしっかり見極めて、ここを修正してほしいです。
+https://voicecast.vercel.app/login?error=true
 
-
-https://voicecast-q9ninplxm-takas-projects-ebc9ff02.vercel.app/admin
-管理ダッシュボード画面の変更
-アップロード済みのデータを削除できるようにする機能を追加。
-
+page-bf71a5e227739f79.js:1 AuthCallback: Starting...
+page-bf71a5e227739f79.js:1 AuthCallback: code = present 2d0bcd9c-13f0-4919-abc0-7196a9b092bd
+emkxinzasmmhwxfgagyh.supabase.co/auth/v1/token?grant_type=pkce:1  Failed to load resource: the server responded with a status of 400 ()
+23-d64c232c8a23a519.js:1 AuthCallback: Error exchanging code for session: AuthApiError: invalid request: both auth code and code verifier should be non-empty
+    at tm (866-fc227918eb9b2b39.js:16:28563)
+    at async tk (866-fc227918eb9b2b39.js:16:29562)
+    at async t_ (866-fc227918eb9b2b39.js:16:29218)
+    at async tF._exchangeCodeForSession (866-fc227918eb9b2b39.js:16:49206)
+window.console.error @ 23-d64c232c8a23a519.js:1
+login:1 [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) <input id=​"password" required class=​"w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:​ring-indigo-500 focus:​border-indigo-500" placeholder=​"••••••••" type=​"password" value=​"Test1234!">​
 

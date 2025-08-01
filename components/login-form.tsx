@@ -1,15 +1,38 @@
 'use client'
 
 import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useState, useEffect } from 'react'
 
 export default function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
   const router = useRouter()
+  const searchParams = useSearchParams()
   const supabase = createClient()
+
+  useEffect(() => {
+    const error = searchParams.get('error')
+    if (error) {
+      switch (error) {
+        case 'oauth_error':
+          setMessage('Google認証中にエラーが発生しました。')
+          break
+        case 'no_code':
+          setMessage('認証コードが取得できませんでした。')
+          break
+        case 'timeout':
+          setMessage('認証がタイムアウトしました。再度お試しください。')
+          break
+        case 'unexpected':
+          setMessage('予期しないエラーが発生しました。')
+          break
+        default:
+          setMessage('ログインに失敗しました。')
+      }
+    }
+  }, [searchParams])
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -30,7 +53,7 @@ export default function LoginForm() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${location.origin}/auth/callback/`,
+        redirectTo: `${window.location.origin}/auth/callback`,
       },
     })
     if (error) {
