@@ -38,25 +38,36 @@ function AuthCallbackContent() {
 
         console.log('AuthCallback: Found authorization code, exchanging for session...')
 
-        // 認証コードをセッションに交換
-        const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
-        
-        if (exchangeError) {
-          console.error('AuthCallback: Code exchange failed:', exchangeError)
-          setProcessing(false)
-          router.replace('/login?error=exchange_failed')
-          return
-        }
+        try {
+          // 認証コードをセッションに交換
+          const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
+          
+          if (exchangeError) {
+            console.error('AuthCallback: Code exchange failed:', exchangeError)
+            setProcessing(false)
+            router.replace('/login?error=exchange_failed')
+            return
+          }
 
-        if (data.session?.user) {
-          console.log('AuthCallback: Session established, redirecting to /admin')
+          if (data.session?.user) {
+            console.log('AuthCallback: Session established, redirecting to /admin')
+            console.log('AuthCallback: User:', data.session.user.email)
+            setProcessing(false)
+            
+            // 小さな遅延を入れてセッションが確実に保存されるのを待つ
+            setTimeout(() => {
+              console.log('AuthCallback: Performing redirect to /admin')
+              window.location.href = '/admin'
+            }, 500)
+          } else {
+            console.log('AuthCallback: No session after exchange')
+            setProcessing(false)
+            router.replace('/login?error=no_session')
+          }
+        } catch (exchangeErr) {
+          console.error('AuthCallback: Exception during code exchange:', exchangeErr)
           setProcessing(false)
-          // 強制的に管理画面にリダイレクト
-          window.location.href = '/admin'
-        } else {
-          console.log('AuthCallback: No session after exchange')
-          setProcessing(false)
-          router.replace('/login?error=no_session')
+          router.replace('/login?error=exchange_exception')
         }
 
       } catch (err) {

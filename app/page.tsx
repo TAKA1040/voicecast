@@ -27,8 +27,14 @@ export default function HomePage() {
     
     if (code) {
       console.log('Found auth code on homepage, redirecting to callback...')
-      // Redirect to the callback page with the code
-      window.location.href = `/auth/callback?code=${code}`
+      // Clear the URL first to prevent redirect loops
+      const cleanUrl = window.location.origin + window.location.pathname
+      window.history.replaceState({}, document.title, cleanUrl)
+      
+      // Redirect to the callback page with the code and any other params
+      const callbackUrl = `/auth/callback?${urlParams.toString()}`
+      console.log('Redirecting to:', callbackUrl)
+      window.location.href = callbackUrl
       return
     }
 
@@ -36,6 +42,14 @@ export default function HomePage() {
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
+      
+      // すでにログイン済みのユーザーを管理画面にリダイレクト
+      if (user) {
+        console.log('User already logged in, redirecting to admin...')
+        setTimeout(() => {
+          window.location.href = '/admin'
+        }, 2000) // 2秒後にリダイレクト
+      }
     }
 
     const fetchEpisodes = async () => {
@@ -120,13 +134,16 @@ export default function HomePage() {
             {/* ナビゲーションメニュー */}
             <div className="flex gap-4 items-center">
               {user ? (
-                <div className="flex gap-3 items-center">
-                  <span className="text-sm text-gray-600">こんにちは、{user.email}</span>
+                <div className="flex flex-col md:flex-row gap-3 items-center">
+                  <div className="text-center md:text-right">
+                    <span className="text-sm text-gray-600 block">こんにちは、{user.email}</span>
+                    <span className="text-xs text-green-600 block">✓ ログイン済み - 2秒後に管理画面に移動します</span>
+                  </div>
                   <Link 
                     href="/admin"
                     className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium rounded-lg shadow-md hover:from-purple-600 hover:to-blue-600 transition-all duration-200 transform hover:scale-105"
                   >
-                    📊 管理画面
+                    📊 管理画面へ
                   </Link>
                 </div>
               ) : (
