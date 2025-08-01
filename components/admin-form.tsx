@@ -60,6 +60,83 @@ export default function AdminForm({ user }: { user: User }) {
     }
   }
 
+  // 全エピソードをデバッグ用に取得する関数
+  const handleDebugAllEpisodes = async () => {
+    try {
+      console.log('DEBUG: Fetching ALL episodes (bypassing RLS)')
+      
+      // RLSをバイパスして全エピソードを取得（デバッグ用）
+      const { data: allData, error: allError } = await supabase
+        .from('episodes')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+      console.log('DEBUG: All episodes in database:', allData)
+      console.log('DEBUG: All episodes error:', allError)
+
+      // 現在のユーザーIDでフィルタリングした結果も確認
+      const { data: filteredData, error: filteredError } = await supabase
+        .from('episodes')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+
+      console.log('DEBUG: Filtered episodes for user:', user.id, filteredData)
+      console.log('DEBUG: Filtered episodes error:', filteredError)
+
+      setAlert({ 
+        type: 'success', 
+        text: `DEBUG: 全エピソード ${allData?.length || 0}件, フィルタ済み ${filteredData?.length || 0}件` 
+      })
+    } catch (err) {
+      console.error('DEBUG: Error:', err)
+      setAlert({ type: 'error', text: 'デバッグエラー' })
+    }
+  }
+
+  // user_idがnullのエピソードを現在のユーザーに関連付ける修正機能
+  const handleFixOrphanedEpisodes = async () => {
+    try {
+      console.log('FIX: Assigning orphaned episodes to current user:', user.id)
+      
+      // user_idがnullまたは空のエピソードを検索
+      const { data: orphanedData, error: orphanedError } = await supabase
+        .from('episodes')
+        .select('*')
+        .is('user_id', null)
+
+      console.log('FIX: Found orphaned episodes:', orphanedData)
+
+      if (orphanedData && orphanedData.length > 0) {
+        // 孤立したエピソードを現在のユーザーに関連付け
+        const { data: updateData, error: updateError } = await supabase
+          .from('episodes')
+          .update({ user_id: user.id })
+          .is('user_id', null)
+          .select()
+
+        console.log('FIX: Updated episodes:', updateData)
+        console.log('FIX: Update error:', updateError)
+
+        if (updateError) {
+          setAlert({ type: 'error', text: `修正エラー: ${updateError.message}` })
+        } else {
+          setAlert({ 
+            type: 'success', 
+            text: `${updateData?.length || 0}件のエピソードを修正しました` 
+          })
+          // エピソード一覧を再読み込み
+          handleRefreshEpisodes()
+        }
+      } else {
+        setAlert({ type: 'success', text: '修正が必要なエピソードはありません' })
+      }
+    } catch (err) {
+      console.error('FIX: Error:', err)
+      setAlert({ type: 'error', text: '修正処理でエラーが発生しました' })
+    }
+  }
+
   // コンポーネントマウント時とエピソード公開時にエピソード一覧をフェッチ
   useEffect(() => {
     // エピソード一覧をフェッチする関数を useEffect の内部に定義
@@ -328,19 +405,33 @@ export default function AdminForm({ user }: { user: User }) {
       <section>
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-gray-800">公開済みエピソード</h2>
-          <button
-            onClick={handleRefreshEpisodes}
-            disabled={isRefreshing}
-            className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
-          >
-            {isRefreshing && (
-              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-            )}
-            {isRefreshing ? '更新中...' : '一覧を更新'}
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={handleDebugAllEpisodes}
+              className="inline-flex items-center px-3 py-2 border border-red-300 rounded-md shadow-sm text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            >
+              DEBUG
+            </button>
+            <button
+              onClick={handleFixOrphanedEpisodes}
+              className="inline-flex items-center px-3 py-2 border border-yellow-300 rounded-md shadow-sm text-sm font-medium text-yellow-700 bg-yellow-50 hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+            >
+              修正
+            </button>
+            <button
+              onClick={handleRefreshEpisodes}
+              disabled={isRefreshing}
+              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            >
+              {isRefreshing && (
+                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              )}
+              {isRefreshing ? '更新中...' : '一覧を更新'}
+            </button>
+          </div>
         </div>
         {episodes.length === 0 ? (
           <p className="text-gray-500">まだエピソードがありません。</p>
