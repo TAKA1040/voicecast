@@ -15,6 +15,29 @@ export default function AdminPage() {
   useEffect(() => {
     const supabase = createClient()
 
+    // Implicit OAuth用のURLハッシュ処理
+    const processHashParams = () => {
+      if (typeof window !== 'undefined' && window.location.hash) {
+        const hashParams = new URLSearchParams(window.location.hash.substring(1))
+        const accessToken = hashParams.get('access_token')
+        const refreshToken = hashParams.get('refresh_token')
+        
+        if (accessToken && refreshToken) {
+          console.log('AdminPage: Found OAuth tokens in URL hash')
+          supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken
+          })
+          
+          // URLからハッシュをクリア
+          window.history.replaceState(null, '', window.location.pathname)
+          return
+        }
+      }
+    }
+
+    processHashParams()
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       console.log('AdminPage: onAuthStateChange event:', event, 'session:', session ? 'present' : 'not present', session);
       if (session) {
@@ -22,13 +45,13 @@ export default function AdminPage() {
       } else {
         setUser(null)
       }
-      setLoading(false) // Loading is done once the auth state is determined by onAuthStateChange
+      setLoading(false)
     })
 
     return () => {
       subscription.unsubscribe()
     }
-  }, []) // Empty dependency array to run once on mount
+  }, [])
 
   // Redirect logic based on user and loading state
   useEffect(() => {

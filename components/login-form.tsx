@@ -70,6 +70,7 @@ export default function LoginForm() {
         provider: 'google',
         options: {
           redirectTo: redirectUrl,
+          flowType: 'implicit'
         },
       })
       
