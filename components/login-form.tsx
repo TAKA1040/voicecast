@@ -48,7 +48,7 @@ export default function LoginForm() {
           ? `https://${process.env.VERCEL_URL}` 
           : process.env.NEXT_PUBLIC_SITE_URL 
           ? process.env.NEXT_PUBLIC_SITE_URL 
-          : 'https://voicecast-l4udklb4f-takas-projects-ebc9ff02.vercel.app'
+          : 'https://voicecast-p0gg0rn0x-takas-projects-ebc9ff02.vercel.app'
         
         return `${baseUrl}/auth/callback`
       }

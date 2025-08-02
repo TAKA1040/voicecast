@@ -65,6 +65,7 @@ export async function middleware(req: NextRequest) {
       
       console.log('Middleware: Session present:', !!session)
       console.log('Middleware: User present:', !!session?.user)
+      console.log('Middleware: User email:', session?.user?.email)
       
       if (!session) {
         console.log('Middleware: No session, redirecting to login')

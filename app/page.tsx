@@ -38,7 +38,7 @@ export default function HomePage() {
       return
     }
 
-    // 認証状態を確認
+    // 認証状態を確認（リダイレクトなし）
     const checkAuthState = async () => {
       try {
         console.log('HomePage: Checking auth state...')
@@ -57,9 +57,12 @@ export default function HomePage() {
           
           setUser(session.user)
           
-          // 即座にリダイレクト（遅延なし）
-          console.log('HomePage: Redirecting to admin immediately...')
-          window.location.href = '/admin'
+          // 認証済みユーザーは常に管理画面にリダイレクト
+          console.log('HomePage: User authenticated, redirecting to admin...')
+          // 既存セッションがあるので直接リダイレクト
+          setTimeout(() => {
+            window.location.href = '/admin'
+          }, 100)
         } else {
           console.log('HomePage: No authenticated user found')
           setUser(null)
@@ -96,14 +99,16 @@ export default function HomePage() {
     checkAuthState()
     fetchEpisodes()
 
-    // 認証状態の変更を監視
+    // 認証状態の変更を監視（リダイレクトなし）
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       console.log('HomePage: Auth state changed:', event, session ? 'session present' : 'no session')
       
       if (event === 'SIGNED_IN' && session?.user) {
         setUser(session.user)
-        console.log('HomePage: User signed in, redirecting to admin...')
-        window.location.href = '/admin'
+        console.log('HomePage: SIGNED_IN event, redirecting to admin...')
+        setTimeout(() => {
+          window.location.href = '/admin'
+        }, 100)
       } else if (event === 'SIGNED_OUT') {
         setUser(null)
       } else {
@@ -165,7 +170,7 @@ export default function HomePage() {
                 <div className="flex flex-col md:flex-row gap-3 items-center">
                   <div className="text-center md:text-right">
                     <span className="text-sm text-gray-600 block">こんにちは、{user.email}</span>
-                    <span className="text-xs text-green-600 block">✓ ログイン済み - 管理画面に移動中...</span>
+                    <span className="text-xs text-green-600 block">✓ ログイン済み</span>
                   </div>
                   <Link 
                     href="/admin"
