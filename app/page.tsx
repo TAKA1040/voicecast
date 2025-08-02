@@ -58,12 +58,8 @@ export default function HomePage() {
           
           setUser(session.user)
           
-          // 認証済みユーザーは常に管理画面にリダイレクト
-          console.log('HomePage: User authenticated, redirecting to admin...')
-          // 既存セッションがあるので直接リダイレクト
-          setTimeout(() => {
-            window.location.href = '/admin'
-          }, 100)
+          // 認証済みユーザーでもホームページを表示（リダイレクトしない）
+          console.log('HomePage: User authenticated, showing homepage with user info')
         } else {
           console.log('HomePage: No authenticated user found')
           setUser(null)
@@ -121,10 +117,7 @@ export default function HomePage() {
       
       if (event === 'SIGNED_IN' && session?.user) {
         setUser(session.user)
-        console.log('HomePage: SIGNED_IN event, redirecting to admin...')
-        setTimeout(() => {
-          window.location.href = '/admin'
-        }, 100)
+        console.log('HomePage: SIGNED_IN event, staying on homepage')
       } else if (event === 'SIGNED_OUT') {
         setUser(null)
       } else {
