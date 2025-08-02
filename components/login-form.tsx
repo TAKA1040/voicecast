@@ -43,17 +43,17 @@ export default function LoginForm() {
       // まず既存セッションをチェック
       const { data: { session } } = await supabase.auth.getSession()
       if (session?.user) {
-        console.log('✅ Existing session found, redirecting to admin')
-        window.location.href = '/admin'
+        console.log('✅ Existing session found, staying on homepage')
+        window.location.href = '/'
         return
       }
 
       // リダイレクトURLを動的に取得
       const getRedirectUrl = () => {
-        // 強制的に管理画面にリダイレクト（キャッシュバスティング）
+        // ホームページにリダイレクト（キャッシュバスティング）
         const timestamp = Date.now()
         if (typeof window !== 'undefined') {
-          return `${window.location.origin}/admin?t=${timestamp}`
+          return `${window.location.origin}/?t=${timestamp}`
         }
         const baseUrl = process.env.VERCEL_URL 
           ? `https://${process.env.VERCEL_URL}` 
@@ -61,11 +61,11 @@ export default function LoginForm() {
           ? process.env.NEXT_PUBLIC_SITE_URL 
           : 'https://voicecast-p0gg0rn0x-takas-projects-ebc9ff02.vercel.app'
         
-        return `${baseUrl}/admin?t=${timestamp}`
+        return `${baseUrl}/?t=${timestamp}`
       }
 
       const redirectUrl = getRedirectUrl()
-      console.log('Google OAuth redirect URL (to admin):', redirectUrl)
+      console.log('Google OAuth redirect URL (to homepage):', redirectUrl)
 
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
