@@ -6,7 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "db:push": "supabase db push",
+    "db:pull": "supabase db pull", 
+    "db:reset": "supabase db reset",
+    "db:types": "supabase gen types typescript --linked > lib/supabase.types.ts",
+    "deploy": "vercel --prod",
+    "deploy:preview": "vercel",
+    "setup": "bash scripts/setup.sh",
+    "logs": "vercel logs --follow"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.856.0",
