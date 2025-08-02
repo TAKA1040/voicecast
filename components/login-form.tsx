@@ -71,14 +71,12 @@ export default function LoginForm() {
       console.log('🔍 OAuth Debug - About to call signInWithOAuth with options:', {
         provider: 'google',
         redirectTo: redirectUrl,
-        flowType: 'implicit'
       })
 
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: redirectUrl,
-          flowType: 'implicit'
         },
       })
       

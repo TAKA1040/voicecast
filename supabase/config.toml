@@ -1,2 +1,14 @@
 # supabase/config.toml
 project_id = "emkxinzasmmhwxfgagyh"
+
+[auth]
+site_url = "https://voicecast-oxid6pmzu-takas-projects-ebc9ff02.vercel.app"
+additional_redirect_urls = [
+  "https://127.0.0.1:3000",
+  "https://voicecast-oxid6pmzu-takas-projects-ebc9ff02.vercel.app/admin"
+]
+
+[auth.external.google]
+enabled = true
+client_id = "env(GOOGLE_CLIENT_ID)"
+secret = "env(GOOGLE_CLIENT_SECRET)"
