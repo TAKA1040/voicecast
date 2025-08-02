@@ -66,6 +66,13 @@ export default function LoginForm() {
 
       const redirectUrl = getRedirectUrl()
       console.log('Google OAuth redirect URL (to admin):', redirectUrl)
+      
+      // デバッグ用：実際に生成されるOAuth URLをログ出力
+      console.log('🔍 OAuth Debug - About to call signInWithOAuth with options:', {
+        provider: 'google',
+        redirectTo: redirectUrl,
+        flowType: 'implicit'
+      })
 
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
