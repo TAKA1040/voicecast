@@ -50,9 +50,10 @@ export default function LoginForm() {
 
       // リダイレクトURLを動的に取得
       const getRedirectUrl = () => {
-        // 直接管理画面にリダイレクト
+        // 強制的に管理画面にリダイレクト（キャッシュバスティング）
+        const timestamp = Date.now()
         if (typeof window !== 'undefined') {
-          return `${window.location.origin}/admin`
+          return `${window.location.origin}/admin?t=${timestamp}`
         }
         const baseUrl = process.env.VERCEL_URL 
           ? `https://${process.env.VERCEL_URL}` 
@@ -60,7 +61,7 @@ export default function LoginForm() {
           ? process.env.NEXT_PUBLIC_SITE_URL 
           : 'https://voicecast-p0gg0rn0x-takas-projects-ebc9ff02.vercel.app'
         
-        return `${baseUrl}/admin`
+        return `${baseUrl}/admin?t=${timestamp}`
       }
 
       const redirectUrl = getRedirectUrl()
