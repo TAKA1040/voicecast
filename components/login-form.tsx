@@ -38,23 +38,33 @@ export default function LoginForm() {
     setIsLoading(true)
     
     try {
+      console.log('=== Starting Google Login ===')
+      
+      // まず既存セッションをチェック
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session?.user) {
+        console.log('✅ Existing session found, redirecting to admin')
+        window.location.href = '/admin'
+        return
+      }
+
       // リダイレクトURLを動的に取得
       const getRedirectUrl = () => {
+        // PKCEエラー回避のため、ホームページにリダイレクト
         if (typeof window !== 'undefined') {
-          return `${window.location.origin}/auth/callback`
+          return `${window.location.origin}/`
         }
-        // 環境変数ベースの動的フォールバック
         const baseUrl = process.env.VERCEL_URL 
           ? `https://${process.env.VERCEL_URL}` 
           : process.env.NEXT_PUBLIC_SITE_URL 
           ? process.env.NEXT_PUBLIC_SITE_URL 
           : 'https://voicecast-p0gg0rn0x-takas-projects-ebc9ff02.vercel.app'
         
-        return `${baseUrl}/auth/callback`
+        return baseUrl
       }
 
       const redirectUrl = getRedirectUrl()
-      console.log('Google OAuth redirect URL:', redirectUrl)
+      console.log('Google OAuth redirect URL (to homepage):', redirectUrl)
 
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
@@ -68,7 +78,6 @@ export default function LoginForm() {
         setMessage('エラー: ' + error.message)
         setIsLoading(false)
       }
-      // 成功時はリダイレクトが発生するのでsetIsLoading(false)は不要
     } catch (err) {
       console.error('Unexpected error during Google login:', err)
       setMessage('予期しないエラーが発生しました。')
