@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OAuth URL Debug</title>
+</head>
+<body>
+    <h1>Supabase OAuth URL チェック</h1>
+    <button onclick="checkOAuthURL()">Google OAuth URL を生成</button>
+    <div id="result"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabase = window.supabase.createClient(
+            'https://emkxinzasmmhwxfgagyh.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2Vta3hpbnphc21taHd4ZmdhZ3loLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJyZWYiOiJlbWt4aW56YXNtbWh3eGZnYWd5aCIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzE5NTU1ODU4LCJleHAiOjIwMzUxMzE4NTh9.J-zPdPk3m_vAE5lzlx2QgKlHG-7PvG71oGRhNZFpRmg'
+        );
+
+        async function checkOAuthURL() {
+            try {
+                const redirectUrl = 'https://voicecast-p0gg0rn0x-takas-projects-ebc9ff02.vercel.app/admin';
+                
+                console.log('リダイレクトURL:', redirectUrl);
+                
+                const { data, error } = await supabase.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: {
+                        redirectTo: redirectUrl,
+                        flowType: 'implicit'
+                    },
+                });
+                
+                if (error) {
+                    document.getElementById('result').innerHTML = 
+                        '<h3>エラー:</h3><pre>' + JSON.stringify(error, null, 2) + '</pre>';
+                } else {
+                    document.getElementById('result').innerHTML = 
+                        '<h3>成功:</h3><p>ブラウザで生成されたOAuth URLを確認してください</p>';
+                }
+                
+                console.log('OAuth result:', { data, error });
+                
+            } catch (err) {
+                console.error('Unexpected error:', err);
+                document.getElementById('result').innerHTML = 
+                    '<h3>予期しないエラー:</h3><pre>' + err.message + '</pre>';
+            }
+        }
+    </script>
+</body>
+</html>
