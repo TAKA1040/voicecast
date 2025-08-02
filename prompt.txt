@@ -1,16 +1,9 @@
-https://voicecast-oxid6pmzu-takas-projects-ebc9ff02.vercel.app/login
+ 修正方法（2つの選択肢）：
 
-Deployment has failed
-デプロイのエラー⇩
-Failed to compile.
-./components/login-form.tsx:81:11
-Type error: Object literal may only specify known properties, and 'flowType' does not exist in type '{ redirectTo?: string | undefined; scopes?: string | undefined; queryParams?: { [key: string]: string; } | undefined; skipBrowserRedirect?: boolean | undefined; }'.
-  79 |         options: {
-  80 |           redirectTo: redirectUrl,
-> 81 |           flowType: 'implicit'
-     |           ^
-  82 |         },
-  83 |       })
-  84 |       
-Error: Command "npm run build" exited with 1
-Exiting build container
+  選択肢1: パブリックポリシー作成
+
+  CREATE POLICY "Public can view episodes" ON episodes
+  FOR SELECT USING (true);
+  
+  これをしてッていうのを忘れてた。
+  この作業できてないままだからやって
