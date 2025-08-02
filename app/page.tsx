@@ -35,7 +35,7 @@ export default function HomePage() {
       
       // Don't redirect to callback, let the auth state check handle it
       console.log('Waiting for auth state to be established...')
-      // The useEffect with checkAuthState will handle the redirect to admin
+      // User will stay on homepage after auth
       return
     }
 
@@ -60,6 +60,7 @@ export default function HomePage() {
           
           // 認証済みユーザーでもホームページを表示（リダイレクトしない）
           console.log('HomePage: User authenticated, showing homepage with user info')
+          console.log('HomePage: NOT redirecting to admin - staying on homepage')
         } else {
           console.log('HomePage: No authenticated user found')
           setUser(null)
