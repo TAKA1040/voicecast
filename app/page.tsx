@@ -75,16 +75,31 @@ export default function HomePage() {
     }
 
     const fetchEpisodes = async () => {
+      console.log('🔍 HomePage: fetchEpisodes 開始...')
+      console.log('🔍 Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL)
+      console.log('🔍 Anon Key存在:', !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+      
       const { data, error } = await supabase
         .from('episodes')
         .select('*')
         .order('created_at', { ascending: false })
 
+      console.log('🔍 クエリ結果:')
+      console.log('  - data:', data)
+      console.log('  - error:', error)
+      console.log('  - data length:', data?.length || 0)
+
       if (error) {
-        console.error('Error fetching episodes:', error)
+        console.error('❌ Error fetching episodes:', error)
+        console.error('❌ Error details:', JSON.stringify(error, null, 2))
         setError('エピソードの読み込みに失敗しました。')
       } else {
         const episodes = data as Episode[]
+        console.log('✅ Episodes fetched:', episodes.length)
+        episodes.forEach((ep, index) => {
+          console.log(`  ${index + 1}. ${ep.title} (${ep.id})`)
+        })
+        
         setAllEpisodes(episodes)
         setFilteredEpisodes(episodes)
         if (episodes.length > 0) {
@@ -206,9 +221,19 @@ export default function HomePage() {
             </div>
           </div>
 
-          {filteredEpisodes.length === 0 ? (
+          {(() => {
+            console.log('🔍 Render check:')
+            console.log('  - allEpisodes.length:', allEpisodes.length)
+            console.log('  - filteredEpisodes.length:', filteredEpisodes.length)
+            console.log('  - loading:', loading)
+            console.log('  - error:', error)
+            return filteredEpisodes.length === 0
+          })() ? (
             <div className="text-center py-16 text-gray-500">
-              <p className="text-lg md:text-xl mb-4">🎧 このジャンルのエピソードはありません</p>
+              <p className="text-lg md:text-xl mb-4">🎧 エピソードがありません</p>
+              <p className="text-sm text-gray-400">
+                デバッグ: 全エピソード{allEpisodes.length}件, フィルター済み{filteredEpisodes.length}件
+              </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
