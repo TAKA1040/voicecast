@@ -50,9 +50,9 @@ export default function LoginForm() {
 
       // リダイレクトURLを動的に取得
       const getRedirectUrl = () => {
-        // PKCEエラー回避のため、ホームページにリダイレクト
+        // 直接管理画面にリダイレクト
         if (typeof window !== 'undefined') {
-          return `${window.location.origin}/`
+          return `${window.location.origin}/admin`
         }
         const baseUrl = process.env.VERCEL_URL 
           ? `https://${process.env.VERCEL_URL}` 
@@ -60,11 +60,11 @@ export default function LoginForm() {
           ? process.env.NEXT_PUBLIC_SITE_URL 
           : 'https://voicecast-p0gg0rn0x-takas-projects-ebc9ff02.vercel.app'
         
-        return baseUrl
+        return `${baseUrl}/admin`
       }
 
       const redirectUrl = getRedirectUrl()
-      console.log('Google OAuth redirect URL (to homepage):', redirectUrl)
+      console.log('Google OAuth redirect URL (to admin):', redirectUrl)
 
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
