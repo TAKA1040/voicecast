@@ -1,13 +1,14 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextRequest, NextResponse } from 'next/server'
 
-// サーバーサイド認証コールバック - 最優先実行
+// サーバーサイド認証コールバック - 最優先実行  
 export async function GET(request: NextRequest) {
-  // デバッグ用のアラート（一時的）
-  console.error('🚨🚨🚨 SERVER-SIDE CALLBACK IS WORKING! 🚨🚨🚨')
-  console.log('=== ROUTE HANDLER EXECUTING ===')
-  console.log('Request method:', request.method)
-  console.log('Request URL:', request.url)
+  // 強制デバッグログ
+  console.error('🚨🚨🚨 SERVER-SIDE CALLBACK ROUTE.TS IS WORKING! 🚨🚨🚨')
+  console.error('=== NEW DEPLOYMENT ACTIVE ===')
+  console.error('Request method:', request.method)
+  console.error('Request URL:', request.url)
+  console.error('Timestamp:', new Date().toISOString())
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
   const next = searchParams.get('next') ?? '/admin'
