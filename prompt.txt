@@ -1,5 +1,5 @@
 page-c3690a3e9b57c72f.js:1 AuthCallback: Starting...
-page-c3690a3e9b57c72f.js:1 AuthCallback: Current URL: https://voicecast-p0gg0rn0x-takas-projects-ebc9ff02.vercel.app/auth/callback?code=f4303275-973c-4e74-a10a-1d52f8f5ac08
+page-c3690a3e9b57c72f.js:1 AuthCallback: Current URL: https://voicecast-p0gg0rn0x-takas-projects-ebc9ff02.vercel.app/auth/callback?code=6ee1edc6-1444-4211-bf8f-f987922ad16c
 page-c3690a3e9b57c72f.js:1 AuthCallback: Found authorization code, exchanging for session...
 page-c3690a3e9b57c72f.js:1 AuthCallback: Code length: 36
 page-c3690a3e9b57c72f.js:1 AuthCallback: Current domain: voicecast-p0gg0rn0x-takas-projects-ebc9ff02.vercel.app

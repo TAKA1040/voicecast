@@ -3,6 +3,12 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export async function middleware(req: NextRequest) {
+  // Force redirect callback to admin (cache bypass)
+  if (req.nextUrl.pathname.startsWith('/auth/callback')) {
+    console.log('Middleware: Blocking callback route, redirecting to admin')
+    return NextResponse.redirect(new URL('/admin', req.url))
+  }
+
   // Skip middleware for API routes and static files
   if (req.nextUrl.pathname.startsWith('/api') || 
       req.nextUrl.pathname.startsWith('/_next') ||
