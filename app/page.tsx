@@ -26,15 +26,16 @@ export default function HomePage() {
     const code = urlParams.get('code')
     
     if (code) {
-      console.log('Found auth code on homepage, redirecting to callback...')
-      // Clear the URL first to prevent redirect loops
+      console.log('🎉 Auth code found on homepage - OAuth successful!')
+      console.log('Code:', code)
+      
+      // Clear the URL to clean up
       const cleanUrl = window.location.origin + window.location.pathname
       window.history.replaceState({}, document.title, cleanUrl)
       
-      // Redirect to the callback page with the code and any other params
-      const callbackUrl = `/auth/callback?${urlParams.toString()}`
-      console.log('Redirecting to:', callbackUrl)
-      window.location.href = callbackUrl
+      // Don't redirect to callback, let the auth state check handle it
+      console.log('Waiting for auth state to be established...')
+      // The useEffect with checkAuthState will handle the redirect to admin
       return
     }
 
