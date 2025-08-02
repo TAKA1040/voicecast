@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "routes": [
+  "redirects": [
     {
-      "src": "/auth/callback",
-      "dest": "/admin",
-      "status": 302
+      "source": "/auth/callback",
+      "destination": "/admin",
+      "permanent": false
     }
   ],
   "headers": [
