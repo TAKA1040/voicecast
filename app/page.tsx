@@ -238,24 +238,22 @@ export default function HomePage() {
           )}
         </section>
         
-        {/* フッター - 管理者ログイン（キャッシュバスター付き）*/}
+        {/* フッター - 管理者ログイン（条件分岐なし・常時表示）*/}
         <footer className="mt-12 text-center space-y-2" data-testid="main-footer">
-          {!user ? (
+          <div className="space-y-1">
             <Link 
-              href={`/login?v=${Date.now()}`}
+              href="/login"
               className="inline-flex items-center px-3 py-1.5 text-xs text-gray-500 hover:text-gray-700 transition-colors duration-200"
-              data-cache-buster={Date.now()}
               data-testid="admin-login-button"
             >
               👨‍💼 管理者ログイン
             </Link>
-          ) : (
-            <span className="text-xs text-gray-400" data-testid="logged-in-status">
-              ログイン済み: {user.email}
-            </span>
-          )}
+            <div className="text-xs text-gray-400">
+              {user && `ログイン済み: ${user.email}`}
+            </div>
+          </div>
           <div className="text-xs text-gray-300">
-            Page loaded: {new Date().toLocaleTimeString()}
+            {new Date().toLocaleString('ja-JP')}
           </div>
         </footer>
       </div>
