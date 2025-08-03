@@ -1,6 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+
+// 動的レンダリング強制（SSRキャッシュを無効化）
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 import { createClient } from '@/lib/supabase/client'
 import { Episode } from '@/lib/types'
 import EpisodePlayer from '@/components/episode-player'
@@ -237,22 +241,24 @@ export default function HomePage() {
           )}
         </section>
         
-        {/* フッター - 管理者ログイン */}
-        <footer className="mt-12 text-center space-y-2">
+        {/* フッター - 管理者ログイン（キャッシュバスター付き）*/}
+        <footer className="mt-12 text-center space-y-2" data-testid="main-footer">
           {!user ? (
             <Link 
-              href="/login"
+              href={`/login?v=${Date.now()}`}
               className="inline-flex items-center px-3 py-1.5 text-xs text-gray-500 hover:text-gray-700 transition-colors duration-200"
+              data-cache-buster={Date.now()}
+              data-testid="admin-login-button"
             >
               👨‍💼 管理者ログイン
             </Link>
           ) : (
-            <span className="text-xs text-gray-400">
+            <span className="text-xs text-gray-400" data-testid="logged-in-status">
               ログイン済み: {user.email}
             </span>
           )}
           <div className="text-xs text-gray-300">
-            Build: {buildTime} | {new Date().toLocaleTimeString()}
+            Build: {buildTime} | {new Date().toLocaleTimeString()} | Cache: {Date.now()}
           </div>
         </footer>
       </div>
