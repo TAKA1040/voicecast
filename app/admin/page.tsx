@@ -124,10 +124,23 @@ export default function AdminPage() {
         <div className="flex justify-between items-center mb-4">
           <button
             onClick={() => {
-              // 強制的にキャッシュをクリアしてホームページへ
-              router.refresh() // Next.jsのルーターキャッシュもクリア
+              // 最も強力なキャッシュクリア方法
+              if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(registrations => {
+                  registrations.forEach(registration => registration.unregister())
+                })
+              }
+              
+              // ブラウザの全キャッシュをクリア
+              if ('caches' in window) {
+                caches.keys().then(names => {
+                  names.forEach(name => caches.delete(name))
+                })
+              }
+              
+              // 完全なページ再読み込み
               const timestamp = Date.now()
-              window.location.href = `/?cache-bust=${timestamp}`
+              window.location.replace(`/?nocache=${timestamp}`)
             }}
             className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >

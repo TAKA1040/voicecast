@@ -10,7 +10,9 @@ import Link from 'next/link'
 import { User } from '@supabase/supabase-js'
 
 export default function HomePage() {
-  console.log('🚨 HomePage component loaded - this should appear in console!')
+  console.log('🚨🚨🚨 HomePage component loaded - NEW VERSION!')
+  console.log('🚨 Current URL:', typeof window !== 'undefined' ? window.location.href : 'SSR')
+  console.log('🚨 Timestamp:', new Date().toISOString())
   const [allEpisodes, setAllEpisodes] = useState<Episode[]>([])
   const [filteredEpisodes, setFilteredEpisodes] = useState<Episode[]>([])
   const [selectedEpisode, setSelectedEpisode] = useState<Episode | null>(null)
