@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 
 // 動的レンダリング強制（SSRキャッシュを無効化）
 export const dynamic = 'force-dynamic'
-export const revalidate = false
 import { createClient } from '@/lib/supabase/client'
 import { Episode } from '@/lib/types'
 import EpisodePlayer from '@/components/episode-player'
@@ -14,11 +13,9 @@ import Link from 'next/link'
 import { User } from '@supabase/supabase-js'
 
 export default function HomePage() {
-  const buildTime = Date.now() // キャッシュバスター
-  console.log('🚨🚨🚨 HomePage component loaded - BUILD TIME:', buildTime)
+  console.log('🚨🚨🚨 HomePage component loaded - NEW VERSION!')
   console.log('🚨 Current URL:', typeof window !== 'undefined' ? window.location.href : 'SSR')
   console.log('🚨 Timestamp:', new Date().toISOString())
-  console.log('🚨 CACHE BUSTER:', buildTime)
   const [allEpisodes, setAllEpisodes] = useState<Episode[]>([])
   const [filteredEpisodes, setFilteredEpisodes] = useState<Episode[]>([])
   const [selectedEpisode, setSelectedEpisode] = useState<Episode | null>(null)
@@ -258,7 +255,7 @@ export default function HomePage() {
             </span>
           )}
           <div className="text-xs text-gray-300">
-            Build: {buildTime} | {new Date().toLocaleTimeString()} | Cache: {Date.now()}
+            Page loaded: {new Date().toLocaleTimeString()}
           </div>
         </footer>
       </div>
