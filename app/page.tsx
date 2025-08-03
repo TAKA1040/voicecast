@@ -216,22 +216,27 @@ export default function HomePage() {
           {filteredEpisodes.length === 0 ? (
             <p className="text-gray-500 text-center py-8">エピソードがありません</p>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-1">
               {filteredEpisodes.map((episode) => (
                 <div 
                   key={episode.id}
-                  className="border-b border-gray-100 py-3 hover:bg-gray-50 cursor-pointer"
+                  className="border-b border-gray-100 py-2 hover:bg-gray-50 cursor-pointer"
                   onClick={() => handlePlay(episode)}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <h3 className="font-medium text-gray-900">{episode.title}</h3>
-                      <p className="text-sm text-gray-500">
-                        {new Date(episode.created_at).toLocaleDateString('ja-JP')}
-                      </p>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-medium text-gray-900 truncate">{episode.title}</h3>
+                      <div className="flex items-center gap-3 text-sm text-gray-500">
+                        <span>{new Date(episode.created_at).toLocaleDateString('ja-JP')}</span>
+                        {episode.genre && (
+                          <span className="px-2 py-0.5 bg-gray-100 rounded text-xs">
+                            {episode.genre}
+                          </span>
+                        )}
+                      </div>
                     </div>
                     <button 
-                      className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 text-xs"
+                      className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 text-xs ml-3 flex-shrink-0"
                       onClick={(e) => {
                         e.stopPropagation()
                         handlePlay(episode)
