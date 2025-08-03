@@ -191,14 +191,7 @@ export default function HomePage() {
                     📊 管理画面へ
                   </Link>
                 </div>
-              ) : (
-                <Link 
-                  href="/login"
-                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white font-medium rounded-lg shadow-md hover:from-pink-600 hover:to-purple-600 transition-all duration-200 transform hover:scale-105"
-                >
-                  🔐 ログイン
-                </Link>
-              )}
+              ) : null}
             </div>
           </div>
         </header>
@@ -239,6 +232,18 @@ export default function HomePage() {
             </div>
           )}
         </section>
+        
+        {/* フッター - 管理者ログイン */}
+        {!user && (
+          <footer className="mt-12 text-center">
+            <Link 
+              href="/login"
+              className="inline-flex items-center px-3 py-1.5 text-xs text-gray-500 hover:text-gray-700 transition-colors duration-200"
+            >
+              👨‍💼 管理者ログイン
+            </Link>
+          </footer>
+        )}
       </div>
     </div>
   )
