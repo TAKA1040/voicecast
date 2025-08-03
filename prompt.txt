@@ -1,12 +1,25 @@
+問題１
+フッターに管理者ログインボタンがない
+⇓
+画面上のログインボタンよりログイン
+⇓
+シークレットモードでも状態は同じ。
+
+﻿
 page-78a2c407a07dd5f2.js:1 AdminPage: Displaying Loading...
 page-78a2c407a07dd5f2.js:1 AdminPage: Initializing authentication...
 page-78a2c407a07dd5f2.js:1 AdminPage: onAuthStateChange event: SIGNED_IN session: present
 page-78a2c407a07dd5f2.js:1 AdminPage: Auth state changed - user logged in: dash201206@gmail.com
 page-78a2c407a07dd5f2.js:1 Fetching episodes for user: fdb572fb-b65f-4818-8626-616d66ebc974
-page-78a2c407a07dd5f2.js:1 User info: {id: 'fdb572fb-b65f-4818-8626-616d66ebc974', email: 'dash201206@gmail.com', role: 'authenticated'}
+page-78a2c407a07dd5f2.js:1 User info: 
+{id: 'fdb572fb-b65f-4818-8626-616d66ebc974', email: 'dash201206@gmail.com', role: 'authenticated'}
 page-78a2c407a07dd5f2.js:1 AdminPage: Existing valid session found!
 page-78a2c407a07dd5f2.js:1 AdminPage: User: dash201206@gmail.com
 page-78a2c407a07dd5f2.js:1 AdminPage: onAuthStateChange event: INITIAL_SESSION session: present
 page-78a2c407a07dd5f2.js:1 AdminPage: Auth state changed - user logged in: dash201206@gmail.com
 page-78a2c407a07dd5f2.js:1 Current authenticated user: fdb572fb-b65f-4818-8626-616d66ebc974 null
-page-78a2c407a07dd5f2.js:1 Fetched 3 episodes: (3) [{…}, {…}, {…}]
+page-78a2c407a07dd5f2.js:1 Fetched 3 episodes: 
+(3) [{…}, {…}, {…}]
+page-0f2667254fc0d6b1.js:1 HomePage: Checking auth state...
+page-0f2667254fc0d6b1.js:1 HomePage: No authenticated user found
+page-0f2667254fc0d6b1.js:1 HomePage: Auth state changed: INITIAL_SESSION no session

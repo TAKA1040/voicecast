@@ -236,16 +236,20 @@ export default function HomePage() {
         </section>
         
         {/* フッター - 管理者ログイン */}
-        {!user && (
-          <footer className="mt-12 text-center">
+        <footer className="mt-12 text-center">
+          {!user ? (
             <Link 
               href="/login"
               className="inline-flex items-center px-3 py-1.5 text-xs text-gray-500 hover:text-gray-700 transition-colors duration-200"
             >
               👨‍💼 管理者ログイン
             </Link>
-          </footer>
-        )}
+          ) : (
+            <span className="text-xs text-gray-400">
+              ログイン済み: {user.email}
+            </span>
+          )}
+        </footer>
       </div>
     </div>
   )
