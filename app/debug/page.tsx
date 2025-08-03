@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = false
 
 export default function DebugPage() {
   const [user, setUser] = useState<{ email: string } | null>(null)

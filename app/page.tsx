@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 
 // 動的レンダリング強制（SSRキャッシュを無効化）
 export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = false
 import { createClient } from '@/lib/supabase/client'
 import { Episode } from '@/lib/types'
 import EpisodePlayer from '@/components/episode-player'
