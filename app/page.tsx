@@ -59,8 +59,9 @@ export default function HomePage() {
           setUser(session.user)
           
           // 認証済みユーザーでもホームページを表示（リダイレクトしない）
-          console.log('HomePage: User authenticated, showing homepage with user info')
-          console.log('HomePage: NOT redirecting to admin - staying on homepage')
+          console.log('🏠 HomePage: User authenticated, showing homepage with user info')
+          console.log('🏠 HomePage: NOT redirecting to admin - staying on homepage')
+          console.log('🏠 HomePage: Cache buster - user can view public episodes')
         } else {
           console.log('HomePage: No authenticated user found')
           setUser(null)
