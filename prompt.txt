@@ -1,3 +1,64 @@
-画面が更新されない問題が起きないようにするためのマニュアルを作って新しくファイルに出力して。
+まず、しんぷるなリストじゃないと見ずらい。
+大きな絵文字は身ずらくなるだけなので不要
+再生ボタンの横の次に送るボタンが動かない
 
 
+あと、ビルドエラー
+[13:36:30.550] Running build in Washington, D.C., USA (East) – iad1
+[13:36:30.550] Build machine configuration: 2 cores, 8 GB
+[13:36:30.596] Cloning github.com/TAKA1040/voicecast (Branch: master, Commit: 4013a86)
+[13:36:32.296] Cloning completed: 1.699s
+[13:36:33.065] Restored build cache from previous deployment (4awh6xChvxmSt4eyo571MFRaLnxS)
+[13:36:34.488] Running "vercel build"
+[13:36:35.571] Vercel CLI 44.6.4
+[13:36:35.901] Installing dependencies...
+[13:36:37.586] 
+[13:36:37.586] up to date in 1s
+[13:36:37.587] 
+[13:36:37.587] 153 packages are looking for funding
+[13:36:37.588]   run `npm fund` for details
+[13:36:37.617] Detected Next.js version: 14.2.4
+[13:36:37.622] Running "npm run build"
+[13:36:37.732] 
+[13:36:37.733] > voicecast@0.1.0 build
+[13:36:37.733] > next build
+[13:36:37.734] 
+[13:36:38.369]  ⚠ Invalid next.config.js options detected: 
+[13:36:38.371]  ⚠     Unrecognized key(s) in object: 'isrMemoryCacheSize' at "experimental"
+[13:36:38.371]  ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+[13:36:38.437]   ▲ Next.js 14.2.4
+[13:36:38.438] 
+[13:36:38.509]    Creating an optimized production build ...
+[13:36:47.547]  ✓ Compiled successfully
+[13:36:47.548]    Linting and checking validity of types ...
+[13:36:53.951]    Collecting page data ...
+[13:36:55.613]    Generating static pages (0/11) ...
+[13:36:55.870]    Generating static pages (2/11) 
+[13:36:55.960] 🚫 Callback route accessed - redirecting to admin
+[13:36:55.978] 🔗 Direct Admin Access Route
+[13:36:55.979]    Generating static pages (5/11) 
+[13:36:56.114] AdminPage: Displaying Loading...
+[13:36:56.159]    Generating static pages (8/11) 
+[13:36:56.207]  ⨯ useSearchParams() should be wrapped in a suspense boundary at page "/login-direct". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+[13:36:56.208]     at o (/vercel/path0/.next/server/chunks/471.js:1:10494)
+[13:36:56.208]     at d (/vercel/path0/.next/server/chunks/471.js:1:21353)
+[13:36:56.208]     at a (/vercel/path0/.next/server/app/login/page.js:1:2886)
+[13:36:56.208]     at nj (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46251)
+[13:36:56.208]     at nM (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47571)
+[13:36:56.208]     at nN (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
+[13:36:56.209]     at nB (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67538)
+[13:36:56.209]     at nD (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:66680)
+[13:36:56.209]     at nN (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64853)
+[13:36:56.209]     at nB (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67538)
+[13:36:56.209] 
+[13:36:56.210] Error occurred prerendering page "/login-direct". Read more: https://nextjs.org/docs/messages/prerender-error
+[13:36:56.210] 
+[13:36:56.389] 🚨🚨🚨 HomePage component loaded - NEW VERSION!
+[13:36:56.389] 🚨 Current URL: SSR
+[13:36:56.393] 🚨 Timestamp: 2025-08-03T04:36:56.296Z
+[13:36:56.393]  ✓ Generating static pages (11/11)
+[13:36:56.405] 
+[13:36:56.406] > Export encountered errors on following paths:
+[13:36:56.406] 	/login-direct/page: /login-direct
+[13:36:56.436] Error: Command "npm run build" exited with 1
+[13:36:59.507] Exiting build container

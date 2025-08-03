@@ -5,7 +5,7 @@ const nextConfig = {
   
   // 全ページを動的レンダリング強制
   experimental: {
-    isrMemoryCacheSize: 0,
+    // isrMemoryCacheSize は Next.js 14.2.4 でサポートされていない
   },
   
   // キャッシュを完全に無効化

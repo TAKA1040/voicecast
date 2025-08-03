@@ -203,57 +203,42 @@ export default function HomePage() {
 
         <GenreFilter genres={genres} onGenreChange={handleGenreChange} />
 
-        <EpisodePlayer episode={selectedEpisode} />
+        <EpisodePlayer 
+          episode={selectedEpisode} 
+          episodes={filteredEpisodes}
+          onEpisodeChange={handlePlay}
+        />
 
-        {/* 最新の配信 - シンプルデザイン */}
-        <section className="bg-white rounded-2xl p-6 shadow-lg">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">
-            🎙️ 最新の配信
-          </h2>
+        {/* 最新の配信 - 超シンプルリスト */}
+        <section className="bg-white rounded-lg p-4 shadow">
+          <h2 className="text-xl font-bold mb-4">最新の配信</h2>
 
           {filteredEpisodes.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="text-6xl mb-4">🎧</div>
-              <p className="text-gray-500">まだエピソードがありません</p>
-            </div>
+            <p className="text-gray-500 text-center py-8">エピソードがありません</p>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-2">
               {filteredEpisodes.map((episode) => (
                 <div 
                   key={episode.id}
-                  className="border border-gray-200 rounded-lg p-4 hover:border-purple-300 hover:shadow-md transition-all duration-200 cursor-pointer"
+                  className="border-b border-gray-100 py-3 hover:bg-gray-50 cursor-pointer"
                   onClick={() => handlePlay(episode)}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-lg text-gray-900 mb-1">
-                        {episode.title}
-                      </h3>
-                      {episode.description && (
-                        <p className="text-gray-600 text-sm mb-2">
-                          {episode.description}
-                        </p>
-                      )}
-                      <div className="flex items-center text-sm text-gray-500">
-                        <span>📅 {new Date(episode.created_at).toLocaleDateString('ja-JP')}</span>
-                        {episode.genre && (
-                          <span className="ml-3 px-2 py-1 bg-gray-100 rounded-full text-xs">
-                            {episode.genre}
-                          </span>
-                        )}
-                      </div>
+                      <h3 className="font-medium text-gray-900">{episode.title}</h3>
+                      <p className="text-sm text-gray-500">
+                        {new Date(episode.created_at).toLocaleDateString('ja-JP')}
+                      </p>
                     </div>
-                    <div className="ml-4">
-                      <button 
-                        className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full flex items-center justify-center hover:from-pink-600 hover:to-purple-600 transition-all duration-200"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          handlePlay(episode)
-                        }}
-                      >
-                        ▶️
-                      </button>
-                    </div>
+                    <button 
+                      className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 text-xs"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handlePlay(episode)
+                      }}
+                    >
+                      ▶
+                    </button>
                   </div>
                 </div>
               ))}

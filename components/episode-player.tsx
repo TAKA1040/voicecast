@@ -5,6 +5,8 @@ import { Episode } from '@/lib/types'
 
 interface EpisodePlayerProps {
   episode: Episode | null
+  episodes?: Episode[]
+  onEpisodeChange?: (episode: Episode) => void
 }
 
 const genreMap: Record<string, { name: string; emoji: string }> = {
@@ -17,7 +19,7 @@ const genreMap: Record<string, { name: string; emoji: string }> = {
   health: { name: '健康', emoji: '💪' },
 }
 
-export default function EpisodePlayer({ episode }: EpisodePlayerProps) {
+export default function EpisodePlayer({ episode, episodes = [], onEpisodeChange }: EpisodePlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -99,6 +101,20 @@ export default function EpisodePlayer({ episode }: EpisodePlayerProps) {
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
+  const handlePrevious = () => {
+    if (!episode || !episodes.length || !onEpisodeChange) return;
+    const currentIndex = episodes.findIndex(ep => ep.id === episode.id);
+    const prevIndex = currentIndex > 0 ? currentIndex - 1 : episodes.length - 1;
+    onEpisodeChange(episodes[prevIndex]);
+  };
+
+  const handleNext = () => {
+    if (!episode || !episodes.length || !onEpisodeChange) return;
+    const currentIndex = episodes.findIndex(ep => ep.id === episode.id);
+    const nextIndex = currentIndex < episodes.length - 1 ? currentIndex + 1 : 0;
+    onEpisodeChange(episodes[nextIndex]);
+  };
+
   return (
     <section className="bg-white/95 backdrop-blur-xl rounded-3xl p-6 md:p-10 mb-10 shadow-2xl text-center sticky top-5">
       <audio ref={audioRef} />
@@ -119,11 +135,23 @@ export default function EpisodePlayer({ episode }: EpisodePlayerProps) {
       </p>
 
       <div className="flex justify-center items-center gap-4 md:gap-6 mb-6 md:mb-8">
-        <button className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-gray-300 bg-white text-gray-600 text-lg md:text-xl hover:border-pink-400 hover:text-pink-400 transition-all duration-300 hover:scale-110" aria-label="前のエピソード">⏮</button>
+        <button 
+          onClick={handlePrevious}
+          className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-gray-300 bg-white text-gray-600 text-lg md:text-xl hover:border-pink-400 hover:text-pink-400 transition-all duration-300 hover:scale-110" 
+          aria-label="前のエピソード"
+        >
+          ⏮
+        </button>
         <button onClick={togglePlayPause} className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 text-white text-xl md:text-2xl shadow-xl hover:scale-110 transition-all duration-300" aria-label={isPlaying ? '一時停止' : '再生'}>
           {isPlaying ? '⏸' : '▶'}
         </button>
-        <button className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-gray-300 bg-white text-gray-600 text-lg md:text-xl hover:border-pink-400 hover:text-pink-400 transition-all duration-300 hover:scale-110" aria-label="次のエピソード">⏭</button>
+        <button 
+          onClick={handleNext}
+          className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-gray-300 bg-white text-gray-600 text-lg md:text-xl hover:border-pink-400 hover:text-pink-400 transition-all duration-300 hover:scale-110" 
+          aria-label="次のエピソード"
+        >
+          ⏭
+        </button>
       </div>
 
       <div className="max-w-md mx-auto px-4">
