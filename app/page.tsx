@@ -205,34 +205,57 @@ export default function HomePage() {
 
         <EpisodePlayer episode={selectedEpisode} />
 
-        <section className="bg-white/95 backdrop-blur-xl rounded-3xl p-6 md:p-10 shadow-2xl">
-          <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-            <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-0">
-              📻 最新の配信
-            </h2>
-            <div className="text-gray-500 text-sm md:text-base">
-              {filteredEpisodes.length}件の配信
-            </div>
-          </div>
+        {/* 最新の配信 - シンプルデザイン */}
+        <section className="bg-white rounded-2xl p-6 shadow-lg">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            🎙️ 最新の配信
+          </h2>
 
-          {(() => {
-            console.log('🔍 Render check:')
-            console.log('  - allEpisodes.length:', allEpisodes.length)
-            console.log('  - filteredEpisodes.length:', filteredEpisodes.length)
-            console.log('  - loading:', loading)
-            console.log('  - error:', error)
-            return filteredEpisodes.length === 0
-          })() ? (
-            <div className="text-center py-16 text-gray-500">
-              <p className="text-lg md:text-xl mb-4">🎧 エピソードがありません</p>
-              <p className="text-sm text-gray-400">
-                デバッグ: 全エピソード{allEpisodes.length}件, フィルター済み{filteredEpisodes.length}件
-              </p>
+          {filteredEpisodes.length === 0 ? (
+            <div className="text-center py-12">
+              <div className="text-6xl mb-4">🎧</div>
+              <p className="text-gray-500">まだエピソードがありません</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="space-y-4">
               {filteredEpisodes.map((episode) => (
-                <EpisodeCard key={episode.id} episode={episode} onPlay={handlePlay} />
+                <div 
+                  key={episode.id}
+                  className="border border-gray-200 rounded-lg p-4 hover:border-purple-300 hover:shadow-md transition-all duration-200 cursor-pointer"
+                  onClick={() => handlePlay(episode)}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-lg text-gray-900 mb-1">
+                        {episode.title}
+                      </h3>
+                      {episode.description && (
+                        <p className="text-gray-600 text-sm mb-2">
+                          {episode.description}
+                        </p>
+                      )}
+                      <div className="flex items-center text-sm text-gray-500">
+                        <span>📅 {new Date(episode.created_at).toLocaleDateString('ja-JP')}</span>
+                        {episode.genre && (
+                          <span className="ml-3 px-2 py-1 bg-gray-100 rounded-full text-xs">
+                            {episode.genre}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="ml-4">
+                      <button 
+                        className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full flex items-center justify-center hover:from-pink-600 hover:to-purple-600 transition-all duration-200"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handlePlay(episode)
+                        }}
+                      >
+                        ▶️
+                      </button>
+                    </div>
+                  </div>
+                </div>
               ))}
             </div>
           )}
