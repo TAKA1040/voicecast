@@ -1,8 +1,8 @@
 # VoiceCast 完全再設計 設計図
 
-## 🎯 新プロジェクト: **SimpleCast**
+## 🎯 新プロジェクト: **VoiceStudy**
 
-**コンセプト**: シンプルで確実に動作する音声配信プラットフォーム
+**コンセプト**: 学習・教育特化の音声配信プラットフォーム
 
 ---
 
@@ -23,16 +23,17 @@
 - ✅ **Netlify** (シンプル、確実、即座に反映)
 - ✅ **環境変数管理** (Netlify UI)
 
-### **開発ツール**
+### **開発ツール & AI支援**
 - ✅ **ESLint + Prettier** (コード品質)
 - ✅ **Vitest** (テスト)
+- ✅ **Gemini CLI対応** (コスト削減)
 
 ---
 
 ## 📁 プロジェクト構造
 
 ```
-simplecast/
+voicestudy/
 ├── public/
 │   ├── favicon.ico
 │   └── index.html
@@ -73,39 +74,60 @@ simplecast/
 
 ## 🗃️ データベース設計（既存Supabase活用）
 
-### **テーブル構造**
+### **既存データ活用の安全性**
+✅ **問題なし** - 理由：
+- 既存の `episodes` テーブル構造は理想的
+- RLS（Row Level Security）で安全にアクセス制御
+- 新アプリは既存データを**読み取り専用**で開始可能
+- 段階的に機能追加（最初は表示のみ → 後でCRUD追加）
+
+### **既存テーブル構造**
 ```sql
--- episodes テーブル（既存）
+-- episodes テーブル（既存データをそのまま活用）
 episodes (
-  id: uuid PRIMARY KEY
-  title: text NOT NULL
-  description: text
-  audio_url: text NOT NULL
-  genre: text
-  user_id: uuid REFERENCES auth.users(id)
-  created_at: timestamp DEFAULT now()
-  updated_at: timestamp DEFAULT now()
+  id: uuid PRIMARY KEY                    ✅ 既存
+  title: text NOT NULL                   ✅ 既存
+  description: text                      ✅ 既存
+  audio_url: text NOT NULL              ✅ 既存
+  genre: text                           ✅ 既存
+  user_id: uuid                         ✅ 既存
+  created_at: timestamp                 ✅ 既存
+  updated_at: timestamp                 ✅ 既存
 )
 
--- profiles テーブル（必要に応じて追加）
-profiles (
-  id: uuid PRIMARY KEY REFERENCES auth.users(id)
-  email: text
-  display_name: text
-  avatar_url: text
+-- 学習特化の拡張（将来的に追加可能）
+study_sessions (
+  id: uuid PRIMARY KEY
+  episode_id: uuid REFERENCES episodes(id)
+  user_id: uuid REFERENCES auth.users(id)
+  progress: integer DEFAULT 0
+  completed: boolean DEFAULT false
+  notes: text
   created_at: timestamp DEFAULT now()
 )
 ```
 
-### **RLS ポリシー（シンプル）**
-```sql
--- 全員が見れる
-CREATE POLICY "Anyone can view episodes" ON episodes
-  FOR SELECT USING (true);
+### **段階的データ移行戦略**
 
--- 自分のみ編集可能
-CREATE POLICY "Users can manage own episodes" ON episodes
-  FOR ALL USING (auth.uid() = user_id);
+#### **Phase 1: 読み取り専用（安全）**
+```sql
+-- 既存データの表示のみ
+-- RLSポリシーで安全にアクセス
+CREATE POLICY "Public read access" ON episodes
+  FOR SELECT USING (true);
+```
+
+#### **Phase 2: 新機能追加（既存に影響なし）**
+```sql
+-- 新しいテーブル追加
+-- 既存データは一切変更しない
+CREATE TABLE study_sessions (...);
+```
+
+#### **Phase 3: 完全移行（段階的）**
+```sql
+-- 必要に応じてデータ移行
+-- バックアップ取得後に実行
 ```
 
 ---
@@ -199,8 +221,8 @@ interface EpisodeUploadProps {
 ### **1. プロジェクト作成**
 ```bash
 # 1. 新プロジェクト作成
-npm create vite@latest simplecast -- --template react-ts
-cd simplecast
+npm create vite@latest voicestudy -- --template react-ts
+cd voicestudy
 
 # 2. 依存関係インストール
 npm install @supabase/supabase-js
@@ -217,15 +239,34 @@ npm install -D vitest
 npx tailwindcss init -p
 ```
 
-### **2. Supabase設定**
+### **2. Supabase設定（既存データベース接続）**
 ```typescript
 // src/services/supabase.ts
 import { createClient } from '@supabase/supabase-js'
 
+// 既存VoiceCastと同じ認証情報を使用
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 export const supabase = createClient(supabaseUrl, supabaseKey)
+
+// 既存データへの安全なアクセス関数
+export const getEpisodes = async () => {
+  const { data, error } = await supabase
+    .from('episodes')
+    .select('*')
+    .order('created_at', { ascending: false })
+  
+  if (error) throw error
+  return data
+}
+```
+
+### **3. 環境変数（既存と同じ）**
+```env
+# .env.local
+VITE_SUPABASE_URL=https://emkxinzasmmhwxfgagyh.supabase.co
+VITE_SUPABASE_ANON_KEY=your-existing-anon-key
 ```
 
 ### **3. 状態管理**
@@ -362,4 +403,41 @@ export const useAuth = () => {
 - ✅ **確実に動作する**音声配信プラットフォーム
 - ✅ **ユーザーに安心して提供できる**品質
 
-**この設計図通りに実装すれば、3-4時間で現在のVoiceCastより安定した動作をするSimpleCastが完成します。**
+**この設計図通りに実装すれば、3-4時間で現在のVoiceCastより安定した動作をするVoiceStudyが完成します。**
+
+---
+
+## 🤖 Gemini CLI 対応ガイド
+
+### **初期開発でのコスト削減**
+
+#### **Gemini CLI の利点**
+- ✅ **コスト効率**: 開発初期の大量コード生成に最適
+- ✅ **React対応**: コンポーネント生成が得意
+- ✅ **TypeScript対応**: 型定義も自動生成
+- ✅ **リファクタリング**: コード改善提案
+
+#### **効果的な使い方**
+```bash
+# 1. 基本コンポーネント生成
+gemini "Create a React TypeScript component for episode list with props interface"
+
+# 2. カスタムフック生成  
+gemini "Create useAuth hook for Supabase authentication with TypeScript"
+
+# 3. API関数生成
+gemini "Create CRUD functions for episodes table using Supabase client"
+
+# 4. スタイリング
+gemini "Add Tailwind CSS styling to this component for mobile-first design"
+```
+
+#### **Claude Code との使い分け**
+- **Gemini CLI**: 初期開発、大量コード生成、リファクタリング
+- **Claude Code**: 複雑な問題解決、デバッグ、アーキテクチャ設計
+
+#### **開発フロー例**
+1. **設計**: Claude Code で全体設計
+2. **生成**: Gemini CLI でコンポーネント量産
+3. **統合**: Claude Code で問題解決・最適化
+4. **完成**: 両方の強みを活用した高品質アプリ
