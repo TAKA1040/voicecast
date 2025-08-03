@@ -138,13 +138,13 @@ export default function AdminPage() {
                 })
               }
               
-              // 完全なページ再読み込み
+              // 新しいタブでホームページを開く（キャッシュ問題を回避）
               const timestamp = Date.now()
-              window.location.replace(`/?nocache=${timestamp}`)
+              window.open(`/?nocache=${timestamp}`, '_blank')
             }}
             className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            🏠 ホームに戻る
+            🏠 ホームページを新しいタブで開く
           </button>
           <button
             onClick={handleLogout}
