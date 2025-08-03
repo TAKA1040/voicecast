@@ -10,9 +10,11 @@ import Link from 'next/link'
 import { User } from '@supabase/supabase-js'
 
 export default function HomePage() {
-  console.log('🚨🚨🚨 HomePage component loaded - NEW VERSION!')
+  const buildTime = Date.now() // キャッシュバスター
+  console.log('🚨🚨🚨 HomePage component loaded - BUILD TIME:', buildTime)
   console.log('🚨 Current URL:', typeof window !== 'undefined' ? window.location.href : 'SSR')
   console.log('🚨 Timestamp:', new Date().toISOString())
+  console.log('🚨 CACHE BUSTER:', buildTime)
   const [allEpisodes, setAllEpisodes] = useState<Episode[]>([])
   const [filteredEpisodes, setFilteredEpisodes] = useState<Episode[]>([])
   const [selectedEpisode, setSelectedEpisode] = useState<Episode | null>(null)
@@ -236,7 +238,7 @@ export default function HomePage() {
         </section>
         
         {/* フッター - 管理者ログイン */}
-        <footer className="mt-12 text-center">
+        <footer className="mt-12 text-center space-y-2">
           {!user ? (
             <Link 
               href="/login"
@@ -249,6 +251,9 @@ export default function HomePage() {
               ログイン済み: {user.email}
             </span>
           )}
+          <div className="text-xs text-gray-300">
+            Build: {buildTime} | {new Date().toLocaleTimeString()}
+          </div>
         </footer>
       </div>
     </div>
